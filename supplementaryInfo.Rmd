@@ -1,0 +1,844 @@
+---
+title: "Adults acquire a proto-lexicon from the ambient environment."
+subtitle: "Participant filtering, statistical analysis, plots and tables"
+author: "Yoon Mi Oh, Clay Beckner, Jen Hay, Jeanette King and Jeremy Needle"
+date: '`r Sys.time()`'
+output:
+  html_document:
+    fig_caption: yes
+    highlight: textmate
+    theme: readable
+    toc: yes
+    toc_depth: 6
+    toc_float: yes
+  word_document: default
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, echo=F, message=F, warning=FALSE}
+library(ggplot2)
+library(lme4)
+library(lmerTest)
+library(ndl)
+library(effects)
+library(plyr)
+library(knitr)
+library(xtable)
+library(ggridges)
+```
+
+<style>
+caption, .caption {
+color: black;
+font-size: 90%;
+text-align: left}
+a[hreflang]:before{}
+</style>
+
+```{r local_functions, echo=FALSE}
+# Local functions
+c. <- function (x) scale(x, scale = FALSE)
+
+multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
+  library(grid)
+  
+  # Make a list from the ... arguments and plotlist
+  plots <- c(list(...), plotlist)
+  
+  numPlots = length(plots)
+  
+  # If layout is NULL, then use 'cols' to determine layout
+  if (is.null(layout)) {
+    # Make the panel
+    # ncol: Number of columns of plots
+    # nrow: Number of rows needed, calculated from # of cols
+    layout <- matrix(seq(1, cols * ceiling(numPlots/cols)),
+                     ncol = cols, nrow = ceiling(numPlots/cols))
+  }
+  
+  if (numPlots==1) {
+    print(plots[[1]])
+    
+  } else {
+    # Set up the page
+    grid.newpage()
+    pushViewport(viewport(layout = grid.layout(nrow(layout), ncol(layout))))
+    
+    # Make each plot, in the correct location
+    for (i in 1:numPlots) {
+      # Get the i,j matrix positions of the regions that contain this subplot
+      matchidx <- as.data.frame(which(layout == i, arr.ind = TRUE))
+      
+      print(plots[[i]], vp = viewport(layout.pos.row = matchidx$row,
+                                      layout.pos.col = matchidx$col))
+    }
+  }
+}
+
+z.score <- function (df, vp.var, var) {
+  split.df <- split(df, list(df[,vp.var]))
+  result.df <- data.frame()
+  for (sub.df in split.df) {
+    sub.df[,paste("z.",var,sep="")] <- (sub.df[,var] - mean(sub.df[,var], na.rm = T)) / sd(sub.df[,var])
+    result.df <- rbind(result.df, sub.df) }
+  return(result.df)
+}
+```
+
+# Filtering out participants (Exp 1)
+```{r loading_data_Exp1, echo=TRUE, message=FALSE, warning=FALSE}
+# Loading the data to filter out participants
+dataExp1 <- read.delim("./dataNotFilteredExp1.txt", sep ="\t", header = TRUE)
+# Remove one participant who did 192 items instead of 303
+nbResponse <- aggregate(dataExp1$enteredResponse, by=list(dataExp1$workerId),  FUN=length)
+rmParticipant1Exp1 <- nbResponse[!nbResponse$x %in% c(303),]$Group.1 # CEA6BA7F432A7DD9F3352BD5AF605FED
+dataExp1 <- dataExp1[!dataExp1$workerId %in% rmParticipant1Exp1,]
+# Remove three participants who gave ratings lower than 4 to 3 most common Māori words borrowed into New Zealand English
+list_carrot <- c("haka","kai","aotearoa")
+carrots <- dataExp1[dataExp1$word %in% list_carrot,]
+carrots <- carrots[as.numeric(carrots$enteredResponse) < 4,]
+rmParticipant2Exp1 <- unique(carrots$workerId) # C2172ACC5CE7A076DF4AD48672826D17 CF5B1FC9D9FDDE28DABFB8B10F60F2A8 F317F5E5817BC9CA03FFA3D0AEE15BCC
+dataExp1 <- dataExp1[!dataExp1$workerId %in% rmParticipant2Exp1,]
+# Remove ratings for the three words (used to detect outliers)
+dataExp1 <- dataExp1[!dataExp1$word %in% c("haka","kai","aotearoa"),]
+# Remove two participants whose speakMaori or compMaori is at least (equal to or above) 3
+rmParticipant3Exp1 <- unique(dataExp1[dataExp1$speakMaori >= 3 | dataExp1$compMaori >= 3,]$workerId)  # 0CAEF0D07D102126BADE4B5F353F3549 FFF87DE6A3C8DCD73B120BD06C3EB966
+dataExp1 <- dataExp1[!dataExp1$workerId %in% rmParticipant3Exp1,]
+# Remove one participant who did not learn their English in NZ and have been living in their current location in NZ for less than ten years (duration == "short")
+summaryExp1WorkerId <- unique(dataExp1[,c("workerId","firstLangCountry","place","duration")])
+EngNotInNZExp1 <- summaryExp1WorkerId[!summaryExp1WorkerId$firstLangCountry=="NZ",]
+rmParticipant4Exp1 <- unique(EngNotInNZExp1[EngNotInNZExp1$duration=="short",]$workerId) # 31F2039C03219AE69C49AC468F37CA78
+dataExp1 <- dataExp1[!dataExp1$workerId %in% rmParticipant4Exp1,]
+# Remove two participants who know any other Polynesian languages
+rmParticipant5Exp1 <- unique(dataExp1[dataExp1$anyPolynesian=="Yes",]$workerId) # 2B474DC72567F38FD065757F11211DFD 2B92687E2CE8ABD8047732400DFDC424
+dataExp1 <- dataExp1[!dataExp1$workerId %in% rmParticipant5Exp1,]
+# Remove five participants with language impairments
+rmParticipant6Exp1 <- unique(dataExp1[dataExp1$impairments=="Yes",]$workerId) 
+# 1DD4DB335A0E2735A9AE2AD898AAEFD5 2C40866C3268DB45274C535937D3DA24 933DFF677472628574F9DB2874121FD9 D42298BA8985A7C8E6232CCFC8E99A31 F4599D280C20128B3F6E804C0D2726B0
+dataExp1 <- dataExp1[!dataExp1$workerId %in% rmParticipant6Exp1,]
+# Remove one participant whose pattern of responses (SD) is below 2SD of the mean of all participants
+SD <- aggregate(dataExp1$enteredResponse, by=list(dataExp1$workerId), sd)
+cut <- mean(SD$x)-2*sd(SD$x)
+rmParticipant7Exp1 <- SD[!SD$x > cut,]$Group.1 # B855CE4A15710AA41194B3D81EE68187
+dataExp1 <- dataExp1[!dataExp1$workerId %in% rmParticipant7Exp1,]
+# Check the total number of usable participants for Exp1
+# length(unique(dataExp1$workerId)) # 85
+```
+
+# Dataset structure (Exp1)
+The data is structured as follows:
+
+  - *workerId* is the unique ID for each participant.
+  - *enteredResponse* is the wellformedness rating for each stimulus.
+  - *reactionTime* is the reaction time for each rating (second).
+  - *type* is the classification of each stimulus: nonword or word.
+  - *length* is the phoneme length of each stimulus.
+  - *word* is the stimulus used for the rating.
+  - *speakMaori* is each participant's answer to the question how well they can speak Māori (with a scale ranging from 0 to 5).
+  - *compMaori* is each participant's answer to the question how well they can understand/read Māori (with a scale ranging from 0 to 5). 
+  - *maoriProf* is the sum of quantified response for speakMaori and compMaori, which refers to the level of each participant's Māori proficiency.
+  - *age* is the age group where each participant belongs to .
+  - *gender* is the gender of each participant. 
+  - *ethnicity* is categorized into binary answers, either Māori (M) or non Māori (non M).
+  - *education* is each participant's highest level of education.
+  - *children* is each participant's answer to the question whether they have had any children who have attended preschool or primary school in New Zealand in the past five years.
+  - *maoriList* is each participant's basic knowledge of Māori (with a scale ranging from 0 to 9).
+  - *place* is each participant's current place of living (categorized into binary classification, either North or South Island in New Zealand).
+  - *duration* is each participant's time duration of living in their current place (categorized into binary classification, long: > 10 years and short: =< 10 years).
+  - *firstLang* is each participant's first language.
+  - *firstLangCountry* is the country where each participant learned their first language.  
+  - *anyOtherLangs* is the information regarding any other languages each participant can speak.
+  - *hawaii* is the binary response to the question whether participants have lived in Hawaii.
+  - *anyPolynesian* is the binary response to the question whether participants know any Polynesian such as Hawaiian, Tahitian, Sāmoan, or Tongan.
+  - *whichPolynesian* is the information regarding participants' knowledge of any Polynesian languages if they knew any.
+  - *impairments* is the answer to the question whether participants have a history of any speech or language impairments.
+  - *maoriExpo* is each participant's level of exposure to Māori (with a scale ranging from 0 to 10).
+  - *Freq* is the frequency of real word stimulus obtained from Māori running speech corpora (Freq=0 for pseudowords).
+  - *bin* is the classification of each stimulus according to their frequency of occurence in Māori running speech corpora.
+  - *score* is the dictionary phonotactic score normalized by the phonemic length of each stimulus.
+
+# Overview of participants’ sociolinguistic profile (Exp1)
+```{r participantExp1, echo=FALSE, message=FALSE, warning=FALSE, evaluate=FALSE, fig.width=16, fig.height=9.7, fig.cap="Fig.S1: Overview of participants' sociolinguistic profile in Exp1."}
+# Basic knowledge of Māori
+Exp1ML <- unique(dataExp1[,c("maoriList","workerId")]);Exp1ML$maoriList <- as.factor(Exp1ML$maoriList)
+Exp1MLT <- as.data.frame(table(Exp1ML$maoriList));names(Exp1MLT) <- c("maoriList","freq")
+FigS1Exp1ML <- ggplot(Exp1ML, aes(x=maoriList,color=maoriList,fill=maoriList))+theme_classic()+ geom_bar(aes(),size=.1,show.legend=F) + geom_text(data=Exp1MLT, aes(x=maoriList,y=freq,label=freq), color="black", vjust=-0.2,size=3) + labs(x="Basic knowledge of Māori",y="Number of participants") + coord_cartesian(ylim=c(0, 20))
+
+# Māori proficiency 
+Exp1MP <- unique(dataExp1[,c("maoriProf","workerId")]);Exp1MP$maoriProf <- as.factor(Exp1MP$maoriProf)
+Exp1MPT <- as.data.frame(table(Exp1MP$maoriProf));names(Exp1MPT) <- c("maoriProf","freq")
+FigS1Exp1MP <- ggplot(Exp1MP, aes(x=maoriProf, color=maoriProf, fill=maoriProf))+theme_classic() + geom_bar(aes(),size=.1,show.legend=F) + geom_text(data=Exp1MPT, aes(x=maoriProf,y=freq,label=freq), color="black", vjust=-0.2,size=3) + labs(x="Māori proficiency",y="Number of participants") + coord_cartesian(ylim=c(0, 60))
+
+# Exposure to Māori
+Exp1ME <- unique(dataExp1[,c("maoriExpo","workerId")]);Exp1ME$maoriExpo <- as.factor(Exp1ME$maoriExpo)
+Exp1MET <- as.data.frame(table(Exp1ME$maoriExpo));names(Exp1MET) <- c("maoriExpo","freq")
+FigS1Exp1ME <- ggplot(Exp1ME, aes(x=maoriExpo, color=maoriExpo, fill=maoriExpo))+theme_classic() + geom_bar(aes(),size=.1,show.legend=F) + geom_text(data=Exp1MET, aes(x=maoriExpo,y=freq,label=freq), color="black", vjust=-0.2,size=3)+labs(x="Level of exposure",y="Number of participants") + coord_cartesian(ylim=c(0, 20))
+
+# Gender
+Exp1Gender <- unique(dataExp1[,c("gender","workerId")])
+Exp1GenderT <- as.data.frame(table(Exp1Gender$gender));names(Exp1GenderT) <- c("gender","freq")
+FigS1Exp1Gender <- ggplot(Exp1Gender, aes(x=gender,color=gender,fill=gender)) + theme_classic() + geom_bar(aes(),size=.1,show.legend=F) + geom_text(data=Exp1GenderT, aes(x=gender,y=freq,label=freq), color="black", vjust=-0.2,size=3)+labs(x="Gender",y="Number of participants") + coord_cartesian(ylim=c(0, 83))
+
+# Age
+Exp1Age <- unique(dataExp1[,c("age","workerId")]);Exp1Age$age <- as.factor(Exp1Age$age)
+Exp1Age$age <- factor(Exp1Age$age, levels=c("18-29", "30-39", "40-49", "50-59", "+60"))
+Exp1AgeT <- as.data.frame(table(Exp1Age$age));names(Exp1AgeT) <- c("age","freq")
+Exp1AgeT$age <- factor(Exp1AgeT$age, levels=c("18-29", "30-39", "40-49", "50-59", "+60"))
+FigS1Exp1Age <- ggplot(Exp1Age, aes(x=age,color=age,fill=age))+theme_classic() + geom_bar(aes(),size=.1,show.legend=F) + geom_text(data=Exp1AgeT, aes(x=age,y=freq,label=freq), color="black", vjust=-0.2,size=3) + labs(x="Age",y="Number of participants") + coord_cartesian(ylim=c(0, 23))
+
+# Education
+Exp1Education <- unique(dataExp1[,c("education","workerId")]);Exp1Education$education <- as.factor(Exp1Education$education)
+Exp1EducationT <- as.data.frame(table(Exp1Education$education));names(Exp1EducationT) <- c("education","freq")
+edu_levels <- c("high","undergraduate","graduate")
+Exp1Education$education <- factor(Exp1Education$education, levels = edu_levels)
+Exp1EducationT$education <- factor(Exp1EducationT$education, levels = edu_levels)
+FigS1Exp1Education <- ggplot(Exp1Education, aes(x=education,color=education,fill=education)) + theme_classic() + geom_bar(aes(),size=.1,show.legend=F) + geom_text(data=Exp1EducationT, aes(x=education,y=freq,label=freq), color="black", vjust=-0.2,size=3) + labs(x="Highest education",y="Number of participants") + coord_cartesian(ylim=c(0, 35))
+
+# Place
+Exp1Place <- unique(dataExp1[,c("place","workerId")]);Exp1PlaceT <- as.data.frame(table(Exp1Place$place));names(Exp1PlaceT) <- c("place","freq")
+place_levels <- c("north","south")
+Exp1Place$place <- factor(Exp1Place$place, levels = place_levels)
+Exp1PlaceT$place <- factor(Exp1PlaceT$place, levels = place_levels)
+FigS1Exp1Place <- ggplot(Exp1Place, aes(x=place, color=place, fill= place)) + theme_classic() + geom_bar(aes(),size=.1,show.legend=F) + geom_text(data=Exp1PlaceT,aes(x=place,y=freq,label=freq), color="black", vjust=-0.2,size=3) + labs(x = "Place", y = "Number of participants") + coord_cartesian(ylim=c(0, 65))
+
+multiplot(FigS1Exp1ML, FigS1Exp1Gender, FigS1Exp1Place, FigS1Exp1MP, FigS1Exp1Age, FigS1Exp1Education, FigS1Exp1ME, cols=3)
+```
+
+# Modeling NMS' confidence ratings in all bins with a linear mixed-effects model (Exp1)
+```{r Table.S1, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
+# Model for TableS1
+# modelTableS1 <- lmer(enteredResponse ~ c.(length)*c.(score) + type*bin + (1 + c.(length)*c.(score) + type*bin|workerId) + (1|word), control=lmerControl(optimizer="bobyqa"), dataExp1)
+# saveRDS(modelTableS1, file = "modelTableS1.rds")
+modelTableS1 <- readRDS("./modelTableS1.rds")
+kable(xtable(summary(modelTableS1)$coef), digits=3, caption="Table.S1: Modeling NMS' confidence ratings in all bins with a linear mixed-effects model. All numeric variables in this model are centered.")
+```
+
+# Effect plots from the model presented in Table.S1 (Exp1)
+```{r Fig.S2, echo=FALSE, message=FALSE, warning=FALSE, fig.width=16, fig.height=5.86, fig.cap="Fig.S2: Effect plots of the interaction between bin and the distinction between nonwords and real words (Fig.S2a, on the left) and the interaction between phonotactic score and length of stimuli (Fig.S2b, on the right). The x-axis represents the type of bins (Fig.S2a) or the range of phonotactic score (Fig.S2b)."}
+
+figS2a <- as.data.frame(effect(term="type:bin", mod=modelTableS1))
+figS2a$Type <- "Word";figS2a[as.character(figS2a$type)=="pseudo",]$Type <- "Nonword"
+PfigS2a <- ggplot(figS2a, aes(x=bin, y=fit, group=Type)) + geom_point(aes(color=Type, shape=Type)) + geom_line(aes(color=Type)) + geom_ribbon(aes(ymin=fit-se, ymax=fit+se, fill=Type),alpha=0.1)+labs(x="Bin", y="Predicted rating") + theme_classic()+ theme(plot.title = element_text(hjust = 0.5, size=15)) + theme(legend.position="right") + theme(legend.title=element_blank())
+
+figS2b <- as.data.frame(effect(term="c.(length):c.(score)", mod=modelTableS1))
+figS2b$Length <- figS2b$length
+PfigS2b <- ggplot(figS2b, aes(x=score, y=fit, group=Length)) + geom_point(aes(color=Length)) + geom_line(aes(color=Length)) + geom_ribbon(aes(ymin=fit-se, ymax=fit+se, fill= Length),alpha=0.1) + labs(x= "Phonotactic score", y="Predicted rating") + theme_classic() + theme(plot.title = element_text(hjust = 0.5, size=15)) + theme(legend.position="right")
+
+multiplot(PfigS2a, PfigS2b, cols=2)
+```
+
+# Code for plotting Fig.1 (Exp1)
+```{r Fig.1, echo=FALSE, message=FALSE, warning=FALSE, evaluate=FALSE, fig.width=16, fig.height=6, fig.cap="Fig.1: Mean rating for each stimulus per bin with predicted rating for each density plot. Bin1 contains the most frequent words and Bin5 consists of the least frequent words."}
+
+#Get mean ratings for each stimulus per bin
+allBins <- list()
+for(i in 1:5){
+Bin <- dataExp1[dataExp1$bin==i,]
+BinMeanRatings <- aggregate(Bin$enteredResponse, by=list(Bin$word, Bin$type), mean)
+names(BinMeanRatings) <- c("word","type","meanRating")
+BinMeanRatings$bin <- paste0("Bin",i)
+allBins[[i]] <- BinMeanRatings
+}
+allBins <- do.call(rbind,allBins)
+
+ggplot(allBins,aes(x = meanRating, y = as.factor(bin), fill = type)) +
+    geom_density_ridges(data=allBins,scale=0.9,alpha=0.4,rel_min_height = 0.01) + 
+    labs(x = "Mean rating",y = "Bin type") +
+    scale_fill_manual(labels=c("pseudo"="Nonword", "real" ="Word"),values = c("pseudo" = "black", "real" = "blue")) +
+    scale_y_discrete(expand = c(0.01,0)) + theme_ridges(grid = FALSE)+ 
+    labs(fill='Stimulus type') + coord_flip()+
+    geom_line(data=figS2a, aes(x=fit, y=bin,group=Type,color=Type, linetype=Type),size=1) +
+    scale_color_manual(values = c("Nonword"="Black", "Word" = "blue")) +
+    scale_linetype_manual(values = c("Nonword" = "solid", "Word" = "dotted")) + labs(linetype='Stimulus type',color='Stimulus type')
+```
+
+# Mean rating and phonotactic score for each stimulus per bin (Exp1)
+```{r Fig.S3, echo=FALSE, message=FALSE, warning=FALSE, fig.width=16, fig.height=10.5, fig.cap="Fig.S3: Mean rating and phonotactic score for each stimulus per bin. The range of mean rating is represented on the y-axis and the x-axis represents the range of phonotactic score."}
+scores <- unique(dataExp1[,c("word","score")])
+allBins$Type <- "Word";allBins[as.character(allBins$type)=="pseudo",]$Type <- "Nonword"
+Bin1MeanRatings <- merge(allBins[allBins$bin=="Bin1",], scores, by="word")
+FigS3Bin1 <- ggplot(Bin1MeanRatings, aes(x=score, y=meanRating, group=Type, label=word)) + labs(x= "Phonotactic score (Bin 1)", y="Average rating") + theme_classic()+ theme(legend.title=element_blank()) + geom_point(aes(color=Type,shape=Type),size=2)+ scale_colour_manual(values=c("#F8766D", "#00BFC4")) + theme(legend.position="bottom")
+
+Bin2MeanRatings <- merge(allBins[allBins$bin=="Bin2",], scores, by="word")
+FigS3Bin2 <- ggplot(Bin2MeanRatings, aes(x=score, y=meanRating, group=Type, label=word)) + labs(x= "Phonotactic score (Bin 2)", y="Average rating") + theme_classic()+ theme(legend.title=element_blank()) + geom_point(aes(color=Type,shape=Type),size=2)+ scale_colour_manual(values=c("#F8766D", "#00BFC4")) + theme(legend.position="bottom")
+
+Bin3MeanRatings <- merge(allBins[allBins$bin=="Bin3",], scores, by="word")
+FigS3Bin3 <- ggplot(Bin3MeanRatings, aes(x=score, y=meanRating, group=Type, label=word)) + labs(x= "Phonotactic score (Bin 3)", y="Average rating") + theme_classic()+ theme(legend.title=element_blank()) + geom_point(aes(color=Type,shape=Type),size=2)+ scale_colour_manual(values=c("#F8766D", "#00BFC4")) + theme(legend.position="bottom")
+
+Bin4MeanRatings <- merge(allBins[allBins$bin=="Bin4",], scores, by="word")
+FigS3Bin4 <- ggplot(Bin4MeanRatings, aes(x=score, y=meanRating, group=Type, label=word)) + labs(x= "Phonotactic score (Bin 4)", y="Average rating") + theme_classic()+ theme(legend.title=element_blank()) + geom_point(aes(color=Type,shape=Type),size=2)+ scale_colour_manual(values=c("#F8766D", "#00BFC4")) + theme(legend.position="bottom")
+
+Bin5MeanRatings <- merge(allBins[allBins$bin=="Bin5",], scores, by="word")
+FigS3Bin5 <- ggplot(Bin5MeanRatings, aes(x=score, y=meanRating, group=Type, label=word)) + labs(x= "Phonotactic score (Bin 5)", y="Average rating") + theme_classic()+ theme(legend.title=element_blank()) + geom_point(aes(color=Type,shape=Type),size=2)+ scale_colour_manual(values=c("#F8766D", "#00BFC4")) + theme(legend.position="bottom")
+
+multiplot(FigS3Bin1,FigS3Bin4,FigS3Bin2,FigS3Bin5,FigS3Bin3, cols=3)
+```
+
+# Repaitched pairs: Mean rating and phonotactic score for each stimulus per bin (Exp1)
+```{r Fig.S4, echo=FALSE, message=FALSE, warning=FALSE, fig.width=16, fig.height=10.5, fig.cap="Fig.S4: Mean rating and phonotactic score for each stimulus per bin (rematched pairs). The range of mean rating is represented on the y-axis and the x-axis represents the range of phonotactic score."}
+
+# Rematching pairs: for each nonword, find a word with the lowest absolute difference
+dataPseudo <- dataExp1[dataExp1$type=="pseudo",]
+listPseudo <- unique(dataPseudo[,c("word","score","length")])
+colnames(listPseudo)[1] <- "pseudo"
+listPseudo <- listPseudo[order(listPseudo$length),] 
+dataReal <- dataExp1[dataExp1$type=="real",]
+listReal <- unique(dataReal[,c("word","score","length","bin")])
+
+ListPseudoLength <- list()
+for(i in 3:12){
+listPseudoLength <- listPseudo[listPseudo$length==i,]
+listRealLength <- listReal[listReal$length==i,]
+ListPseudoPair <- list()
+for(j in 1:nrow(listPseudoLength)){
+real_word <- listRealLength[which.min(abs(listPseudoLength$score[j] - listRealLength$score)),]
+listRealLength <- listRealLength[!(listRealLength$word %in% real_word$word),]
+ListPseudoPair[[j]] <- real_word$word
+}
+ListPseudoPairs <- as.data.frame(unlist(ListPseudoPair))
+listPseudoLength$word <- unlist(ListPseudoPairs)
+listPseudoLength <- merge(listPseudoLength, listReal, by="word")
+listPseudoLength$diff <- round(listPseudoLength$score.x - listPseudoLength$score.y, digits=6)
+listPseudoLength <- listPseudoLength[listPseudoLength$diff < 0.30,]
+listPseudoLength <- listPseudoLength[listPseudoLength$diff > -0.30,]
+ListPseudoLength[[j]] <- listPseudoLength
+}
+ListAll <- do.call("rbind", ListPseudoLength)
+ListAllReal <- ListAll[,c("word","score.y","length.x","bin")]
+names(ListAllReal) <- c("word","score","length","bin");ListAllReal$type <- "real"
+ListAllPseudo <- ListAll[,c("pseudo","score.x","length.x","bin")]
+names(ListAllPseudo) <- c("word","score","length","bin");ListAllPseudo$type <- "pseudo"
+dataReal <- dataReal[,c("word","enteredResponse","workerId")]
+dataPseudo <- dataPseudo[,c("word","enteredResponse","workerId")]
+ListAllReal <- merge(ListAllReal, dataReal, by="word")
+ListAllPseudo <- merge(ListAllPseudo, dataPseudo, by="word")
+dataRematched <- rbind(ListAllReal,ListAllPseudo)
+
+scores <- unique(dataExp1[,c("word","score")])
+Bin1Re <- dataRematched[dataRematched$bin==1,]
+Bin1ReMeanRatings <- aggregate(Bin1Re$enteredResponse, by=list(Bin1Re$word, Bin1Re$type), mean)
+names(Bin1ReMeanRatings) <- c("word","type","meanRating")
+Bin1ReMeanRatings <- merge(Bin1ReMeanRatings, scores, by="word")
+Bin1ReMeanRatings$Type <- "Word";Bin1ReMeanRatings[Bin1ReMeanRatings$type=="pseudo",]$Type <- "Nonword"
+FigS4Bin1 <- ggplot(Bin1ReMeanRatings, aes(x=score, y=meanRating, group=Type, label=word)) + labs(x= "Phonotactic score (Bin 1)", y="Average rating") + theme_classic()+ theme(legend.title=element_blank()) + geom_point(aes(color=Type,shape=Type),size=2)+ scale_colour_manual(values=c("#F8766D", "#00BFC4")) + theme(legend.position="bottom")
+
+Bin2Re <- dataRematched[dataRematched$bin==2,]
+Bin2ReMeanRatings <- aggregate(Bin2Re$enteredResponse, by=list(Bin2Re$word, Bin2Re$type), mean)
+names(Bin2ReMeanRatings) <- c("word","type","meanRating")
+Bin2ReMeanRatings <- merge(Bin2ReMeanRatings, scores, by="word")
+Bin2ReMeanRatings$Type <- "Word";Bin2ReMeanRatings[Bin2ReMeanRatings$type=="pseudo",]$Type <- "Nonword"
+FigS4Bin2 <- ggplot(Bin2ReMeanRatings, aes(x=score, y=meanRating, group=Type, label=word)) + labs(x= "Phonotactic score (Bin 2)", y="Average rating") + theme_classic()+ theme(legend.title=element_blank()) + geom_point(aes(color=Type,shape=Type),size=2)+ scale_colour_manual(values=c("#F8766D", "#00BFC4")) + theme(legend.position="bottom")
+
+Bin3Re <- dataRematched[dataRematched$bin==3,]
+Bin3ReMeanRatings <- aggregate(Bin3Re$enteredResponse, by=list(Bin3Re$word, Bin3Re$type), mean)
+names(Bin3ReMeanRatings) <- c("word","type","meanRating")
+Bin3ReMeanRatings <- merge(Bin3ReMeanRatings, scores, by="word")
+Bin3ReMeanRatings$Type <- "Word";Bin3ReMeanRatings[Bin3ReMeanRatings$type=="pseudo",]$Type <- "Nonword"
+FigS4Bin3 <- ggplot(Bin3ReMeanRatings, aes(x=score, y=meanRating, group=Type, label=word)) + labs(x= "Phonotactic score (Bin 3)", y="Average rating") + theme_classic()+ theme(legend.title=element_blank()) + geom_point(aes(color=Type,shape=Type),size=2)+ scale_colour_manual(values=c("#F8766D", "#00BFC4")) + theme(legend.position="bottom")
+
+Bin4Re <- dataRematched[dataRematched$bin==4,]
+Bin4ReMeanRatings <- aggregate(Bin4Re$enteredResponse, by=list(Bin4Re$word, Bin4Re$type), mean)
+names(Bin4ReMeanRatings) <- c("word","type","meanRating")
+Bin4ReMeanRatings <- merge(Bin4ReMeanRatings, scores, by="word")
+Bin4ReMeanRatings$Type <- "Word";Bin4ReMeanRatings[Bin4ReMeanRatings$type=="pseudo",]$Type <- "Nonword"
+FigS4Bin4 <- ggplot(Bin4ReMeanRatings, aes(x=score, y=meanRating, group=Type, label=word)) + labs(x= "Phonotactic score (Bin 4)", y="Average rating") + theme_classic()+ theme(legend.title=element_blank()) + geom_point(aes(color=Type,shape=Type),size=2)+ scale_colour_manual(values=c("#F8766D", "#00BFC4")) + theme(legend.position="bottom")
+ 
+Bin5Re <- dataRematched[dataRematched$bin==5,]
+Bin5ReMeanRatings <- aggregate(Bin5Re$enteredResponse, by=list(Bin5Re$word, Bin5Re$type), mean)
+names(Bin5ReMeanRatings) <- c("word","type","meanRating")
+Bin5ReMeanRatings <- merge(Bin5ReMeanRatings, scores, by="word")
+Bin5ReMeanRatings$Type <- "Word";Bin5ReMeanRatings[Bin5ReMeanRatings$type=="pseudo",]$Type <- "Nonword"
+FigS4Bin5 <- ggplot(Bin5ReMeanRatings, aes(x=score, y=meanRating, group=Type, label=word)) + labs(x= "Phonotactic score (Bin 5)", y="Average rating") + theme_classic()+ theme(legend.title=element_blank()) + geom_point(aes(color=Type,shape=Type),size=2)+ scale_colour_manual(values=c("#F8766D", "#00BFC4")) + theme(legend.position="bottom")
+ 
+multiplot(FigS4Bin1,FigS4Bin4,FigS4Bin2,FigS4Bin5,FigS4Bin3, cols=3)
+```
+
+# Modeling NMS' confidence ratings with a linear mixed-effects model (rematched pairs) (Exp1)
+```{r Table.S2, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
+# Model for Table.S2
+# modelTableS2 <- lmer(enteredResponse ~ type + (1 + type|workerId) + (1|word), control=lmerControl(optimizer="bobyqa"), dataRematched) # saveRDS(modelTableS2, file = "modelTableS2.rds")
+modelTableS2 <- readRDS("./modelTableS2.rds")
+kable(xtable(summary(modelTableS2)$coef), digits=3, caption="Table.S2: Modeling NMS' confidence ratings with a linear mixed-effects model (rematched pairs).")
+```
+
+# Filtering out participants (Exp2)
+```{r loading_data_Exp2, echo=TRUE, message=FALSE, warning=FALSE}
+# Loading the data to filter out participants:
+dataNotFiltered <- read.delim("./dataNotFilteredExp2.txt", sep ="\t", header = TRUE)
+# Removing unusable MS participants
+dataMS <- dataNotFiltered[dataNotFiltered$group=="MS",]
+# Remove one participant who did 285 items instead of 320 (length 5)
+nbResponse <- aggregate(dataMS$enteredResponse, by=list(dataMS$workerId),  FUN=length)
+rmParticipant1 <- nbResponse[!nbResponse$x %in% c(320,240),]$Group.1 #634726494EE0F397CE0F525B97FA6B76
+dataMS <- dataMS[!dataMS$workerId %in% rmParticipant1,]
+# Remove two participants whose speakMaori or compMaori is below 3
+rmParticipant2 <- unique(dataMS[dataMS$speakMaori <3 | dataMS$compMaori < 3,]$workerId) 
+#83D25CDFA45FC1A34F4A4176EC7626B3 B193DE3B787FEC86E6CCB3F82F9812E9
+dataMS <- dataMS[!dataMS$workerId %in% rmParticipant2,]
+# Remove one participant with language impairments
+rmParticipant3 <- unique(dataMS[dataMS$impairments=="Yes",]$workerId) #6C7F9A4676E026CD0E3056D8DA19E507
+dataMS <- dataMS[!dataMS$workerId %in% rmParticipant3,]
+# Detect participant whose median reactionTime is shorter than 2*SD below the mean of all MS
+median_RT <- aggregate(dataMS$reactionTime, by=list(dataMS$workerId), median)
+names(median_RT) <- c("workerId","median");dataMS <- merge(dataMS,median_RT,by="workerId")
+cut <- mean(median_RT$median)-2*sd(median_RT$median)
+# median_RT[!median_RT$median > cut,]$workerId # None detected!
+# Remove one participant whose pattern of responses (SD) is below 2SD of the mean of all MS participants
+SD <- aggregate(dataMS$enteredResponse, by=list(dataMS$workerId), sd)
+cut <- mean(SD$x)-2*sd(SD$x)
+rmParticipant4 <- SD[!SD$x > cut,]$Group.1 #B33F8EB38F232BB78667404E1D96025B
+dataMS <- dataMS[!dataMS$workerId %in% rmParticipant4,]
+# Check the total number of usable MS participants
+# length(unique(dataMS$workerId)) #40
+
+# Removing unusable NMS participants
+dataNMS <- dataNotFiltered[dataNotFiltered$group=="NMS",]
+# Remove one participant who did 436 items instead of 240 (length 4)
+nbResponse <- aggregate(dataNMS$enteredResponse, by=list(dataNMS$workerId),  FUN=length)
+rmParticipant5 <- nbResponse[!nbResponse$x %in% c(320,240),]$Group.1 # A7017E9F3DD1CC6778A3BC47958CA9B7
+dataNMS <- dataNMS[!dataNMS$workerId %in% rmParticipant5,]
+# Remove fourteen participants whose speakMaori or compMaori is at least (equal to or above) 3
+rmParticipant6 <- unique(dataNMS[dataNMS$speakMaori >= 3 | dataNMS$compMaori >= 3,]$workerId)  # 04210C8909800F4041D775C8AE24720D 1E95A51880B3908528596F1CDC142382 1F90388DD2A6052379B3400E7E075B7B 2AABDB6A588C0A38D4D18DCCE2E411E0 3116B3E848662645051AE5AAA5D5E696 349856A9453BF2B1F7A026618E5F43D5 42564FDD3FE2B481B37DE8120E0BBB7C 5DBE9FB11F0E1FF4E5DA1149581576D0 90F93AC5E06AE66B73BFF3B46023FE3C A4B98DB8F5C9298E9FBF865FEB782486 B33F8EB38F232BB78667404E1D96025B C6243B5C4607EF24FD7F4D70B4CD0F41 C6C55B2283D35484E19BE5F4283F64D1 EB57DF86D41FFA1AD74E282B72D82856
+dataNMS <- dataNMS[!dataNMS$workerId %in% rmParticipant6,]
+# Remove ten participants who did not learn their English in NZ and have been living in their current location in NZ for less than ten years (duration == "short")
+summaryNMSWorkerId <- unique(dataNMS[,c("workerId","firstLangCountry","place","duration")])
+EngNotInNZ <- summaryNMSWorkerId[!summaryNMSWorkerId$firstLangCountry=="NZ",]
+rmParticipant7 <- unique(EngNotInNZ[EngNotInNZ$duration=="short",]$workerId) # 21C1D24B57F6157A628A04DC5A519135 2AB61EA1EEBB7193A3A178D5B819225E 37A91EA9A4A92600B4ECEA239DC5D149 422774F5956A4A43258293A27B497995 4894A6F7674ECBFB304BCA4D9FB11B05 90FBA7311D5EB571D3C88425E4D371C0 E4E762BA8ADADA1CB0D943F8131F09B1 E862C480A8CE650797BE9D7309E52E15 FD2E69EFA7B5138BA6CC0BA31A10BFF0 FFA73BE62F1F21F94F35BC49A9B74838
+dataNMS <- dataNMS[!dataNMS$workerId %in% rmParticipant7,]
+#Remove one participant who has lived in Hawaii
+rmParticipant8 <- unique(dataNMS[dataNMS$hawaii=="Yes",]$workerId) #6C3FBC26E49853CA97CFEB1DC3725C94
+dataNMS <- dataNMS[!dataNMS$workerId %in% rmParticipant8,]
+# Remove four participants who know any other Polynesian languages
+rmParticipant9 <- unique(dataNMS[dataNMS$anyPolynesian=="Yes",]$workerId) # 84B5591229AA4FDE2C154B7873BCCC1E 905775C26C73AF3648FDAF216C1C836B B64C60A9F8121A22B1431FD012FE1BC1 EA6C551EB61BD1B4A3907ADCA5AC8A8C
+dataNMS <- dataNMS[!dataNMS$workerId %in% rmParticipant9,]
+# Remove three participants with language impairments
+rmParticipant10 <- unique(dataNMS[dataNMS$impairments=="Yes",]$workerId) # 080658104D5BE0B7E5FDEDA8BCE32CED 504C5E7063935EB524BEC50FE180D24A CAA87C53B60F941BE5F4B3F4093B33D6
+dataNMS <- dataNMS[!dataNMS$workerId %in% rmParticipant10,]
+#Remove one participant whose median reactionTime is shorter than 2*SD below the mean of all NMS
+median_RT <- aggregate(dataNMS$reactionTime, by=list(dataNMS$workerId), median)
+names(median_RT) <- c("workerId","median");dataNMS <- merge(dataNMS,median_RT,by="workerId")
+cut <- mean(median_RT$median)-2*sd(median_RT$median)
+rmParticipant11 <- median_RT[!median_RT$median > cut,]$workerId # 0CC130754E535B995C330A62C70ABB29
+dataNMS <- dataNMS[!dataNMS$workerId %in% rmParticipant11,]
+# Remove four participants whose pattern of responses (SD) is below 2SD of the mean of all NMS participants
+SD <- aggregate(dataNMS$enteredResponse, by=list(dataNMS$workerId), sd)
+cut <- mean(SD$x)-2*sd(SD$x)
+rmParticipant12 <- SD[!SD$x > cut,]$Group.1 # 23F8C303E5981DC46B3998C680DF6DFE 3ADCE0E04FE200BA98BC5C3015AF9092 90E5DE278473C80C5C9B1F50642DA2D5 CA1853385689F12642034089CDBFBAE3
+dataNMS <- dataNMS[!dataNMS$workerId %in% rmParticipant12,]
+# Check the total number of usable NMS participants
+# length(unique(dataNMS$workerId)) #113
+
+# Removing unusable US participants
+dataUS <- dataNotFiltered[dataNotFiltered$group=="US",]
+# Remove one participant who did 248 items instead of 240 (length 3)
+nbResponse <- aggregate(dataUS$enteredResponse, by=list(dataUS$workerId),  FUN=length)
+rmParticipant13 <- nbResponse[!nbResponse$x %in% c(320,240),]$Group.1 # A9692Y27LBXT9
+dataUS <- dataUS[!dataUS$workerId %in% rmParticipant13,]
+# Remove fourteen participants whose speakMaori or compMaori is above 0
+rmParticipant14 <- unique(dataUS[dataUS$speakMaori > 0 | dataUS$compMaori > 0,]$workerId)  # A1AWHHBTJF1XCH A1L92Y6VBTRFP5 A1YAVTFZ9BULVV A28AX4H70DPKKK A2AMI7BVALOCJP A2DVRTL0JB0GT0 A2N0C5I6ZHNWV A2O5J0420C1UPC A2O762LZEZN3JC A4T642D9Z2UYC  AGVIHLR1DX7    AMKEGABQMZYIK  AMW2XLD9443OH  AWJUGWPCUGKEG 
+dataUS <- dataUS[!dataUS$workerId %in% rmParticipant14,]
+# Remove six participants whose maoriList is above 0
+rmParticipant15 <- unique(dataUS[dataUS$maoriList > 0,]$workerId) # A19R7FSNDW6WRK A21KGSK2BDVWOA A2XOYCKJJ4PYZA A3ET9X8TXMGXDI A3V8C77FN4FLUA AP4FDDWBJW47O 
+dataUS <- dataUS[!dataUS$workerId %in% rmParticipant15,]
+# Remove one participant who did not learn English in the US
+rmParticipant16 <- unique(dataUS[!dataUS$firstLangCountry=="US",]$workerId) # A33MBBGYASZPKN
+dataUS <- dataUS[!dataUS$workerId %in% rmParticipant16,]
+#Remove three participants who have been to Hawaii
+rmParticipant17 <- unique(dataUS[dataUS$hawaii=="Yes",]$workerId) # A1QLYBRMIULAYC A3L0XKGZL9P2ZC ADY44EV3GCW85
+dataUS <- dataUS[!dataUS$workerId %in% rmParticipant17,]
+#Remove one participant with language impairments
+rmParticipant18 <- unique(dataUS[dataUS$impairments=="Yes",]$workerId) # A1NUKP1UCT2R2R
+dataUS <- dataUS[!dataUS$workerId %in% rmParticipant18,]
+# Detect participant whose median reactionTime is shorter than 2*SD below the mean of all US
+median_RT <- aggregate(dataUS$reactionTime, by=list(dataUS$workerId), median)
+names(median_RT) <- c("workerId","median");dataUS <- merge(dataUS,median_RT,by="workerId")
+cut <- mean(median_RT$median)-2*sd(median_RT$median)
+# median_RT[!median_RT$median > cut,]$workerId # None detected!
+# Remove one participant whose pattern of responses (SD) is below 2SD of the mean of all US participants
+SD <- aggregate(dataUS$enteredResponse, by=list(dataUS$workerId), sd)
+cut <- mean(SD$x)-2*sd(SD$x)
+rmParticipant19 <- SD[!SD$x > cut,]$Group.1 # A1UHNDB2EQ8TK0
+dataUS <- dataUS[!dataUS$workerId %in% rmParticipant19,]
+# Check the total number of usable US participants
+# length(unique(dataUS$workerId)) #94
+dataExp2 <- rbind.fill(dataMS, dataNMS, dataUS)
+```
+
+# Dataset structure (Exp2)
+The data is structured as follows:
+
+  - *workerId* is the unique ID for each participant.
+  - *enteredResponse* is the wellformedness rating for each stimulus.
+  - *reactionTime* is the reaction time for each rating (second).
+  - *word* is the stimulus used for the rating.
+  - *speakMaori* is each participant's answer to the question how well they can speak Māori (with a scale ranging from 0 to 5).
+  - *compMaori* is each participant's answer to the question how well they can understand/read Māori (with a scale ranging from 0 to 5). 
+  - *maoriProf* is the sum of quantified response for speakMaori and compMaori, which refers to the level of each participant's Māori proficiency.
+  - *age* is the age group where each participant belongs to .
+  - *gender* is the gender of each participant. 
+  - *ethnicity* is categorized into binary answers, either Māori (M) or non Māori (non M).
+  - *education* is each participant's highest level of education.
+  - *children* is each participant's answer to the question whether they have had any children who have attended preschool or primary school in New Zealand in the past five years.
+  - *maoriList* is each participant's basic knowledge of Māori (with a scale ranging from 0 to 9).
+  - *place* is each participant's current place of living (categorized into binary classification, either North or South Island in New Zealand).
+  - *duration* is each participant's time duration of living in their current place (categorized into binary classification, long: > 10 years and short: =< 10 years).
+  - *firstLang* is each participant's first language.
+  - *firstLangCountry* is the country where each participant learned their first language.  
+  - *anyOtherLangs* is the information regarding any other languages each participant can speak.
+  - *hawaii* is the binary response to the question whether participants have lived in Hawaii.
+  - *anyPolynesian* is the binary response to the question whether participants know any Polynesian such as Hawaiian, Tahitian, Sāmoan, or Tongan.
+  - *whichPolynesian* is the information regarding participants' knowledge of any Polynesian languages if they knew any.
+  - *impairments* is the answer to the question whether participants have a history of any speech or language impairments.
+  - *maoriExpo* is each participant's level of exposure to Māori (with a scale ranging from 0 to 10).
+  - *group* is the classification of participants according to their fluency of Māori and/or exposure to Māori.
+  - *nz* is the binary response to the question whether participants have ever lived in New Zealand.
+  - *median* is the median of each participant's reaction time.
+  - *scoreDic* is the dictionary phonotactic score normalized by the phonemic length of each stimulus.
+  - *scoreRs* is the running speech phonotactic score normalized by the phonemic length of each stimulus.
+  - *scoreUnseg* is the unsegmented running speech phonotactic score normalized by the phonemic length of each stimulus - 2.
+  - *scoreDictNze* is the score of the phonotactics derived from the dictionary of Māori words in New Zealand English.
+  - *scoreSmall* is the score of the phonotactics derived from NMS’ small active lexicon of Māori (comprising of 121 common loanwords that most NMS can identify as Māori words in our previous study plus 55 urban placenames).
+  - *scoreFunc* is the score of the phonotactics generalized over a list of function words.
+  - *scoreEng* is the score of the English phonotactics obtained from the English lexical database CELEX.
+  - *scoreCV* is the word shape score obtained from a trigram language model built by identifying each segment as a consonant, vowel or long vowel and calculating probabilities over sequences of those categories.
+  - *scorePosLength* is the position-length specific probability of phonemes obtained from a unigram language model.
+  - *scoreDictNew* 
+  - *scoreRsNew*
+  - *scoreUnsegNew*
+  - *scoreDictNoMacron* is the dictionary phonotactic score without the distinction between short and long vowels marked with macrons.
+  - *scoreRsNoMacron* is the running speech phonotactic score without the distinction between short and long vowels marked with macrons.
+  - *scoreUnsegNoMacron* is the unsegmented running speech phonotactic score without the distinction between short and long vowels marked with macrons.
+
+# Participants' basic Māori knowledge and proficiency (Exp2)
+```{r Fig.S5, echo=FALSE, message=FALSE, warning=FALSE, fig.width=16, fig.height=8, fig.cap="Fig.S5: Participants' basic Māori knowledge and proficiency in Exp2."}
+# MS - Basic knowledge of Māori
+MSML <- unique(dataMS[,c("maoriList","workerId")]);MSML$maoriList <- as.factor(MSML$maoriList)
+MSMLT <- as.data.frame(table(MSML$maoriList));names(MSMLT) <- c("maoriList","freq")
+FigS5MSML <- ggplot(MSML, aes(x=maoriList,color=maoriList,fill=maoriList)) + theme_classic() + geom_bar(aes(),size=.1,show.legend=F) + geom_text(data=MSMLT, aes(x=maoriList,y=freq,label=freq), color="black", vjust=-0.2,size=3) + labs(x="Basic knowledge of Māori (MS)",y="Number of participants") + coord_cartesian(ylim=c(0, 40))
+
+# NMS - Basic knowledge of Māori
+NMSML <- unique(dataNMS[,c("maoriList","workerId")]);NMSML$maoriList <- as.factor(NMSML$maoriList)
+NMSMLT <- as.data.frame(table(NMSML$maoriList));names(NMSMLT) <- c("maoriList","freq")
+FigS5NMSML <- ggplot(NMSML, aes(x=maoriList,color=maoriList,fill=maoriList)) + theme_classic() + geom_bar(aes(),size=.1,show.legend=F) + geom_text(data=NMSMLT, aes(x=maoriList,y=freq,label=freq), color="black", vjust=-0.2,size=3) + labs(x="Basic knowledge of Māori (NMS)",y="Number of participants") + coord_cartesian(ylim=c(0, 25))
+
+# US - Basic knowledge of Māori
+USML <- unique(dataUS[,c("maoriList","workerId")]);USML$maoriList <- as.factor(USML$maoriList)
+USMLT <- as.data.frame(table(USML$maoriList));names(USMLT) <- c("maoriList","freq")
+FigS5USML <- ggplot(USML, aes(x=maoriList,color=maoriList,fill=maoriList)) + theme_classic() + geom_bar(aes(),size=.1,show.legend=F) + geom_text(data=USMLT, aes(x=maoriList,y=freq,label=freq), color="black", vjust=-0.2,size=3) + labs(x="Basic knowledge of Māori (US)",y="Number of participants") + coord_cartesian(ylim=c(0, 100))
+
+# MS - MaoriProf
+MSMP <- unique(dataMS[,c("maoriProf","workerId")]);MSMP$maoriProf <- as.factor(MSMP$maoriProf)
+MSMPT <- as.data.frame(table(MSMP$maoriProf));names(MSMPT) <- c("maoriProf","freq")
+FigS5MSMP <- ggplot(MSMP, aes(x=maoriProf,color=maoriProf,fill=maoriProf)) + theme_classic() + geom_bar(aes(),size=.1,show.legend=F) + geom_text(data=MSMPT, aes(x=maoriProf,y=freq,label=freq), color="black", vjust=-0.2,size=3) + labs(x="Māori proficiency (MS)",y="Number of participants") + coord_cartesian(ylim=c(0, 25))
+
+# NMS - MaoriProf
+NMSMP <- unique(dataNMS[,c("maoriProf","workerId")]);NMSMP$maoriProf <- as.factor(NMSMP$maoriProf)
+NMSMPT <- as.data.frame(table(NMSMP$maoriProf));names(NMSMPT) <- c("maoriProf","freq")
+FigS5NMSMP <- ggplot(NMSMP, aes(x=maoriProf,color=maoriProf,fill=maoriProf)) + theme_classic() + geom_bar(aes(),size=.1,show.legend=F) + geom_text(data=NMSMPT, aes(x=maoriProf,y=freq,label=freq), color="black", vjust=-0.2,size=3) + labs(x="Māori proficiency (NMS)",y="Number of participants") + coord_cartesian(ylim=c(0, 70))
+
+# US - MaoriProf
+USMP <- unique(dataUS[,c("maoriProf","workerId")]);USMP$maoriProf <- as.factor(USMP$maoriProf)
+USMPT <- as.data.frame(table(USMP$maoriProf));names(USMPT) <- c("maoriProf","freq")
+FigS5USMP <- ggplot(USMP, aes(x=maoriProf,color=maoriProf,fill=maoriProf)) + theme_classic() + geom_bar(aes(),size=.1,show.legend=F) + geom_text(data=USMPT, aes(x=maoriProf,y=freq,label=freq), color="black", vjust=-0.2,size=3) + labs(x="Māori proficiency (US)",y="Number of participants") + coord_cartesian(ylim=c(0, 100))
+
+multiplot(FigS5MSML, FigS5MSMP, FigS5NMSML, FigS5NMSMP, FigS5USML, FigS5USMP, cols=3)
+```
+
+# Overview of participants' profile (Exp2)
+```{r Fig.S6, echo=FALSE, message=FALSE, warning=FALSE, fig.width=16, fig.height=11.32, fig.cap="Fig.S6: Overview of participants' profile in Exp2."}
+# MS - Gender
+MSgender <- unique(dataMS[,c("gender","workerId")]);MSgender$gender <- as.factor(MSgender$gender)
+MSgenderT <- as.data.frame(table(MSgender$gender));names(MSgenderT) <- c("gender","freq")
+FigS6MSgender <- ggplot(MSgender, aes(x=gender,color=gender,fill=gender)) + theme_classic() + geom_bar(aes(),size=.1,show.legend=F) + geom_text(data=MSgenderT, aes(x=gender,y=freq,label=freq), color="black", vjust=-0.2,size=3) + labs(x="Gender (MS)",y="Number of participants") + coord_cartesian(ylim=c(0, 40)) 
+
+# NMS - Gender
+NMSgender <- unique(dataNMS[,c("gender","workerId")]);NMSgender$gender <- as.factor(NMSgender$gender)
+NMSgenderT <- as.data.frame(table(NMSgender$gender));names(NMSgenderT) <- c("gender","freq")
+FigS6NMSgender <- ggplot(NMSgender, aes(x=gender,color=gender,fill=gender)) + theme_classic() + geom_bar(aes(),size=.1,show.legend=F) + geom_text(data=NMSgenderT, aes(x=gender,y=freq,label=freq), color="black", vjust=-0.2,size=3) + labs(x="Gender (NMS)",y="Number of participants") + coord_cartesian(ylim=c(0, 110)) 
+
+# US - Gender
+USgender <- unique(dataUS[,c("gender","workerId")]);USgender$gender <- as.factor(USgender$gender)
+USgenderT <- as.data.frame(table(USgender$gender));names(USgenderT) <- c("gender","freq")
+FigS6USgender <- ggplot(USgender, aes(x=gender,color=gender,fill=gender)) + theme_classic() + geom_bar(aes(),size=.1,show.legend=F) + geom_text(data=USgenderT, aes(x=gender,y=freq,label=freq), color="black", vjust=-0.2,size=3) + labs(x="Gender (US)",y="Number of participants") + coord_cartesian(ylim=c(0, 55)) 
+
+# MS - Age
+MSage <- unique(dataMS[,c("age","workerId")]);MSage$age <- as.factor(MSage$age)
+MSage$age <- factor(MSage$age, levels=c("18-29", "30-39", "40-49", "50-59", "+60"))
+MSageT <- as.data.frame(table(MSage$age));names(MSageT) <- c("age","freq")
+MSageT$age <- factor(MSageT$age, levels=c("18-29", "30-39", "40-49", "50-59", "+60"))
+FigS6MSage <- ggplot(MSage, aes(x=age,color=age,fill=age)) + theme_classic() + geom_bar(aes(),size=.1,show.legend=F) + geom_text(data=MSageT, aes(x=age,y=freq,label=freq), color="black", vjust=-0.2,size=3) + labs(x="Age (MS)",y="Number of participants") + coord_cartesian(ylim=c(0, 25))
+
+# NMS - Age
+NMSage <- unique(dataNMS[,c("age","workerId")]);NMSage$age <- as.factor(NMSage$age)
+NMSage$age <- factor(NMSage$age, levels=c("18-29", "30-39", "40-49", "50-59", "+60"))
+NMSageT <- as.data.frame(table(NMSage$age));names(NMSageT) <- c("age","freq")
+NMSageT$age <- factor(NMSageT$age, levels=c("18-29", "30-39", "40-49", "50-59", "+60"))
+FigS6NMSage <- ggplot(NMSage, aes(x=age,color=age,fill=age)) + theme_classic() + geom_bar(aes(),size=.1,show.legend=F) + geom_text(data=NMSageT, aes(x=age,y=freq,label=freq), color="black", vjust=-0.2,size=3) + labs(x="Age (NMS)",y="Number of participants") + coord_cartesian(ylim=c(0, 65))
+
+# US - Age
+USage <- unique(dataUS[,c("age","workerId")]);USage$age <- as.factor(USage$age)
+USage$age <- factor(USage$age, levels=c("18-29", "30-39", "40-49", "50-59", "+60"))
+USageT <- as.data.frame(table(USage$age));names(USageT) <- c("age","freq")
+USageT$age <- factor(USageT$age, levels=c("18-29", "30-39", "40-49", "50-59", "+60"))
+FigS6USage <- ggplot(USage, aes(x=age,color=age,fill=age)) + theme_classic() + geom_bar(aes(),size=.1,show.legend=F) + geom_text(data=USageT, aes(x=age,y=freq,label=freq), color="black", vjust=-0.2,size=3) + labs(x="Age (US)",y="Number of participants") + coord_cartesian(ylim=c(0, 35))
+
+# MS - Education
+MSeducation <- unique(dataMS[,c("education","workerId")]);MSeducation$education <- as.factor(MSeducation$education)
+MSeducationT <- as.data.frame(table(MSeducation$education));names(MSeducationT) <- c("education","freq")
+edu_levels <- c("high","undergraduate","graduate")
+MSeducation$education <- factor(MSeducation$education, levels = edu_levels)
+MSeducationT$education <- factor(MSeducationT$education, levels = edu_levels)
+FigS6MSeducation <- ggplot(MSeducation, aes(x=education,color=education,fill=education)) + theme_classic() + geom_bar(aes(),size=.1,show.legend=F) + geom_text(data=MSeducationT, aes(x=education,y=freq,label=freq), color="black", vjust=-0.2,size=3) + labs(x="Highest education (MS)",y="Number of participants") + coord_cartesian(ylim=c(0, 20))
+
+# NMS - Education
+NMSeducation <- unique(dataNMS[,c("education","workerId")]);NMSeducation$education <- as.factor(NMSeducation$education)
+NMSeducationT <- as.data.frame(table(NMSeducation$education));names(NMSeducationT) <- c("education","freq")
+edu_levels <- c("high","undergraduate","graduate")
+NMSeducation$education <- factor(NMSeducation$education, levels = edu_levels)
+NMSeducationT$education <- factor(NMSeducationT$education, levels = edu_levels)
+FigS6NMSeducation <- ggplot(NMSeducation, aes(x=education,color=education,fill=education)) + theme_classic() + geom_bar(aes(),size=.1,show.legend=F) + geom_text(data=NMSeducationT, aes(x=education,y=freq,label=freq), color="black", vjust=-0.2,size=3) + labs(x="Highest education (NMS)",y="Number of participants") + coord_cartesian(ylim=c(0, 50))
+
+# US - Education
+USeducation <- unique(dataUS[,c("education","workerId")]);USeducation$education <- as.factor(USeducation$education)
+USeducationT <- as.data.frame(table(USeducation$education));names(USeducationT) <- c("education","freq")
+edu_levels <- c("high","undergraduate","graduate")
+USeducation$education <- factor(USeducation$education, levels = edu_levels)
+USeducationT$education <- factor(USeducationT$education, levels = edu_levels)
+FigS6USeducation <- ggplot(USeducation, aes(x=education,color=education,fill=education)) + theme_classic() + geom_bar(aes(),size=.1,show.legend=F) + geom_text(data=USeducationT, aes(x=education,y=freq,label=freq), color="black", vjust=-0.2,size=3) + labs(x="Highest education (US)",y="Number of participants") + coord_cartesian(ylim=c(0, 55))
+
+multiplot(FigS6MSgender, FigS6MSage, FigS6MSeducation, FigS6NMSgender, FigS6NMSage, FigS6NMSeducation, FigS6USgender, FigS6USage, FigS6USeducation, cols=3)
+```
+
+# Overview of participants' profile (Exp2)
+```{r Fig.S7, echo=FALSE, message=FALSE, warning=FALSE, fig.width=16, fig.height=8, fig.cap="Fig.S7: Overview of participants' profile in Exp2."}
+# MS - Place
+MSplace <- unique(dataMS[,c("place","workerId")])
+place_levels <- c("north","south")
+MSplace$place <- factor(MSplace$place, levels = place_levels)
+MSplaceT <- as.data.frame(table(MSplace$place));names(MSplaceT) <- c("place","freq")
+MSplaceT$place <- factor(MSplaceT$place, levels = place_levels)
+FigS7MSplace <- ggplot(MSplace, aes(x=place,color=place,fill=place)) + theme_classic() + geom_bar(aes(),size=.1,show.legend=F) + geom_text(data=MSplaceT, aes(x=place,y=freq,label=freq), color="black", vjust=-0.2,size=3) + labs(x="Place (MS)",y="Number of participants") + coord_cartesian(ylim=c(0, 30))
+
+# NMS - Place
+NMSplace <- unique(dataNMS[,c("place","workerId")])
+place_levels <- c("north","south")
+NMSplace$place <- factor(NMSplace$place, levels = place_levels)
+NMSplaceT <- as.data.frame(table(NMSplace$place));names(NMSplaceT) <- c("place","freq")
+NMSplaceT$place <- factor(NMSplaceT$place, levels = place_levels)
+FigS7NMSplace <- ggplot(NMSplace, aes(x=place,color=place,fill=place)) + theme_classic() + geom_bar(aes(),size=.1,show.legend=F) + geom_text(data=NMSplaceT, aes(x=place,y=freq,label=freq), color="black", vjust=-0.2,size=3) + labs(x="Place (NMS)",y="Number of participants") + coord_cartesian(ylim=c(0, 65))
+
+# MS - Exposure to Māori
+MSME <- unique(dataMS[,c("maoriExpo","workerId")]);MSME$maoriExpo <- as.factor(MSME$maoriExpo)
+MSMET <- as.data.frame(table(MSME$maoriExpo));names(MSMET) <- c("maoriExpo","freq")
+FigS7MSME <- ggplot(MSME, aes(x=maoriExpo,color=maoriExpo,fill= maoriExpo)) + theme_classic() + geom_bar(aes(),size=.1,show.legend=F) + geom_text(data=MSMET, aes(x=maoriExpo,y=freq,label=freq), color="black", vjust=-0.2,size=3) + labs(x= "Level of exposure (MS)", y = "Number of participants") + coord_cartesian(ylim=c(0, 25))
+
+# NMS - Exposure to Māori
+NMSME <- unique(dataNMS[,c("maoriExpo","workerId")]);NMSME$maoriExpo <- as.factor(NMSME$maoriExpo)
+NMSMET <- as.data.frame(table(NMSME$maoriExpo));names(NMSMET) <- c("maoriExpo","freq")
+FigS7NMSME <- ggplot(NMSME, aes(x=maoriExpo,color=maoriExpo,fill= maoriExpo)) + theme_classic() + geom_bar(aes(),size=.1,show.legend=F) + geom_text(data=NMSMET, aes(x=maoriExpo,y=freq,label=freq), color="black", vjust=-0.2,size=3) + labs(x= "Level of exposure (NMS)", y = "Number of participants") + coord_cartesian(ylim=c(0, 30))
+
+multiplot(FigS7MSplace, FigS7MSME, FigS7NMSplace, FigS7NMSME, cols=2)
+```
+
+# Number of participants per length within each group (Exp2)
+```{r Table.S3,echo=FALSE, message=FALSE, warning=FALSE}
+dataExp2$word1 <- gsub("ā","A",dataExp2$word);dataExp2$word1 <- gsub("ē","E",dataExp2$word1)
+dataExp2$word1 <- gsub("ī","I",dataExp2$word1);dataExp2$word1 <- gsub("ō","O",dataExp2$word1)
+dataExp2$word1 <- gsub("ū","U",dataExp2$word1);dataExp2$word1 <- gsub("wh","f",dataExp2$word1)
+dataExp2$word1 <- gsub("ng","N",dataExp2$word1)
+dataExp2$length <- nchar(dataExp2$word1)
+dataMS <- dataExp2[dataExp2$group=="MS",]
+dataMSlength <- unique(dataMS[,c("length","workerId")])
+dataMSlength$length <- as.factor(dataMSlength$length)
+dataMSlengthT <- as.data.frame(table(dataMSlength$length))
+names(dataMSlengthT) <- c("length", "MS")
+dataNMS <- dataExp2[dataExp2$group=="NMS",]
+dataNMSlength <- unique(dataNMS[,c("length","workerId")])
+dataNMSlength$length <- as.factor(dataNMSlength$length)
+dataNMSlengthT <- as.data.frame(table(dataNMSlength$length))
+names(dataNMSlengthT) <- c("length", "NMS")
+lengthT <- merge(dataMSlengthT, dataNMSlengthT, by="length")
+dataUS <- dataExp2[dataExp2$group=="US",]
+dataUSlength <- unique(dataUS[,c("length","workerId")])
+dataUSlength$length <- as.factor(dataUSlength$length)
+dataUSlengthT <- as.data.frame(table(dataUSlength$length))
+names(dataUSlengthT) <- c("length", "US")
+lengthT <- merge(lengthT, dataUSlengthT, by="length")
+kable(lengthT, align="c", caption="Table.S3: Number of participants per length within each group")
+```
+
+# Modeling all groups' well-formedness ratings with a linear mixed-effects model (Exp2)
+```{r Table.S4, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
+# Model for Table.S4
+dataExp2$group <- relevel(dataExp2$group, ref="NMS")
+# modelTableS4 <- lmer(enteredResponse ~ c.(scoreDict)*group + c.(scoreRs)*group + c.(scoreUnseg)*group + (1 + c.(scoreDict) + c.(scoreRs) + c.(scoreUnseg)|workerId) + (1 + group|word), control=lmerControl(optimizer="bobyqa"), dataExp2)
+# saveRDS(modelTableS4, file = "modelTableS4.rds")
+modelTableS4 <- readRDS("./modelTableS4.rds")
+kable(xtable(summary(modelTableS4)$coef), digits=3, caption="Table.S4: Modeling all groups' well-formedness ratings with a linear mixed-effects model. All numeric variables in this model are centered.")
+```
+
+# Code for plotting Fig.2 (Exp2)
+```{r Fig.2, echo=FALSE, message=FALSE, warning=FALSE, fig.width=13, fig.height=6, fig.cap="Fig.2: Interaction between phonotactic scores and three groups. The range of phonotactic score is represented on the x-axis and the range of predicted rating is represented on the y-axis."}
+
+fig2a <- as.data.frame(effect(term="c.(scoreDict):group", mod=modelTableS4));fig2a$Group <- fig2a$group
+F2a <- ggplot(fig2a, aes(x=scoreDict, y=fit, group=Group)) + geom_point(aes(color=Group, shape=Group), size=3) + 
+  geom_line(aes(color=Group,linetype=Group), size=1)  + 
+  labs( x= "Dictionary phonotactic score", y="Predicted rating") + 
+  theme_ridges(grid = FALSE) + theme(legend.position="bottom") + 
+  coord_cartesian(ylim = c(1.8, 3.7)) + scale_color_manual(values = c("black", "red", "orange")) + 
+  scale_fill_manual(values = c("black", "red", "orange")) +
+  geom_ribbon(aes(ymin=fit-se, ymax=fit+se, fill=Group),alpha=0.2)
+fig2b <- as.data.frame(effect(term="group:c.(scoreRs)", mod=modelTableS4));fig2b$Group <- fig2b$group
+F2b <- ggplot(fig2b, aes(x=scoreRs, y=fit, group=Group)) + geom_point(aes(color=Group, shape=Group), size=3) +
+  geom_line(aes(color=Group, linetype=Group), size=1) + 
+  labs(x= "RS phonotactic score", y="Predicted rating") + 
+  theme_ridges(grid = FALSE) + theme(legend.position="bottom") + 
+  coord_cartesian(ylim = c(1.8, 3.7)) + scale_color_manual(values = c("black", "red", "orange")) + 
+  scale_fill_manual(values = c("black", "red", "orange")) +
+  geom_ribbon(aes(ymin=fit-se, ymax=fit+se, fill=Group),alpha=0.2)
+multiplot(F2a,F2b, cols=2)
+```
+
+# Post hoc exploration (Exp2)
+## Monte Carlo analyses
+```{r MC, echo=TRUE, message=FALSE, warning=FALSE, eval=FALSE}
+# Example of R code to randomly sample 1000 words from the Māori dictionary
+ N <- 1000; m <- 1000
+ set.seed(1234)
+ for(i in 1:N){
+ randomWords <- sample(maoriDictionary, m)
+ randomWordsTri <- orthoCoding(randomWords,g=c(3)) 
+ randomWordsTri <- gsub("_"," ",randomWordsTri)
+ outputFile <- paste0("randomization_", i, ".txt")
+ write.table(randomWordsTri, outputFile, row.names = FALSE, col.names=FALSE, quote=FALSE)
+ }  
+
+# Example of R code to run linear mixed-effects models with 1000 samples
+listLmerfit <- list()
+for(i in 1:1000){
+  lmerfit<- lmer(enteredResponse ~ c.(score) + (1 + c.(score)|workerId) + (1|word), data=files[[i]])
+  listLmerfit[[i]] <- coef(summary(lmerfit))[2,4];message('Regression model of', i,'\n')
+}
+listLmerfitFinal <- unlist(listLmerfit)
+```
+
+## Code for plotting Fig.3
+```{r Fig.3, echo=FALSE, message=FALSE, warning=FALSE, fig.width=16, fig.height=7.11, fig.cap="Fig.3: Monte Carlo Simulations with 1,000 random samples"}
+fig3 <- read.delim("./dataFig3.txt", sep =" ", header = TRUE)
+fullDictT <- readRDS("./fullDictT.rds")
+fig3$Size <- ordered(fig3$Size,levels=c("15k","14k","13k","12k","11k","10k","9k","8k","7k","6k","5k","4k","3k","2k","1k"))
+ggplot(fig3, aes(x=V1,colour=Size,fill=Size)) + geom_density(alpha=0.3) + labs(x="t value", y="Density") +
+  theme_classic() + geom_vline(aes(xintercept=fullDictT, linetype="Full dictionary (20k)"), color="red", size=1) + 
+  scale_linetype_manual(name="", values=c("Full dictionary (20k)"="solid")) +theme(legend.text=element_text(size=10))+
+  theme_ridges(grid = FALSE)
+```
+
+## Density plot of t values for frequency-weighted random samples
+```{r Fig.S8, echo=FALSE, message=FALSE, warning=FALSE, fig.width=16, fig.height=7.11, fig.cap="Figure 6: Density plot of t values for frequency-weighted random samples"}
+figS8 <- read.delim("./dataFigS8.txt", sep =" ", header = TRUE)
+figS8$Size <- ordered(figS8$Size,levels=c("15k","14k","13k","12k","11k","10k","9k","8k","7k","6k","5k","4k","3k","2k","1k"))
+ggplot(figS8, aes(x=V1, colour = Size, fill=Size)) + geom_density(alpha = 0.3) + labs(title = "",x = "t value", y = "Density") + theme_classic() + geom_vline(aes(xintercept = fullDictT, linetype = "Full dictionary (20k)"), color="red", size=1) + theme(plot.title = element_text(hjust = 0.5, size=15)) + scale_linetype_manual(name = "", values=c("Full dictionary (20k)"="solid"))
+```
+
+## Additional post hoc statistical analyses
+```{r AddStats, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
+# Model with z-scored responses (all three groups, MS, NMS and US)
+# z.score(dataExp2, "workerId", "enteredResponse") -> dataZscored
+# dataZscored$group <- relevel(dataZscored$group, ref="NMS")
+# modelZscored <- lmer(z.enteredResponse ~ c.(scoreDict)*group + c.(scoreRs)*group + c.(scoreUnseg)*group + (1 + c.(scoreDict) + c.(scoreRs) + c.(scoreUnseg)||workerId) + (1+group||word), control=lmerControl(optimizer="bobyqa"), dataZscored)
+# saveRDS(modelZscored, file = "modelZscored.rds")
+modelZscored <- readRDS("./modelZscored.rds")
+kable(xtable(summary(modelZscored)$coef), digits=3, caption="Modeling z-scored well-formedness ratings with a linear mixed-effects model")
+
+# The following predictors are added one by one to the linear mixed-effects model presented in Fig.2.
+# (a) Phonotactics derived from the dictionary of Māori words in New Zealand English (Macalister, 2005)
+# modelMāoriBorrowings <- lmer(enteredResponse ~ c.(scoreDictNze)*group + c.(scoreDict)*group + c.(scoreRs)*group + c.(scoreUnseg)*group + (1 + c.(scoreDictNze) + c.(scoreDict) + c.(scoreRs) + c.(scoreUnseg)|workerId) + (1+group|word), control=lmerControl(optimizer="bobyqa"), dataExp2)
+# saveRDS(modelMāoriBorrowings, file = "modelMāoriBorrowings.rds")
+modelMāoriBorrowings <- readRDS("./modelMāoriBorrowings.rds")
+kable(xtable(summary(modelMāoriBorrowings)$coef), digits=3, caption="Modeling well-formedness ratings with a linear mixed-effects model including the phonotactics derived from the dictionary of Māori words in New Zealand English")
+
+# (b) Phonotactics derived from NMS’ small active lexicon of Māori (comprising of 121 common loanwords that most NMS can identify as Māori words in our previous study plus 55 urban placenames)
+# modelNMSLexicon <- lmer(enteredResponse ~ c.(scoreSmall)*group + c.(scoreDict)*group + c.(scoreRs)*group + c.(scoreUnseg)*group + (1 + c.(scoreSmall) + c.(scoreDict) + c.(scoreRs) + c.(scoreUnseg)|workerId) + (1+group|word), control=lmerControl(optimizer="bobyqa"), dataExp2)
+# saveRDS(modelNMSLexicon, file = "modelNMSLexicon.rds")
+modelNMSLexicon <- readRDS("./modelNMSLexicon.rds")
+kable(xtable(summary(modelNMSLexicon)$coef), digits=3, caption="Modeling well-formedness ratings with a linear mixed-effects model including the phonotactics derived from NMS’ small active lexicon of Māori")
+
+# (c) Phonotactics generalized over a list of function words
+# modelFunction <- lmer(enteredResponse ~ c.(scoreFunc)*group + c.(scoreDict)*group + c.(scoreRs)*group + c.(scoreUnseg)*group + (1 + c.(scoreFunc) + c.(scoreDict) + c.(scoreRs) + c.(scoreUnseg)|workerId) + (1+group|word), control=lmerControl(optimizer="bobyqa"), dataExp2)
+# saveRDS(modelFunction, file = "modelFunction.rds")
+modelFunction <- readRDS("./modelFunction.rds")
+kable(xtable(summary(modelFunction)$coef), digits=3, caption="Modeling well-formedness ratings with a linear mixed-effects model including the phonotactics generalized over a list of function words")
+
+# (d) English phonotactics obtained from the English lexical database CELEX (Baayen, Piepen-brock & van H, 1993)
+# modelEng <- lmer(enteredResponse ~ c.(scoreEng)*group + c.(scoreDict)*group + c.(scoreRs)*group + c.(scoreUnseg)*group + (1 + c.(scoreEng) + c.(scoreDict) + c.(scoreRs) + c.(scoreUnseg)|workerId) + (1+group|word), control=lmerControl(optimizer="bobyqa"), dataExp2)
+# saveRDS(modelEng, file = "modelEng.rds")
+modelEng <- readRDS("./modelEng.rds")
+kable(xtable(summary(modelEng)$coef), digits=3, caption="Modeling well-formedness ratings with a linear mixed-effects model including the English phonotactics obtained from the English lexical database CELEX")
+
+# (e) Word shape score obtained from a trigram language model built by identifying each segment as a consonant, vowel or long vowel and calculating probabilities over sequences of those categories
+# modelWordshape <- lmer(enteredResponse ~ c.(scoreCV)*group + c.(scoreDict)*group + c.(scoreRs)*group + c.(scoreUnseg)*group + (1 + c.(scoreCV) + c.(scoreDict) + c.(scoreRs) + c.(scoreUnseg)|workerId) + (1+group|word), control=lmerControl(optimizer="bobyqa"), dataExp2)
+# saveRDS(modelWordshape, file = "modelWordshape.rds")
+modelWordshape <- readRDS("./modelWordshape.rds")
+kable(xtable(summary(modelWordshape)$coef), digits=3, caption="Modeling well-formedness ratings with a linear mixed-effects model including word shape scores")
+
+# (f) Position-length specific probabilities of phonemes obtained from a unigram language model
+# modelPosLength <- lmer(enteredResponse ~ c.(scorePosLength)*group + c.(scoreDict)*group + c.(scoreRs)*group + c.(scoreUnseg)*group + (1 + c.(scorePosLength) + c.(scoreDict) + c.(scoreRs) + c.(scoreUnseg)|workerId) + (1+group|word), control=lmerControl(optimizer="bobyqa"), dataExp2)
+# saveRDS(modelPosLength, file = "modelPosLength.rds")
+modelPosLength <- readRDS("./modelPosLength.rds")
+kable(xtable(summary(modelPosLength)$coef), digits=3, caption="Modeling well-formedness ratings with a linear mixed-effects model including position-length specific probabilities of phonemes")
+
+# (g) Presence of macron(s)
+# dataExp2$macron <- FALSE
+# dataExp2[grepl("ā|ē|ī|ō|ū",dataExp2$word),]$macron <- TRUE
+# modelMacron <- lmer(enteredResponse ~ c.(scoreDict)*group + c.(scoreRs)*group + c.(scoreUnseg)*group + macron*group + (1 + c.(scoreDict) + c.(scoreRs) + c.(scoreUnseg) + macron|workerId) + (1+group|word), control=lmerControl(optimizer="bobyqa"), dataExp2)
+# saveRDS(modelMacron, file = "modelMacron.rds")
+modelMacron <- readRDS("./modelMacron.rds")
+kable(xtable(summary(modelMacron)$coef), digits=3, caption="Modeling well-formedness ratings with a linear mixed-effects model including the presence of macron(s)")
+
+# (h) Presence of digraph(s) such as wh and ng
+dataExp2$digraph <- FALSE
+dataExp2[grepl("wh|ng",dataExp2$word),]$digraph <- TRUE
+# modelDigraph <- lmer(enteredResponse ~ c.(scoreDict)*group + c.(scoreRs)*group + c.(scoreUnseg)*group + digraph*group + (1 + c.(scoreDict) + c.(scoreRs) + c.(scoreUnseg) + digraph|workerId) + (1+group|word), control=lmerControl(optimizer="bobyqa"), dataExp2)
+# saveRDS(modelDigraph, file = "modelDigraph.rds")
+modelDigraph <- readRDS("./modelDigraph.rds")
+kable(xtable(summary(modelDigraph)$coef), digits=3, caption="Modeling well-formedness ratings with a linear mixed-effects model including the presence of digraph(s)")
+
+# (i) Maximum length of vowel sequence
+# Add the maximum length of vowel sequence
+dataExp2$vSeq <- gsub("[aeiouāēīōū][aeiouāēīōū][aeiouāēīōū][aeiouāēīōū][aeiouāēīōū]","5", dataExp2$word)
+dataExp2$vSeq <- gsub("[aeiouāēīōū][aeiouāēīōū][aeiouāēīōū][aeiouāēīōū]","4", dataExp2$vSeq)
+dataExp2$vSeq <- gsub("[aeiouāēīōū][aeiouāēīōū][aeiouāēīōū]","3", dataExp2$vSeq)
+dataExp2$vSeq <- gsub("[aeiouāēīōū][aeiouāēīōū]","2", dataExp2$vSeq)
+dataExp2$vSeq <- gsub("[aeiouāēīōū]","1", dataExp2$vSeq)
+dataExp2$vSeq <- gsub("[whkmrngpt]","", dataExp2$vSeq)
+dataExp2$vSeq <- gsub(""," ",dataExp2$vSeq)
+vSeqList <- strsplit(dataExp2$vSeq,split=" ");vSeqList1 <- sapply(vSeqList,max)
+dataExp2$vSeq <- vSeqList1;dataExp2$vSeq <- as.numeric(dataExp2$vSeq)
+# modelVSeq <- lmer(enteredResponse ~ c.(scoreDict)*group + c.(scoreRs)*group + c.(scoreUnseg)*group + c.(vSeq)*group + (1 + c.(scoreDict) + c.(scoreRs) + c.(scoreUnseg) + c.(vSeq)|workerId) + (1+group|word), control=lmerControl(optimizer="bobyqa"), dataExp2)
+# saveRDS(modelVSeq, file = "modelVSeq.rds")
+modelVSeq <- readRDS("./modelVSeq.rds")
+kable(xtable(summary(modelVSeq)$coef), digits=3, caption="Modeling well-formedness ratings with a linear mixed-effects model including the maximum length of vowel sequence")
+
+# (j) Type of first segment (consonant or vowel)
+dataExp2$first <- gsub("[aeiouāēīōū]","v",dataExp2$word)
+dataExp2$first <- gsub("[whkmrngpt]","c",dataExp2$first)
+dataExp2$first <- substr(dataExp2$first,1,1)
+dataExp2$first <- as.factor(dataExp2$first)
+# modelFirst <- lmer(enteredResponse ~ c.(scoreDict)*group + c.(scoreRs)*group + c.(scoreUnseg)*group + first*group + (1 + c.(scoreDict) + c.(scoreRs) + c.(scoreUnseg) + first|workerId) + (1+group|word), control=lmerControl(optimizer="bobyqa"), dataExp2)
+# saveRDS(modelFirst, file = "modelFirst.rds")
+modelFirst <- readRDS("./modelFirst.rds")
+kable(xtable(summary(modelFirst)$coef), digits=3, caption="Modeling well-formedness ratings with a linear mixed-effects model including the type of first segment")
+
+# (k) New phonotactic scores
+# modelNewScores <- lmer(enteredResponse ~ c.(scoreDictNew)*group + c.(scoreRsNew)*group + c.(scoreUnsegNew)*group + (1 + c.(scoreDictNew) + c.(scoreRsNew) + c.(scoreUnsegNew)|workerId) + (1+group|word), control=lmerControl(optimizer="bobyqa"), dataExp2)
+# saveRDS(modelNewScores, file = "modelNewScores.rds")
+modelNewScores <- readRDS("./modelNewScores.rds")
+kable(xtable(summary(modelNewScores)$coef), digits=3, caption="Modeling well-formedness ratings with a linear mixed-effects model including the phonotactics....")
+
+# (l) Phonotactic scores without the distinction between short and long vowels marked with macrons
+# modelNoMacron <- lmer(enteredResponse ~ c.(scoreDictNoMacron)*group + c.(scoreRsNoMacron)*group + c.(scoreUnsegNoMacron)*group + (1 + c.(scoreDictNoMacron) + c.(scoreRsNoMacron) + c.(scoreUnsegNoMacron)|workerId) + (1+group|word), control=lmerControl(optimizer="bobyqa"), dataExp2)
+# saveRDS(modelNoMacron, file = "modelNoMacron.rds")
+modelNoMacron <- readRDS("./modelNoMacron.rds")
+kable(xtable(summary(modelNoMacron)$coef), digits=3, caption="Modeling well-formedness ratings with a linear mixed-effects model with phonotactic scores without the distinction between short and long vowels marked with macrons")
+```
