@@ -11,6 +11,7 @@ output:
     toc: yes
     toc_depth: 6
     toc_float: yes
+    number_sections: true
   word_document: default
 editor_options: 
   chunk_output_type: console
@@ -86,7 +87,11 @@ z.score <- function (df, vp.var, var) {
 }
 ```
 
-# Filtering out participants (Exp 1)
+# Introduction 
+This Rmarkdown script contains all the codes used for outlier detection, data analysis and plotting, including additional statistical analyses, description for Monte Carlo simulations, all the statistical models with their summary.
+
+# Experiment 1
+## Filtering out participants
 ```{r loading_data_Exp1, echo=TRUE, message=FALSE, warning=FALSE}
 # Loading the data to filter out participants
 dataExp1 <- read.delim("./dataNotFilteredExp1.txt", sep ="\t", header = TRUE)
@@ -126,7 +131,7 @@ dataExp1 <- dataExp1[!dataExp1$workerId %in% rmParticipant7Exp1,]
 # length(unique(dataExp1$workerId)) # 85
 ```
 
-# Dataset structure (Exp1)
+## Dataset structure
 The data is structured as follows:
 
   - *workerId* is the unique ID for each participant.
@@ -158,7 +163,7 @@ The data is structured as follows:
   - *bin* is the classification of each stimulus according to their frequency of occurence in Māori running speech corpora.
   - *score* is the dictionary phonotactic score normalized by the phonemic length of each stimulus.
 
-# Overview of participants’ sociolinguistic profile (Exp1)
+## Overview of participants’ sociolinguistic profile
 ```{r participantExp1, echo=FALSE, message=FALSE, warning=FALSE, evaluate=FALSE, fig.width=16, fig.height=9.7, fig.cap="Fig.S1: Overview of participants' sociolinguistic profile in Exp1."}
 # Basic knowledge of Māori
 Exp1ML <- unique(dataExp1[,c("maoriList","workerId")]);Exp1ML$maoriList <- as.factor(Exp1ML$maoriList)
@@ -205,7 +210,7 @@ FigS1Exp1Place <- ggplot(Exp1Place, aes(x=place, color=place, fill= place)) + th
 multiplot(FigS1Exp1ML, FigS1Exp1Gender, FigS1Exp1Place, FigS1Exp1MP, FigS1Exp1Age, FigS1Exp1Education, FigS1Exp1ME, cols=3)
 ```
 
-# Modeling NMS' confidence ratings in all bins with a linear mixed-effects model (Exp1)
+## Modeling NMS' confidence ratings in all bins with a linear mixed-effects model
 ```{r Table.S1, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
 # Model for TableS1
 # modelTableS1 <- lmer(enteredResponse ~ c.(length)*c.(score) + type*bin + (1 + c.(length)*c.(score) + type*bin|workerId) + (1|word), control=lmerControl(optimizer="bobyqa"), dataExp1)
@@ -214,7 +219,7 @@ modelTableS1 <- readRDS("./modelTableS1.rds")
 kable(xtable(summary(modelTableS1)$coef), digits=3, caption="Table.S1: Modeling NMS' confidence ratings in all bins with a linear mixed-effects model. All numeric variables in this model are centered.")
 ```
 
-# Effect plots from the model presented in Table.S1 (Exp1)
+## Effect plots from the model presented in Table.S1
 ```{r Fig.S2, echo=FALSE, message=FALSE, warning=FALSE, fig.width=16, fig.height=5.86, fig.cap="Fig.S2: Effect plots of the interaction between bin and the distinction between nonwords and real words (Fig.S2a, on the left) and the interaction between phonotactic score and length of stimuli (Fig.S2b, on the right). The x-axis represents the type of bins (Fig.S2a) or the range of phonotactic score (Fig.S2b)."}
 
 figS2a <- as.data.frame(effect(term="type:bin", mod=modelTableS1))
@@ -228,7 +233,7 @@ PfigS2b <- ggplot(figS2b, aes(x=score, y=fit, group=Length)) + geom_point(aes(co
 multiplot(PfigS2a, PfigS2b, cols=2)
 ```
 
-# Code for plotting Fig.1 (Exp1)
+## Code for plotting Fig.1 
 ```{r Fig.1, echo=FALSE, message=FALSE, warning=FALSE, evaluate=FALSE, fig.width=16, fig.height=6, fig.cap="Fig.1: Mean rating for each stimulus per bin with predicted rating for each density plot. Bin1 contains the most frequent words and Bin5 consists of the least frequent words."}
 
 #Get mean ratings for each stimulus per bin
@@ -253,7 +258,7 @@ ggplot(allBins,aes(x = meanRating, y = as.factor(bin), fill = type)) +
     scale_linetype_manual(values = c("Nonword" = "solid", "Word" = "dotted")) + labs(linetype='Stimulus type',color='Stimulus type')
 ```
 
-# Mean rating and phonotactic score for each stimulus per bin (Exp1)
+## Mean rating and phonotactic score for each stimulus per bin
 ```{r Fig.S3, echo=FALSE, message=FALSE, warning=FALSE, fig.width=16, fig.height=10.5, fig.cap="Fig.S3: Mean rating and phonotactic score for each stimulus per bin. The range of mean rating is represented on the y-axis and the x-axis represents the range of phonotactic score."}
 scores <- unique(dataExp1[,c("word","score")])
 allBins$Type <- "Word";allBins[as.character(allBins$type)=="pseudo",]$Type <- "Nonword"
@@ -275,7 +280,7 @@ FigS3Bin5 <- ggplot(Bin5MeanRatings, aes(x=score, y=meanRating, group=Type, labe
 multiplot(FigS3Bin1,FigS3Bin4,FigS3Bin2,FigS3Bin5,FigS3Bin3, cols=3)
 ```
 
-# Repaitched pairs: Mean rating and phonotactic score for each stimulus per bin (Exp1)
+## Rematched pairs: Mean rating and phonotactic score for each stimulus per bin
 ```{r Fig.S4, echo=FALSE, message=FALSE, warning=FALSE, fig.width=16, fig.height=10.5, fig.cap="Fig.S4: Mean rating and phonotactic score for each stimulus per bin (rematched pairs). The range of mean rating is represented on the y-axis and the x-axis represents the range of phonotactic score."}
 
 # Rematching pairs: for each nonword, find a word with the lowest absolute difference
@@ -354,7 +359,7 @@ FigS4Bin5 <- ggplot(Bin5ReMeanRatings, aes(x=score, y=meanRating, group=Type, la
 multiplot(FigS4Bin1,FigS4Bin4,FigS4Bin2,FigS4Bin5,FigS4Bin3, cols=3)
 ```
 
-# Modeling NMS' confidence ratings with a linear mixed-effects model (rematched pairs) (Exp1)
+## Modeling NMS' confidence ratings with a linear mixed-effects model (rematched pairs)
 ```{r Table.S2, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
 # Model for Table.S2
 # modelTableS2 <- lmer(enteredResponse ~ type + (1 + type|workerId) + (1|word), control=lmerControl(optimizer="bobyqa"), dataRematched) # saveRDS(modelTableS2, file = "modelTableS2.rds")
@@ -362,7 +367,8 @@ modelTableS2 <- readRDS("./modelTableS2.rds")
 kable(xtable(summary(modelTableS2)$coef), digits=3, caption="Table.S2: Modeling NMS' confidence ratings with a linear mixed-effects model (rematched pairs).")
 ```
 
-# Filtering out participants (Exp2)
+# Experiment 2
+## Filtering out participants
 ```{r loading_data_Exp2, echo=TRUE, message=FALSE, warning=FALSE}
 # Loading the data to filter out participants:
 dataNotFiltered <- read.delim("./dataNotFilteredExp2.txt", sep ="\t", header = TRUE)
@@ -465,7 +471,7 @@ dataUS <- dataUS[!dataUS$workerId %in% rmParticipant19,]
 dataExp2 <- rbind.fill(dataMS, dataNMS, dataUS)
 ```
 
-# Dataset structure (Exp2)
+## Dataset structure
 The data is structured as follows:
 
   - *workerId* is the unique ID for each participant.
@@ -510,7 +516,7 @@ The data is structured as follows:
   - *scoreRsNoMacron* is the running speech phonotactic score without the distinction between short and long vowels marked with macrons.
   - *scoreUnsegNoMacron* is the unsegmented running speech phonotactic score without the distinction between short and long vowels marked with macrons.
 
-# Participants' basic Māori knowledge and proficiency (Exp2)
+## Participants' basic Māori knowledge and proficiency
 ```{r Fig.S5, echo=FALSE, message=FALSE, warning=FALSE, fig.width=16, fig.height=8, fig.cap="Fig.S5: Participants' basic Māori knowledge and proficiency in Exp2."}
 # MS - Basic knowledge of Māori
 MSML <- unique(dataMS[,c("maoriList","workerId")]);MSML$maoriList <- as.factor(MSML$maoriList)
@@ -545,7 +551,7 @@ FigS5USMP <- ggplot(USMP, aes(x=maoriProf,color=maoriProf,fill=maoriProf)) + the
 multiplot(FigS5MSML, FigS5MSMP, FigS5NMSML, FigS5NMSMP, FigS5USML, FigS5USMP, cols=3)
 ```
 
-# Overview of participants' profile (Exp2)
+## Overview of participants' profile
 ```{r Fig.S6, echo=FALSE, message=FALSE, warning=FALSE, fig.width=16, fig.height=11.32, fig.cap="Fig.S6: Overview of participants' profile in Exp2."}
 # MS - Gender
 MSgender <- unique(dataMS[,c("gender","workerId")]);MSgender$gender <- as.factor(MSgender$gender)
@@ -610,7 +616,7 @@ FigS6USeducation <- ggplot(USeducation, aes(x=education,color=education,fill=edu
 multiplot(FigS6MSgender, FigS6MSage, FigS6MSeducation, FigS6NMSgender, FigS6NMSage, FigS6NMSeducation, FigS6USgender, FigS6USage, FigS6USeducation, cols=3)
 ```
 
-# Overview of participants' profile (Exp2)
+## Overview of participants' profile
 ```{r Fig.S7, echo=FALSE, message=FALSE, warning=FALSE, fig.width=16, fig.height=8, fig.cap="Fig.S7: Overview of participants' profile in Exp2."}
 # MS - Place
 MSplace <- unique(dataMS[,c("place","workerId")])
@@ -641,7 +647,7 @@ FigS7NMSME <- ggplot(NMSME, aes(x=maoriExpo,color=maoriExpo,fill= maoriExpo)) + 
 multiplot(FigS7MSplace, FigS7MSME, FigS7NMSplace, FigS7NMSME, cols=2)
 ```
 
-# Number of participants per length within each group (Exp2)
+## Number of participants per length within each group
 ```{r Table.S3,echo=FALSE, message=FALSE, warning=FALSE}
 dataExp2$word1 <- gsub("ā","A",dataExp2$word);dataExp2$word1 <- gsub("ē","E",dataExp2$word1)
 dataExp2$word1 <- gsub("ī","I",dataExp2$word1);dataExp2$word1 <- gsub("ō","O",dataExp2$word1)
@@ -668,7 +674,7 @@ lengthT <- merge(lengthT, dataUSlengthT, by="length")
 kable(lengthT, align="c", caption="Table.S3: Number of participants per length within each group")
 ```
 
-# Modeling all groups' well-formedness ratings with a linear mixed-effects model (Exp2)
+## Modeling all groups' well-formedness ratings with a linear mixed-effects model
 ```{r Table.S4, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
 # Model for Table.S4
 dataExp2$group <- relevel(dataExp2$group, ref="NMS")
@@ -678,7 +684,7 @@ modelTableS4 <- readRDS("./modelTableS4.rds")
 kable(xtable(summary(modelTableS4)$coef), digits=3, caption="Table.S4: Modeling all groups' well-formedness ratings with a linear mixed-effects model. All numeric variables in this model are centered.")
 ```
 
-# Code for plotting Fig.2 (Exp2)
+## Code for plotting Fig.2
 ```{r Fig.2, echo=FALSE, message=FALSE, warning=FALSE, fig.width=13, fig.height=6, fig.cap="Fig.2: Interaction between phonotactic scores and three groups. The range of phonotactic score is represented on the x-axis and the range of predicted rating is represented on the y-axis."}
 
 fig2a <- as.data.frame(effect(term="c.(scoreDict):group", mod=modelTableS4));fig2a$Group <- fig2a$group
@@ -700,8 +706,8 @@ F2b <- ggplot(fig2b, aes(x=scoreRs, y=fit, group=Group)) + geom_point(aes(color=
 multiplot(F2a,F2b, cols=2)
 ```
 
-# Post hoc exploration (Exp2)
-## Monte Carlo analyses
+## Post hoc exploration
+### Monte Carlo analyses
 ```{r MC, echo=TRUE, message=FALSE, warning=FALSE, eval=FALSE}
 # Example of R code to randomly sample 1000 words from the Māori dictionary
  N <- 1000; m <- 1000
@@ -723,7 +729,7 @@ for(i in 1:1000){
 listLmerfitFinal <- unlist(listLmerfit)
 ```
 
-## Code for plotting Fig.3
+### Code for plotting Fig.3
 ```{r Fig.3, echo=FALSE, message=FALSE, warning=FALSE, fig.width=16, fig.height=7.11, fig.cap="Fig.3: Monte Carlo Simulations with 1,000 random samples"}
 fig3 <- read.delim("./dataFig3.txt", sep =" ", header = TRUE)
 fullDictT <- readRDS("./fullDictT.rds")
@@ -734,14 +740,14 @@ ggplot(fig3, aes(x=V1,colour=Size,fill=Size)) + geom_density(alpha=0.3) + labs(x
   theme_ridges(grid = FALSE)
 ```
 
-## Density plot of t values for frequency-weighted random samples
+### Density plot of t values for frequency-weighted random samples
 ```{r Fig.S8, echo=FALSE, message=FALSE, warning=FALSE, fig.width=16, fig.height=7.11, fig.cap="Figure 6: Density plot of t values for frequency-weighted random samples"}
 figS8 <- read.delim("./dataFigS8.txt", sep =" ", header = TRUE)
 figS8$Size <- ordered(figS8$Size,levels=c("15k","14k","13k","12k","11k","10k","9k","8k","7k","6k","5k","4k","3k","2k","1k"))
 ggplot(figS8, aes(x=V1, colour = Size, fill=Size)) + geom_density(alpha = 0.3) + labs(title = "",x = "t value", y = "Density") + theme_classic() + geom_vline(aes(xintercept = fullDictT, linetype = "Full dictionary (20k)"), color="red", size=1) + theme(plot.title = element_text(hjust = 0.5, size=15)) + scale_linetype_manual(name = "", values=c("Full dictionary (20k)"="solid"))
 ```
 
-## Additional post hoc statistical analyses
+### Additional post hoc statistical analyses
 ```{r AddStats, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
 # Model with z-scored responses (all three groups, MS, NMS and US)
 # z.score(dataExp2, "workerId", "enteredResponse") -> dataZscored
