@@ -1,5 +1,5 @@
 # SuppInfoProtoLexicon
-Supplementary Materials for the paper "Adults' Proto-Lexicon"
+Supplementary Materials for the paper "An Adult Proto-lexicon"
 
 This supporting data contains:
 - an Rmarkdown script
