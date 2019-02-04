@@ -1,5 +1,5 @@
 ---
-title: "Adults acquire a proto-lexicon from the ambient environment."
+title: "An Adult Proto-lexicon"
 subtitle: "Participant filtering, statistical analysis, plots and tables"
 author: "Yoon Mi Oh, Clay Beckner, Jen Hay, Jeanette King and Jeremy Needle"
 date: '`r Sys.time()`'
@@ -280,7 +280,8 @@ FigS3Bin5 <- ggplot(Bin5MeanRatings, aes(x=score, y=meanRating, group=Type, labe
 multiplot(FigS3Bin1,FigS3Bin4,FigS3Bin2,FigS3Bin5,FigS3Bin3, cols=3)
 ```
 
-## Rematched pairs: Mean rating and phonotactic score for each stimulus per bin
+## Rematching stimuli pairs
+### Rematched pairs: Mean rating and phonotactic score for each stimulus per bin
 ```{r Fig.S4, echo=FALSE, message=FALSE, warning=FALSE, fig.width=16, fig.height=10.5, fig.cap="Fig.S4: Mean rating and phonotactic score for each stimulus per bin (rematched pairs). The range of mean rating is represented on the y-axis and the x-axis represents the range of phonotactic score."}
 
 # Rematching pairs: for each nonword, find a word with the lowest absolute difference
@@ -359,13 +360,17 @@ FigS4Bin5 <- ggplot(Bin5ReMeanRatings, aes(x=score, y=meanRating, group=Type, la
 multiplot(FigS4Bin1,FigS4Bin4,FigS4Bin2,FigS4Bin5,FigS4Bin3, cols=3)
 ```
 
-## Modeling NMS' confidence ratings with a linear mixed-effects model (rematched pairs)
+During the analysis of Exp1, we found an overall bias towards higher phonotactic score of Māori words and lower phonotactic score of Māori-like nonwords due to a lack of nonwords to phonotactically match randomly selected words from Māori RS corpora. To solve this problem, nonwords and words are rematched across participants by finding a phonotactically matched word with the lowest absolute difference for each nonword. Among the rematched pairs, only those whose absolute difference is below 0.3 are kept. In the initial dataset, there are 200 pairs in each bin but after rematching stimuli, the number of pairs in each bin is reduced as follows: 71 (Bin1), 52 (Bin2 and Bin3), 53 (Bin4), 56 (Bin5).
+
+### Modeling NMS' confidence ratings with a linear mixed-effects model (rematched pairs)
 ```{r Table.S2, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
 # Model for Table.S2
 # modelTableS2 <- lmer(enteredResponse ~ type + (1 + type|workerId) + (1|word), control=lmerControl(optimizer="bobyqa"), dataRematched) # saveRDS(modelTableS2, file = "modelTableS2.rds")
 modelTableS2 <- readRDS("./modelTableS2.rds")
 kable(xtable(summary(modelTableS2)$coef), digits=3, caption="Table.S2: Modeling NMS' confidence ratings with a linear mixed-effects model (rematched pairs).")
 ```
+
+Within each bin containing the rematched pairs, the distinction between nonwords and words is statistically significant in individual linear mixed-effects models for each bin: NMS still give higher ratings to words than nonwords across all the five bins. Furthermore, when the ratings of all the bins are modeled in a single linear mixed-effects model, the distinction between words and nonwords is the only significant predictor and the other predictors such as length, phonotactic score, and bin are systematically removed due to a lack of convergence and their p-values greater than significance level. The relevant statistical model is found below.
 
 # Experiment 2
 ## Filtering out participants
@@ -749,14 +754,6 @@ ggplot(figS8, aes(x=V1, colour = Size, fill=Size)) + geom_density(alpha = 0.3) +
 
 ### Additional post hoc statistical analyses
 ```{r AddStats, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
-# Model with z-scored responses (all three groups, MS, NMS and US)
-# z.score(dataExp2, "workerId", "enteredResponse") -> dataZscored
-# dataZscored$group <- relevel(dataZscored$group, ref="NMS")
-# modelZscored <- lmer(z.enteredResponse ~ c.(scoreDict)*group + c.(scoreRs)*group + c.(scoreUnseg)*group + (1 + c.(scoreDict) + c.(scoreRs) + c.(scoreUnseg)||workerId) + (1+group||word), control=lmerControl(optimizer="bobyqa"), dataZscored)
-# saveRDS(modelZscored, file = "modelZscored.rds")
-modelZscored <- readRDS("./modelZscored.rds")
-kable(xtable(summary(modelZscored)$coef), digits=3, caption="Modeling z-scored well-formedness ratings with a linear mixed-effects model")
-
 # The following predictors are added one by one to the linear mixed-effects model presented in Fig.2.
 # (a) Phonotactics derived from the dictionary of Māori words in New Zealand English (Macalister, 2005)
 # modelMāoriBorrowings <- lmer(enteredResponse ~ c.(scoreDictNze)*group + c.(scoreDict)*group + c.(scoreRs)*group + c.(scoreUnseg)*group + (1 + c.(scoreDictNze) + c.(scoreDict) + c.(scoreRs) + c.(scoreUnseg)|workerId) + (1+group|word), control=lmerControl(optimizer="bobyqa"), dataExp2)
