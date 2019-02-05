@@ -7,7 +7,7 @@ output:
   html_document:
     fig_caption: yes
     highlight: textmate
-    theme: paper
+    theme: flatly
     toc: yes
     toc_depth: 6
     toc_float: yes
@@ -27,6 +27,7 @@ library(plyr)
 library(knitr)
 library(xtable)
 library(ggridges)
+library(dplyr)
 ```
 
 <style>
