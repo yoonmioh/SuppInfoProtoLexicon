@@ -1,0 +1,39 @@
+# Comparison of main model (3.7.0) to 'new' predictors (3.9.4)
+# see 'supplementaryInfo.Rmd'
+
+	Estimate	Std. Error	df	t value	Pr(>|t|)
+3.9.4 (Intercept)	2.787	0.052	274.287	53.212	0.000	"="
+3.7.0 (Intercept)	2.798	0.052	279.354	53.625	0.000
+
+3.9.4 c.(scoreDictNew)	0.809	0.077	669.797	10.564	0.000	">"
+3.7.0 c.(scoreDict)	0.640	0.069	530.620	9.312	0.000
+
+3.9.4 groupMS	-0.007	0.100	245.716	-0.068	0.946	"= ns"
+3.7.0 groupMS	0.006	0.099	246.339	0.057	0.955
+
+3.9.4 groupUS	0.321	0.076	255.204	4.208	0.000	"="
+3.7.0 groupUS	0.327	0.076	256.044	4.315	0.000
+
+3.9.4 c.(scoreRsNew)	0.285	0.038	1262.070	7.534	0.000	">"
+3.7.0 c.(scoreRs)	0.144	0.029	1303.637	4.997	0.000
+
+3.9.4 c.(scoreUnsegNew)	-0.267	0.032	827.698	-8.311	0.000	">"
+3.7.0 c.(scoreUnseg)	-0.161	0.026	964.703	-6.263	0.000
+
+3.9.4 c.(scoreDictNew):groupMS	-0.002	0.113	245.741	-0.018	0.986	"= ns"
+3.7.0 c.(scoreDict):groupMS	0.025	0.109	242.850	0.227	0.821
+
+3.9.4 c.(scoreDictNew):groupUS	-0.709	0.096	373.479	-7.388	0.000	"="
+3.7.0 c.(scoreDict):groupUS	-0.683	0.089	322.623	-7.680	0.000
+
+3.9.4 groupMS:c.(scoreRsNew)	-0.071	0.043	316.985	-1.650	0.100	">> ns"
+3.7.0 groupMS:c.(scoreRs)	0.000	0.032	307.581	0.015	0.988
+
+3.9.4 groupUS:c.(scoreRsNew)	-0.241	0.042	691.138	-5.724	0.000	">"
+3.7.0 groupUS:c.(scoreRs)	-0.091	0.031	676.398	-2.929	0.004
+
+3.9.4 groupMS:c.(scoreUnsegNew)	0.089	0.042	246.342	2.117	0.035	">"
+3.7.0 groupMS:c.(scoreUnseg)	0.062	0.031	233.161	1.981	0.049
+
+3.9.4 groupUS:c.(scoreUnsegNew)	0.162	0.038	442.054	4.248	0.000	"="
+3.7.0 groupUS:c.(scoreUnseg)	0.132	0.029	457.585	4.563	0.000

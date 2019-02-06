@@ -147,7 +147,7 @@ The data is structured as follows:
   - *workerId* is the unique ID for each participant.
   - *enteredResponse* is the wellformedness rating for each stimulus.
   - *reactionTime* is the reaction time for each rating (second).
-  - *type* is the classification of each stimulus: nonword or word.
+  - *type* is the classification of each stimulus: word ('real') or nonword ('pseudo').
   - *length* is the phoneme length of each stimulus.
   - *word* is the stimulus used for the rating.
   - *speakMaori* is each participant's answer to the question how well they can speak Māori (with a scale ranging from 0 to 5).
@@ -230,15 +230,16 @@ multiplot(FigS1Exp1ML, FigS1Exp1Gender, FigS1Exp1Place, FigS1Exp1MP, FigS1Exp1Ag
 # modelTableS1 <- lmer(enteredResponse ~ c.(length)*c.(score) + type*bin + (1 + c.(length)*c.(score) + type*bin|workerId) + (1|word), control=lmerControl(optimizer="bobyqa"), dataExp1)
 # saveRDS(modelTableS1, file = "modelTableS1.rds")
 modelTableS1 <- readRDS("./modelTableS1.rds")
-kable(xtable(summary(modelTableS1)$coef), digits=3, caption="Table S1: LME model for NMS confidence ratings across word frequency. All numeric variables in this model are centered.")
+kable(xtable(summary(modelTableS1)$coef), digits=3, caption="Table S1: Linear mixed-effects model of NMS confidence ratings across word frequency. All numeric variables in this model are centered.")
 ```
 
 ### Fig. S2, effect plots
-```{r Fig. S2, echo=FALSE, message=FALSE, warning=FALSE, fig.width=16, fig.height=5.86, fig.cap="Fig. S2: Effect plots of the interaction between bin and the distinction between nonwords and real words (Fig.S2a, on the left) and the interaction between phonotactic score and length of stimuli (Fig. S2b, on the right). The x-axis represents the type of bins (Fig. S2a) or the range of phonotactic score (Fig. S2b)."}
+```{r Fig. S2, echo=FALSE, message=FALSE, warning=FALSE, fig.width=16, fig.height=5.86, fig.cap="Fig. S2: Interaction effect plots: Fig. S2a (left) shows the interaction between frequency bin and lexicality (real words vs. nonwords); Fig. S2b (right) shows the interaction between phonotactic score and length of stimuli ."}
 
 figS2a <- as.data.frame(effect(term="type:bin", mod=modelTableS1))
 figS2a$Type <- "Word";figS2a[as.character(figS2a$type)=="pseudo",]$Type <- "Nonword"
-PfigS2a <- ggplot(figS2a, aes(x=bin, y=fit, group=Type)) + geom_point(aes(color=Type, shape=Type)) + geom_line(aes(color=Type)) + geom_ribbon(aes(ymin=fit-se, ymax=fit+se, fill=Type),alpha=0.1)+labs(x="Bin", y="Predicted rating") + theme_classic()+ theme(plot.title = element_text(hjust = 0.5, size=15)) + theme(legend.position="right") + theme(legend.title=element_blank())
+PfigS2a <- ggplot(figS2a, aes(x=bin, y=fit, group=Type)) + geom_point(aes(color=Type, shape=Type)) + geom_line(aes(color=Type)) + geom_ribbon(aes(ymin=fit-se, ymax=fit+se, fill=Type),alpha=0.1)+
+labs(x="Frequency Bin (High to Low)", y="Predicted rating") + theme_classic()+ theme(plot.title = element_text(hjust = 0.5, size=15)) + theme(legend.position="right") + theme(legend.title=element_blank())
 
 figS2b <- as.data.frame(effect(term="c.(length):c.(score)", mod=modelTableS1))
 figS2b$Length <- figS2b$length
@@ -248,7 +249,7 @@ multiplot(PfigS2a, PfigS2b, cols=2)
 ```
 
 ## Code for plotting Fig. 1 
-```{r Fig. 1, echo=FALSE, message=FALSE, warning=FALSE, evaluate=FALSE, fig.width=16, fig.height=6, fig.cap="Fig. 1: Mean rating for each stimulus per frequency bin with predicted rating for each density plot. Bin1 contains the most frequent words and Bin5 consists of the least frequent words."}
+```{r Fig. 1, echo=FALSE, message=FALSE, warning=FALSE, evaluate=FALSE, fig.width=16, fig.height=6, fig.cap="Fig. 1: Mean well-formedness ratings for real words and nonwords by frequency bin. Bin1 contains the most frequent words and Bin5 consists of the least frequent words. Horizontal lines show the model effect estimates for real words vs. nonwords across all frequencies."}
 
 #Get mean ratings for each stimulus per bin
 allBins <- list()
@@ -275,27 +276,27 @@ ggplot(allBins,aes(x = meanRating, y = as.factor(bin), fill = type)) +
     geom_vline(data=figS2a_mean,aes(xintercept = fit_mean,color=type, linetype=type),size=1) + 
     scale_color_manual(labels=c("pseudo" = "Nonword", "real" = "Word"),values = c("pseudo"="black", "real" = "blue")) +
     scale_linetype_manual(labels=c("pseudo" = "Nonword", "real" = "Word"),values = c("pseudo" = "solid", "real" = "dotted")) + 
-    labs(linetype='Overall Mean',color='Overall Mean')
+    labs(linetype='Stimulus type effect estimate',color='Stimulus type effect estimate')
 ```
 
 ## Mean rating and phonotactic score for each stimulus per frequency bin
-```{r Fig. S3, echo=FALSE, message=FALSE, warning=FALSE, fig.width=16, fig.height=10.5, fig.cap="Fig. S3: Mean rating and phonotactic score for each stimulus per frequency bin. The range of mean rating is represented on the y-axis and the x-axis represents the range of phonotactic score."}
+```{r Fig. S3, echo=FALSE, message=FALSE, warning=FALSE, fig.width=16, fig.height=10.5, fig.cap="Fig. S3: Mean rating vs. phonotactic score for each stimulus for real words and nonwords by frequency bin."}
 scores <- unique(dataExp1[,c("word","score")])
 allBins$Type <- "Word";allBins[as.character(allBins$type)=="pseudo",]$Type <- "Nonword"
 Bin1MeanRatings <- merge(allBins[allBins$bin=="Bin1",], scores, by="word")
-FigS3Bin1 <- ggplot(Bin1MeanRatings, aes(x=score, y=meanRating, group=Type, label=word)) + labs(x= "Phonotactic score (Bin 1)", y="Average rating") + theme_classic()+ theme(legend.title=element_blank()) + geom_point(aes(color=Type,shape=Type),size=2)+ scale_colour_manual(values=c("#F8766D", "#00BFC4")) + theme(legend.position="bottom")
+FigS3Bin1 <- ggplot(Bin1MeanRatings, aes(x=score, y=meanRating, group=Type, label=word)) + labs(x= "Phonotactic score (Bin 1)", y="Mean rating") + theme_classic()+ theme(legend.title=element_blank()) + geom_point(aes(color=Type,shape=Type),size=2)+ scale_colour_manual(values=c("#F8766D", "#00BFC4")) + theme(legend.position="bottom")
 
 Bin2MeanRatings <- merge(allBins[allBins$bin=="Bin2",], scores, by="word")
-FigS3Bin2 <- ggplot(Bin2MeanRatings, aes(x=score, y=meanRating, group=Type, label=word)) + labs(x= "Phonotactic score (Bin 2)", y="Average rating") + theme_classic()+ theme(legend.title=element_blank()) + geom_point(aes(color=Type,shape=Type),size=2)+ scale_colour_manual(values=c("#F8766D", "#00BFC4")) + theme(legend.position="bottom")
+FigS3Bin2 <- ggplot(Bin2MeanRatings, aes(x=score, y=meanRating, group=Type, label=word)) + labs(x= "Phonotactic score (Bin 2)", y="Mean rating") + theme_classic()+ theme(legend.title=element_blank()) + geom_point(aes(color=Type,shape=Type),size=2)+ scale_colour_manual(values=c("#F8766D", "#00BFC4")) + theme(legend.position="bottom")
 
 Bin3MeanRatings <- merge(allBins[allBins$bin=="Bin3",], scores, by="word")
-FigS3Bin3 <- ggplot(Bin3MeanRatings, aes(x=score, y=meanRating, group=Type, label=word)) + labs(x= "Phonotactic score (Bin 3)", y="Average rating") + theme_classic()+ theme(legend.title=element_blank()) + geom_point(aes(color=Type,shape=Type),size=2)+ scale_colour_manual(values=c("#F8766D", "#00BFC4")) + theme(legend.position="bottom")
+FigS3Bin3 <- ggplot(Bin3MeanRatings, aes(x=score, y=meanRating, group=Type, label=word)) + labs(x= "Phonotactic score (Bin 3)", y="Mean rating") + theme_classic()+ theme(legend.title=element_blank()) + geom_point(aes(color=Type,shape=Type),size=2)+ scale_colour_manual(values=c("#F8766D", "#00BFC4")) + theme(legend.position="bottom")
 
 Bin4MeanRatings <- merge(allBins[allBins$bin=="Bin4",], scores, by="word")
-FigS3Bin4 <- ggplot(Bin4MeanRatings, aes(x=score, y=meanRating, group=Type, label=word)) + labs(x= "Phonotactic score (Bin 4)", y="Average rating") + theme_classic()+ theme(legend.title=element_blank()) + geom_point(aes(color=Type,shape=Type),size=2)+ scale_colour_manual(values=c("#F8766D", "#00BFC4")) + theme(legend.position="bottom")
+FigS3Bin4 <- ggplot(Bin4MeanRatings, aes(x=score, y=meanRating, group=Type, label=word)) + labs(x= "Phonotactic score (Bin 4)", y="Mean rating") + theme_classic()+ theme(legend.title=element_blank()) + geom_point(aes(color=Type,shape=Type),size=2)+ scale_colour_manual(values=c("#F8766D", "#00BFC4")) + theme(legend.position="bottom")
 
 Bin5MeanRatings <- merge(allBins[allBins$bin=="Bin5",], scores, by="word")
-FigS3Bin5 <- ggplot(Bin5MeanRatings, aes(x=score, y=meanRating, group=Type, label=word)) + labs(x= "Phonotactic score (Bin 5)", y="Average rating") + theme_classic()+ theme(legend.title=element_blank()) + geom_point(aes(color=Type,shape=Type),size=2)+ scale_colour_manual(values=c("#F8766D", "#00BFC4")) + theme(legend.position="bottom")
+FigS3Bin5 <- ggplot(Bin5MeanRatings, aes(x=score, y=meanRating, group=Type, label=word)) + labs(x= "Phonotactic score (Bin 5)", y="Mean rating") + theme_classic()+ theme(legend.title=element_blank()) + geom_point(aes(color=Type,shape=Type),size=2)+ scale_colour_manual(values=c("#F8766D", "#00BFC4")) + theme(legend.position="bottom")
 
 multiplot(FigS3Bin1,FigS3Bin4,FigS3Bin2,FigS3Bin5,FigS3Bin3, cols=3)
 ```
@@ -305,7 +306,7 @@ multiplot(FigS3Bin1,FigS3Bin4,FigS3Bin2,FigS3Bin5,FigS3Bin3, cols=3)
 During the analysis of Exp1, we found an overall bias towards higher phonotactic scores of Māori words and lower phonotactic score of Māori-like nonwords (see Fig. S3). This pattern is caused by a lack of nonwords which phonotactically matched the randomly selected words from the Māori RS corpora. To solve this problem, nonwords and words are rematched across participants by finding a phonotactically matched word with the lowest absolute difference for each nonword. Among the rematched pairs, only those whose absolute difference is below 0.3 are kept. In the initial dataset, there are 200 pairs in each bin. After rematching stimuli, the number of pairs in each bin is reduced as follows: 71 (Bin1), 52 (Bin2 and Bin3), 53 (Bin4), 56 (Bin5).
 
 ### Rematched pairs: mean rating and phonotactic score for each stimulus per frequency bin
-```{r Fig. S4, echo=FALSE, message=FALSE, warning=FALSE, fig.width=16, fig.height=10.5, fig.cap="Fig. S4: Mean rating and phonotactic score for each stimulus per frequency bin (rematched pairs). The range of mean rating is represented on the y-axis and the x-axis represents the range of phonotactic score."}
+```{r Fig. S4, echo=FALSE, message=FALSE, warning=FALSE, fig.width=16, fig.height=10.5, fig.cap="Fig. S4: Mean rating and phonotactic score for each stimulus per frequency bin (rematched pairs)."}
 
 # Rematching pairs: for each nonword, find a word with the lowest absolute difference
 dataPseudo <- dataExp1[dataExp1$type=="pseudo",]
@@ -383,20 +384,20 @@ FigS4Bin5 <- ggplot(Bin5ReMeanRatings, aes(x=score, y=meanRating, group=Type, la
 multiplot(FigS4Bin1,FigS4Bin4,FigS4Bin2,FigS4Bin5,FigS4Bin3, cols=3)
 ```
 
-
-
 ### NMS confidence ratings with linear mixed-effects model (rematched pairs)
 ```{r Table S2, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
 # Model for Table S2
 # modelTableS2 <- lmer(enteredResponse ~ type + (1 + type|workerId) + (1|word), control=lmerControl(optimizer="bobyqa"), dataRematched) # saveRDS(modelTableS2, file = "modelTableS2.rds")
 modelTableS2 <- readRDS("./modelTableS2.rds")
-kable(xtable(summary(modelTableS2)$coef), digits=3, caption="Table S2: Modeling NMS' confidence ratings with a linear mixed-effects model (rematched pairs).")
+kable(xtable(summary(modelTableS2)$coef), digits=3, caption="Table S2: Linear mixed-effects model of NMS confidence ratings (for rematched pairs).")
 ```
 
-Within each bin containing the rematched pairs, the distinction between nonwords and words is statistically significant in separate linear mixed-effects models for each bin: NMS give higher ratings to words than nonwords across all the five bins. When the ratings of all the bins are modeled in a single linear mixed-effects model, the distinction between words and nonwords is the only significant predictor; other predictors such as length, phonotactic score, and bin are systematically removed due to a lack of convergence or statistical insignificance.
+Within each frequency bin containing the rematched pairs, the distinction between nonwords and words is statistically significant in separate linear mixed-effects models for each bin: NMS give higher ratings to words than nonwords across all the five bins. When the ratings of all the bins are modeled in a single linear mixed-effects model, the distinction between words and nonwords is the only significant predictor; other predictors such as length, phonotactic score, and bin are systematically removed due to a lack of convergence or statistical insignificance.
 
 # Experiment 2
+
 ## Filtering out participants
+
 ```{r loading_data_Exp2, echo=TRUE, message=FALSE, warning=FALSE}
 # Loading the data to filter out participants:
 dataNotFiltered <- read.delim("./dataNotFilteredExp2.txt", sep ="\t", header = TRUE)
@@ -525,6 +526,7 @@ dataExp2 <- rbind.fill(dataMS, dataNMS, dataUS)
 ```
 
 ## Dataset structure
+
 The data is structured as follows:
 
   - *workerId* is the unique ID for each participant.
@@ -562,9 +564,9 @@ The data is structured as follows:
   - *scoreEng* is the score of the English phonotactics obtained from the English lexical database CELEX.
   - *scoreCV* is the word shape score obtained from a trigram language model built by identifying each segment as a consonant, vowel or long vowel and calculating probabilities over sequences of those categories.
   - *scorePosLength* is the position-length specific probability of phonemes obtained from a unigram language model.
-  - *scoreDictNew* is the alternate phonotactice score based on the dictionary training set; statistics for trigrams, bigrams, and unigrams are jointly included.
-  - *scoreRsNew* is the alternate phonotactice score based on the segmented running speech training set; statistics for trigrams, bigrams, and unigrams are jointly included.
-  - *scoreUnsegNew* is the alternate phonotactice score based on the unsegmented running speech training set; statistics for trigrams, bigrams, and unigrams are jointly included.
+  - *scoreDictNew* is the variant phonotactice score based on the dictionary training set; statistics for trigrams, bigrams, and unigrams are jointly included.
+  - *scoreRsNew* is the variant phonotactice score based on the segmented running speech training set; statistics for trigrams, bigrams, and unigrams are jointly included.
+  - *scoreUnsegNew* is the variant phonotactice score based on the unsegmented running speech training set; statistics for trigrams, bigrams, and unigrams are jointly included.
   - *scoreDictNoMacron* is the dictionary phonotactic score without the distinction between short and long vowels marked with macrons.
   - *scoreRsNoMacron* is the running speech phonotactic score without the distinction between short and long vowels marked with macrons.
   - *scoreUnsegNoMacron* is the unsegmented running speech phonotactic score without the distinction between short and long vowels marked with macrons.
@@ -727,18 +729,18 @@ lengthT <- merge(lengthT, dataUSlengthT, by="length")
 kable(lengthT, align="c", caption="Table S3: Number of participants per length within each group")
 ```
 
-## Modeling all groups' well-formedness ratings with a linear mixed-effects model
+## Well-formedness ratings by participant group (linear mixed-effects model)
 ```{r Table S4, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
 # Model for Table S4
 dataExp2$group <- relevel(dataExp2$group, ref="NMS")
 # modelTableS4 <- lmer(enteredResponse ~ c.(scoreDict)*group + c.(scoreRs)*group + c.(scoreUnseg)*group + (1 + c.(scoreDict) + c.(scoreRs) + c.(scoreUnseg)|workerId) + (1 + group|word), control=lmerControl(optimizer="bobyqa"), dataExp2)
 # saveRDS(modelTableS4, file = "modelTableS4.rds")
 modelTableS4 <- readRDS("./modelTableS4.rds")
-kable(xtable(summary(modelTableS4)$coef), digits=3, caption="Table S4: Modeling all groups' well-formedness ratings with a linear mixed-effects model. All numeric variables in this model are centered.")
+kable(xtable(summary(modelTableS4)$coef), digits=3, caption="Table S4: Mixed effects model summary for well-formedness ratings by participant group. All numeric variables in this model are centered.")
 ```
 
 ## Code for plotting Fig. 2
-```{r Fig. 2, echo=FALSE, message=FALSE, warning=FALSE, fig.width=13, fig.height=6, fig.cap="Fig. 2: Interaction between phonotactic scores and three groups. The range of phonotactic score is represented on the x-axis and the range of predicted rating is represented on the y-axis."}
+```{r Fig. 2, echo=FALSE, message=FALSE, warning=FALSE, fig.width=13, fig.height=6, fig.cap="Fig. 2: Interaction between phonotactic scores and participant groups. The range of phonotactic score is represented on the x-axis and the range of predicted rating is represented on the y-axis."}
 
 fig2a <- as.data.frame(effect(term="c.(scoreDict):group", mod=modelTableS4));fig2a$Group <- fig2a$group
 F2a <- ggplot(fig2a, aes(x=scoreDict, y=fit, group=Group)) + geom_point(aes(color=Group, shape=Group), size=3) + 
@@ -783,78 +785,106 @@ listLmerfitFinal <- unlist(listLmerfit)
 ```
 
 ### Code for plotting Fig. 3
-```{r Fig. 3, echo=FALSE, message=FALSE, warning=FALSE, fig.width=16, fig.height=7.11, fig.cap="Fig. 3: Monte Carlo Simulations with 1,000 random samples"}
+```{r Fig. 3, echo=FALSE, message=FALSE, warning=FALSE, fig.width=16, fig.height=7.11, fig.cap="Fig. 3: Monte Carlo simulations with 1,000 random samples over 15 dictionary sizes."}
 fig3 <- read.delim("./dataFig3.txt", sep =" ", header = TRUE)
 fullDictT <- readRDS("./fullDictT.rds")
 fig3$Size <- ordered(fig3$Size,levels=c("15k","14k","13k","12k","11k","10k","9k","8k","7k","6k","5k","4k","3k","2k","1k"))
-ggplot(fig3, aes(x=V1,colour=Size,fill=Size)) + geom_density(alpha=0.3) + labs(x="t value", y="Density") +
+ggplot(fig3, aes(x=V1,colour=Size,fill=Size)) + geom_density(alpha=0.3) + labs(x="t-value", y="Density") +
   theme_classic() + geom_vline(aes(xintercept=fullDictT, linetype="Full dictionary (20k)"), color="red", size=1) + 
   scale_linetype_manual(name="", values=c("Full dictionary (20k)"="solid")) +theme(legend.text=element_text(size=10))+
   theme_ridges(grid = FALSE)
 ```
 
-### Density plot of t values for frequency-weighted random samples
-```{r Fig. S8, echo=FALSE, message=FALSE, warning=FALSE, fig.width=16, fig.height=7.11, fig.cap="Figure 6: Density plot of t values for frequency-weighted random samples"}
+### Code for plotting Fig. 6
+```{r Fig. S8, echo=FALSE, message=FALSE, warning=FALSE, fig.width=16, fig.height=7.11, fig.cap="Figure 6: Density plot of t-values for frequency-weighted random samples"}
 figS8 <- read.delim("./dataFigS8.txt", sep =" ", header = TRUE)
 figS8$Size <- ordered(figS8$Size,levels=c("15k","14k","13k","12k","11k","10k","9k","8k","7k","6k","5k","4k","3k","2k","1k"))
-ggplot(figS8, aes(x=V1, colour = Size, fill=Size)) + geom_density(alpha = 0.3) + labs(title = "",x = "t value", y = "Density") + theme_classic() + geom_vline(aes(xintercept = fullDictT, linetype = "Full dictionary (20k)"), color="red", size=1) + theme(plot.title = element_text(hjust = 0.5, size=15)) + scale_linetype_manual(name = "", values=c("Full dictionary (20k)"="solid"))
+ggplot(figS8, aes(x=V1, colour = Size, fill=Size)) + geom_density(alpha = 0.3) + labs(title = "",x = "t-value", y = "Density") + theme_classic() + geom_vline(aes(xintercept = fullDictT, linetype = "Full dictionary (20k)"), color="red", size=1) + theme(plot.title = element_text(hjust = 0.5, size=15)) + scale_linetype_manual(name = "", values=c("Full dictionary (20k)"="solid"))
 ```
 
 ### Additional post hoc statistical analyses
-```{r AddStats, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
-# The following predictors are added one by one to the linear mixed-effects model presented in Fig. 2.
+
+The following predictors are added individually to the linear mixed-effects model presented in Table S4 and Fig. 2.
+
+#### Phonotactics derived from the dictionary of Māori words in New Zealand English (Macalister, 2005)
+```{r AddStats1, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
+
 # (a) Phonotactics derived from the dictionary of Māori words in New Zealand English (Macalister, 2005)
 # modelMāoriBorrowings <- lmer(enteredResponse ~ c.(scoreDictNze)*group + c.(scoreDict)*group + c.(scoreRs)*group + c.(scoreUnseg)*group + (1 + c.(scoreDictNze) + c.(scoreDict) + c.(scoreRs) + c.(scoreUnseg)|workerId) + (1+group|word), control=lmerControl(optimizer="bobyqa"), dataExp2)
 # saveRDS(modelMāoriBorrowings, file = "modelMāoriBorrowings.rds")
 modelMāoriBorrowings <- readRDS("./modelMāoriBorrowings.rds")
-kable(xtable(summary(modelMāoriBorrowings)$coef), digits=3, caption="Modeling well-formedness ratings with a linear mixed-effects model including the phonotactics derived from the dictionary of Māori words in New Zealand English")
+kable(xtable(summary(modelMāoriBorrowings)$coef), digits=3, caption="Linear mixed-effects model of well-formedness ratings including the phonotactics derived from the dictionary of Māori words in New Zealand English")
+```
 
+#### Phonotactics derived from NMS’ small active lexicon of Māori
+```{r AddStats2, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
 # (b) Phonotactics derived from NMS’ small active lexicon of Māori (comprising of 121 common loanwords that most NMS can identify as Māori words in our previous study plus 55 urban placenames)
 # modelNMSLexicon <- lmer(enteredResponse ~ c.(scoreSmall)*group + c.(scoreDict)*group + c.(scoreRs)*group + c.(scoreUnseg)*group + (1 + c.(scoreSmall) + c.(scoreDict) + c.(scoreRs) + c.(scoreUnseg)|workerId) + (1+group|word), control=lmerControl(optimizer="bobyqa"), dataExp2)
 # saveRDS(modelNMSLexicon, file = "modelNMSLexicon.rds")
 modelNMSLexicon <- readRDS("./modelNMSLexicon.rds")
-kable(xtable(summary(modelNMSLexicon)$coef), digits=3, caption="Modeling well-formedness ratings with a linear mixed-effects model including the phonotactics derived from NMS’ small active lexicon of Māori")
+kable(xtable(summary(modelNMSLexicon)$coef), digits=3, caption="Linear mixed-effects model of well-formedness ratings including the phonotactics derived from NMS’ small active lexicon of Māori")
+```
 
+#### Phonotactics generalized over a list of function words
+```{r AddStats3, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
 # (c) Phonotactics generalized over a list of function words
 # modelFunction <- lmer(enteredResponse ~ c.(scoreFunc)*group + c.(scoreDict)*group + c.(scoreRs)*group + c.(scoreUnseg)*group + (1 + c.(scoreFunc) + c.(scoreDict) + c.(scoreRs) + c.(scoreUnseg)|workerId) + (1+group|word), control=lmerControl(optimizer="bobyqa"), dataExp2)
 # saveRDS(modelFunction, file = "modelFunction.rds")
 modelFunction <- readRDS("./modelFunction.rds")
-kable(xtable(summary(modelFunction)$coef), digits=3, caption="Modeling well-formedness ratings with a linear mixed-effects model including the phonotactics generalized over a list of function words")
+kable(xtable(summary(modelFunction)$coef), digits=3, caption="Linear mixed-effects model of well-formedness ratings including the phonotactics generalized over a list of function words")
+```
 
+#### English phonotactics obtained from the English lexical database CELEX (Baayen, Piepen-brock & van H, 1993)
+```{r AddStats4, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
 # (d) English phonotactics obtained from the English lexical database CELEX (Baayen, Piepen-brock & van H, 1993)
 # modelEng <- lmer(enteredResponse ~ c.(scoreEng)*group + c.(scoreDict)*group + c.(scoreRs)*group + c.(scoreUnseg)*group + (1 + c.(scoreEng) + c.(scoreDict) + c.(scoreRs) + c.(scoreUnseg)|workerId) + (1+group|word), control=lmerControl(optimizer="bobyqa"), dataExp2)
 # saveRDS(modelEng, file = "modelEng.rds")
 modelEng <- readRDS("./modelEng.rds")
-kable(xtable(summary(modelEng)$coef), digits=3, caption="Modeling well-formedness ratings with a linear mixed-effects model including the English phonotactics obtained from the English lexical database CELEX")
+kable(xtable(summary(modelEng)$coef), digits=3, caption="Linear mixed-effects model of well-formedness ratings including the English phonotactics obtained from the English lexical database CELEX")
+```
 
+#### Word shape score
+```{r AddStats5, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
 # (e) Word shape score obtained from a trigram language model built by identifying each segment as a consonant, vowel or long vowel and calculating probabilities over sequences of those categories
 # modelWordshape <- lmer(enteredResponse ~ c.(scoreCV)*group + c.(scoreDict)*group + c.(scoreRs)*group + c.(scoreUnseg)*group + (1 + c.(scoreCV) + c.(scoreDict) + c.(scoreRs) + c.(scoreUnseg)|workerId) + (1+group|word), control=lmerControl(optimizer="bobyqa"), dataExp2)
 # saveRDS(modelWordshape, file = "modelWordshape.rds")
 modelWordshape <- readRDS("./modelWordshape.rds")
-kable(xtable(summary(modelWordshape)$coef), digits=3, caption="Modeling well-formedness ratings with a linear mixed-effects model including word shape scores")
+kable(xtable(summary(modelWordshape)$coef), digits=3, caption="Linear mixed-effects model of well-formedness ratings including word shape scores")
+```
 
+#### Position-length specific probabilities of phonemes
+```{r AddStats6, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
 # (f) Position-length specific probabilities of phonemes obtained from a unigram language model
 # modelPosLength <- lmer(enteredResponse ~ c.(scorePosLength)*group + c.(scoreDict)*group + c.(scoreRs)*group + c.(scoreUnseg)*group + (1 + c.(scorePosLength) + c.(scoreDict) + c.(scoreRs) + c.(scoreUnseg)|workerId) + (1+group|word), control=lmerControl(optimizer="bobyqa"), dataExp2)
 # saveRDS(modelPosLength, file = "modelPosLength.rds")
 modelPosLength <- readRDS("./modelPosLength.rds")
-kable(xtable(summary(modelPosLength)$coef), digits=3, caption="Modeling well-formedness ratings with a linear mixed-effects model including position-length specific probabilities of phonemes")
+kable(xtable(summary(modelPosLength)$coef), digits=3, caption="Linear mixed-effects model of well-formedness ratings including position-length specific probabilities of phonemes")
+```
 
-# (g) Presence of macron(s)
+#### Presence of macrons
+```{r AddStats7, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
+# (g) Presence of 1 or more macrons
 # dataExp2$macron <- FALSE
 # dataExp2[grepl("ā|ē|ī|ō|ū",dataExp2$word),]$macron <- TRUE
 # modelMacron <- lmer(enteredResponse ~ c.(scoreDict)*group + c.(scoreRs)*group + c.(scoreUnseg)*group + macron*group + (1 + c.(scoreDict) + c.(scoreRs) + c.(scoreUnseg) + macron|workerId) + (1+group|word), control=lmerControl(optimizer="bobyqa"), dataExp2)
 # saveRDS(modelMacron, file = "modelMacron.rds")
 modelMacron <- readRDS("./modelMacron.rds")
-kable(xtable(summary(modelMacron)$coef), digits=3, caption="Modeling well-formedness ratings with a linear mixed-effects model including the presence of macron(s)")
+kable(xtable(summary(modelMacron)$coef), digits=3, caption="Linear mixed-effects model of well-formedness ratings including the presence of macron(s)")
+```
 
-# (h) Presence of digraph(s) such as wh and ng
+#### Presence of digraphs
+```{r AddStats8, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
+# (h) Presence of 1 or more digraph(s) such as 'wh' and 'ng'
 dataExp2$digraph <- FALSE
 dataExp2[grepl("wh|ng",dataExp2$word),]$digraph <- TRUE
 # modelDigraph <- lmer(enteredResponse ~ c.(scoreDict)*group + c.(scoreRs)*group + c.(scoreUnseg)*group + digraph*group + (1 + c.(scoreDict) + c.(scoreRs) + c.(scoreUnseg) + digraph|workerId) + (1+group|word), control=lmerControl(optimizer="bobyqa"), dataExp2)
 # saveRDS(modelDigraph, file = "modelDigraph.rds")
 modelDigraph <- readRDS("./modelDigraph.rds")
-kable(xtable(summary(modelDigraph)$coef), digits=3, caption="Modeling well-formedness ratings with a linear mixed-effects model including the presence of digraph(s)")
+kable(xtable(summary(modelDigraph)$coef), digits=3, caption="Linear mixed-effects model of well-formedness ratings including the presence of digraph(s)")
+```
 
+#### Maximum length of vowel sequence
+```{r AddStats9, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
 # (i) Maximum length of vowel sequence
 # Add the maximum length of vowel sequence
 dataExp2$vSeq <- gsub("[aeiouāēīōū][aeiouāēīōū][aeiouāēīōū][aeiouāēīōū][aeiouāēīōū]","5", dataExp2$word)
@@ -869,8 +899,11 @@ dataExp2$vSeq <- vSeqList1;dataExp2$vSeq <- as.numeric(dataExp2$vSeq)
 # modelVSeq <- lmer(enteredResponse ~ c.(scoreDict)*group + c.(scoreRs)*group + c.(scoreUnseg)*group + c.(vSeq)*group + (1 + c.(scoreDict) + c.(scoreRs) + c.(scoreUnseg) + c.(vSeq)|workerId) + (1+group|word), control=lmerControl(optimizer="bobyqa"), dataExp2)
 # saveRDS(modelVSeq, file = "modelVSeq.rds")
 modelVSeq <- readRDS("./modelVSeq.rds")
-kable(xtable(summary(modelVSeq)$coef), digits=3, caption="Modeling well-formedness ratings with a linear mixed-effects model including the maximum length of vowel sequence")
+kable(xtable(summary(modelVSeq)$coef), digits=3, caption="Linear mixed-effects model of well-formedness ratings including the maximum length of vowel sequence")
+```
 
+#### Type of first segment (consonant or vowel)
+```{r AddStats10, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
 # (j) Type of first segment (consonant or vowel)
 dataExp2$first <- gsub("[aeiouāēīōū]","v",dataExp2$word)
 dataExp2$first <- gsub("[whkmrngpt]","c",dataExp2$first)
@@ -879,17 +912,23 @@ dataExp2$first <- as.factor(dataExp2$first)
 # modelFirst <- lmer(enteredResponse ~ c.(scoreDict)*group + c.(scoreRs)*group + c.(scoreUnseg)*group + first*group + (1 + c.(scoreDict) + c.(scoreRs) + c.(scoreUnseg) + first|workerId) + (1+group|word), control=lmerControl(optimizer="bobyqa"), dataExp2)
 # saveRDS(modelFirst, file = "modelFirst.rds")
 modelFirst <- readRDS("./modelFirst.rds")
-kable(xtable(summary(modelFirst)$coef), digits=3, caption="Modeling well-formedness ratings with a linear mixed-effects model including the type of first segment")
+kable(xtable(summary(modelFirst)$coef), digits=3, caption="Linear mixed-effects model of well-formedness ratings including the type of first segment")
+```
 
-# (k) New phonotactic scores
+#### Variant phonotactic scores including trigrams, bigrams, and unigrams
+```{r AddStats11, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
+# (k) Variant phonotactic scores including trigrams, bigrams, and unigrams
 # modelNewScores <- lmer(enteredResponse ~ c.(scoreDictNew)*group + c.(scoreRsNew)*group + c.(scoreUnsegNew)*group + (1 + c.(scoreDictNew) + c.(scoreRsNew) + c.(scoreUnsegNew)|workerId) + (1+group|word), control=lmerControl(optimizer="bobyqa"), dataExp2)
 # saveRDS(modelNewScores, file = "modelNewScores.rds")
 modelNewScores <- readRDS("./modelNewScores.rds")
-kable(xtable(summary(modelNewScores)$coef), digits=3, caption="Modeling well-formedness ratings with a linear mixed-effects model including the phonotactics....")
+kable(xtable(summary(modelNewScores)$coef), digits=3, caption="Linear mixed-effects model of well-formedness ratings including variant phonotactic scores with trigrams, bigrams, and unigrams.")
+```
 
+#### Phonotactic scores without the distinction between short and long vowels marked with macrons
+```{r AddStats12, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
 # (l) Phonotactic scores without the distinction between short and long vowels marked with macrons
 # modelNoMacron <- lmer(enteredResponse ~ c.(scoreDictNoMacron)*group + c.(scoreRsNoMacron)*group + c.(scoreUnsegNoMacron)*group + (1 + c.(scoreDictNoMacron) + c.(scoreRsNoMacron) + c.(scoreUnsegNoMacron)|workerId) + (1+group|word), control=lmerControl(optimizer="bobyqa"), dataExp2)
 # saveRDS(modelNoMacron, file = "modelNoMacron.rds")
 modelNoMacron <- readRDS("./modelNoMacron.rds")
-kable(xtable(summary(modelNoMacron)$coef), digits=3, caption="Modeling well-formedness ratings with a linear mixed-effects model with phonotactic scores without the distinction between short and long vowels marked with macrons")
+kable(xtable(summary(modelNoMacron)$coef), digits=3, caption="Linear mixed-effects model of well-formedness ratings including phonotactic scores without the distinction between short and long vowels marked with macrons")
 ```
