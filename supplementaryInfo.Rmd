@@ -813,7 +813,7 @@ The following predictors are added individually to the linear mixed-effects mode
 # modelMāoriBorrowings <- lmer(enteredResponse ~ c.(scoreDictNze)*group + c.(scoreDict)*group + c.(scoreRs)*group + c.(scoreUnseg)*group + (1 + c.(scoreDictNze) + c.(scoreDict) + c.(scoreRs) + c.(scoreUnseg)|workerId) + (1+group|word), control=lmerControl(optimizer="bobyqa"), dataExp2)
 # saveRDS(modelMāoriBorrowings, file = "modelMāoriBorrowings.rds")
 modelMāoriBorrowings <- readRDS("./modelMāoriBorrowings.rds")
-kable(xtable(summary(modelMāoriBorrowings)$coef), digits=3, caption="Linear mixed-effects model of well-formedness ratings including the phonotactics derived from the dictionary of Māori words in New Zealand English")
+kable(xtable(summary(modelMāoriBorrowings)$coef), digits=3, caption="Table S5: Linear mixed-effects model of well-formedness ratings including the phonotactics derived from the dictionary of Māori words in New Zealand English")
 ```
 
 #### Phonotactics derived from NMS’ small active lexicon of Māori
@@ -822,7 +822,7 @@ kable(xtable(summary(modelMāoriBorrowings)$coef), digits=3, caption="Linear mix
 # modelNMSLexicon <- lmer(enteredResponse ~ c.(scoreSmall)*group + c.(scoreDict)*group + c.(scoreRs)*group + c.(scoreUnseg)*group + (1 + c.(scoreSmall) + c.(scoreDict) + c.(scoreRs) + c.(scoreUnseg)|workerId) + (1+group|word), control=lmerControl(optimizer="bobyqa"), dataExp2)
 # saveRDS(modelNMSLexicon, file = "modelNMSLexicon.rds")
 modelNMSLexicon <- readRDS("./modelNMSLexicon.rds")
-kable(xtable(summary(modelNMSLexicon)$coef), digits=3, caption="Linear mixed-effects model of well-formedness ratings including the phonotactics derived from NMS’ small active lexicon of Māori")
+kable(xtable(summary(modelNMSLexicon)$coef), digits=3, caption="Table S6: Linear mixed-effects model of well-formedness ratings including the phonotactics derived from NMS’ small active lexicon of Māori")
 ```
 
 #### Phonotactics generalized over a list of function words
@@ -831,7 +831,7 @@ kable(xtable(summary(modelNMSLexicon)$coef), digits=3, caption="Linear mixed-eff
 # modelFunction <- lmer(enteredResponse ~ c.(scoreFunc)*group + c.(scoreDict)*group + c.(scoreRs)*group + c.(scoreUnseg)*group + (1 + c.(scoreFunc) + c.(scoreDict) + c.(scoreRs) + c.(scoreUnseg)|workerId) + (1+group|word), control=lmerControl(optimizer="bobyqa"), dataExp2)
 # saveRDS(modelFunction, file = "modelFunction.rds")
 modelFunction <- readRDS("./modelFunction.rds")
-kable(xtable(summary(modelFunction)$coef), digits=3, caption="Linear mixed-effects model of well-formedness ratings including the phonotactics generalized over a list of function words")
+kable(xtable(summary(modelFunction)$coef), digits=3, caption="Table S7: Linear mixed-effects model of well-formedness ratings including the phonotactics generalized over a list of function words")
 ```
 
 #### English phonotactics obtained from the English lexical database CELEX (Baayen, Piepen-brock & van H, 1993)
@@ -840,7 +840,7 @@ kable(xtable(summary(modelFunction)$coef), digits=3, caption="Linear mixed-effec
 # modelEng <- lmer(enteredResponse ~ c.(scoreEng)*group + c.(scoreDict)*group + c.(scoreRs)*group + c.(scoreUnseg)*group + (1 + c.(scoreEng) + c.(scoreDict) + c.(scoreRs) + c.(scoreUnseg)|workerId) + (1+group|word), control=lmerControl(optimizer="bobyqa"), dataExp2)
 # saveRDS(modelEng, file = "modelEng.rds")
 modelEng <- readRDS("./modelEng.rds")
-kable(xtable(summary(modelEng)$coef), digits=3, caption="Linear mixed-effects model of well-formedness ratings including the English phonotactics obtained from the English lexical database CELEX")
+kable(xtable(summary(modelEng)$coef), digits=3, caption="Table S8: Linear mixed-effects model of well-formedness ratings including the English phonotactics obtained from the English lexical database CELEX")
 ```
 
 #### Word shape score
@@ -849,7 +849,7 @@ kable(xtable(summary(modelEng)$coef), digits=3, caption="Linear mixed-effects mo
 # modelWordshape <- lmer(enteredResponse ~ c.(scoreCV)*group + c.(scoreDict)*group + c.(scoreRs)*group + c.(scoreUnseg)*group + (1 + c.(scoreCV) + c.(scoreDict) + c.(scoreRs) + c.(scoreUnseg)|workerId) + (1+group|word), control=lmerControl(optimizer="bobyqa"), dataExp2)
 # saveRDS(modelWordshape, file = "modelWordshape.rds")
 modelWordshape <- readRDS("./modelWordshape.rds")
-kable(xtable(summary(modelWordshape)$coef), digits=3, caption="Linear mixed-effects model of well-formedness ratings including word shape scores")
+kable(xtable(summary(modelWordshape)$coef), digits=3, caption="Table S9: Linear mixed-effects model of well-formedness ratings including word shape scores")
 ```
 
 #### Position-length specific probabilities of phonemes
@@ -858,7 +858,7 @@ kable(xtable(summary(modelWordshape)$coef), digits=3, caption="Linear mixed-effe
 # modelPosLength <- lmer(enteredResponse ~ c.(scorePosLength)*group + c.(scoreDict)*group + c.(scoreRs)*group + c.(scoreUnseg)*group + (1 + c.(scorePosLength) + c.(scoreDict) + c.(scoreRs) + c.(scoreUnseg)|workerId) + (1+group|word), control=lmerControl(optimizer="bobyqa"), dataExp2)
 # saveRDS(modelPosLength, file = "modelPosLength.rds")
 modelPosLength <- readRDS("./modelPosLength.rds")
-kable(xtable(summary(modelPosLength)$coef), digits=3, caption="Linear mixed-effects model of well-formedness ratings including position-length specific probabilities of phonemes")
+kable(xtable(summary(modelPosLength)$coef), digits=3, caption="Table S10: Linear mixed-effects model of well-formedness ratings including position-length specific probabilities of phonemes")
 ```
 
 #### Presence of macrons
@@ -869,7 +869,7 @@ kable(xtable(summary(modelPosLength)$coef), digits=3, caption="Linear mixed-effe
 # modelMacron <- lmer(enteredResponse ~ c.(scoreDict)*group + c.(scoreRs)*group + c.(scoreUnseg)*group + macron*group + (1 + c.(scoreDict) + c.(scoreRs) + c.(scoreUnseg) + macron|workerId) + (1+group|word), control=lmerControl(optimizer="bobyqa"), dataExp2)
 # saveRDS(modelMacron, file = "modelMacron.rds")
 modelMacron <- readRDS("./modelMacron.rds")
-kable(xtable(summary(modelMacron)$coef), digits=3, caption="Linear mixed-effects model of well-formedness ratings including the presence of macron(s)")
+kable(xtable(summary(modelMacron)$coef), digits=3, caption="Table S11: Linear mixed-effects model of well-formedness ratings including the presence of macron(s)")
 ```
 
 #### Presence of digraphs
@@ -880,7 +880,7 @@ dataExp2[grepl("wh|ng",dataExp2$word),]$digraph <- TRUE
 # modelDigraph <- lmer(enteredResponse ~ c.(scoreDict)*group + c.(scoreRs)*group + c.(scoreUnseg)*group + digraph*group + (1 + c.(scoreDict) + c.(scoreRs) + c.(scoreUnseg) + digraph|workerId) + (1+group|word), control=lmerControl(optimizer="bobyqa"), dataExp2)
 # saveRDS(modelDigraph, file = "modelDigraph.rds")
 modelDigraph <- readRDS("./modelDigraph.rds")
-kable(xtable(summary(modelDigraph)$coef), digits=3, caption="Linear mixed-effects model of well-formedness ratings including the presence of digraph(s)")
+kable(xtable(summary(modelDigraph)$coef), digits=3, caption="Table S12: Linear mixed-effects model of well-formedness ratings including the presence of digraph(s)")
 ```
 
 #### Maximum length of vowel sequence
@@ -899,7 +899,7 @@ dataExp2$vSeq <- vSeqList1;dataExp2$vSeq <- as.numeric(dataExp2$vSeq)
 # modelVSeq <- lmer(enteredResponse ~ c.(scoreDict)*group + c.(scoreRs)*group + c.(scoreUnseg)*group + c.(vSeq)*group + (1 + c.(scoreDict) + c.(scoreRs) + c.(scoreUnseg) + c.(vSeq)|workerId) + (1+group|word), control=lmerControl(optimizer="bobyqa"), dataExp2)
 # saveRDS(modelVSeq, file = "modelVSeq.rds")
 modelVSeq <- readRDS("./modelVSeq.rds")
-kable(xtable(summary(modelVSeq)$coef), digits=3, caption="Linear mixed-effects model of well-formedness ratings including the maximum length of vowel sequence")
+kable(xtable(summary(modelVSeq)$coef), digits=3, caption="Table S13: Linear mixed-effects model of well-formedness ratings including the maximum length of vowel sequence")
 ```
 
 #### Type of first segment (consonant or vowel)
@@ -912,7 +912,7 @@ dataExp2$first <- as.factor(dataExp2$first)
 # modelFirst <- lmer(enteredResponse ~ c.(scoreDict)*group + c.(scoreRs)*group + c.(scoreUnseg)*group + first*group + (1 + c.(scoreDict) + c.(scoreRs) + c.(scoreUnseg) + first|workerId) + (1+group|word), control=lmerControl(optimizer="bobyqa"), dataExp2)
 # saveRDS(modelFirst, file = "modelFirst.rds")
 modelFirst <- readRDS("./modelFirst.rds")
-kable(xtable(summary(modelFirst)$coef), digits=3, caption="Linear mixed-effects model of well-formedness ratings including the type of first segment")
+kable(xtable(summary(modelFirst)$coef), digits=3, caption="Table S14: Linear mixed-effects model of well-formedness ratings including the type of first segment")
 ```
 
 #### Variant phonotactic scores including trigrams, bigrams, and unigrams
@@ -921,7 +921,7 @@ kable(xtable(summary(modelFirst)$coef), digits=3, caption="Linear mixed-effects 
 # modelNewScores <- lmer(enteredResponse ~ c.(scoreDictNew)*group + c.(scoreRsNew)*group + c.(scoreUnsegNew)*group + (1 + c.(scoreDictNew) + c.(scoreRsNew) + c.(scoreUnsegNew)|workerId) + (1+group|word), control=lmerControl(optimizer="bobyqa"), dataExp2)
 # saveRDS(modelNewScores, file = "modelNewScores.rds")
 modelNewScores <- readRDS("./modelNewScores.rds")
-kable(xtable(summary(modelNewScores)$coef), digits=3, caption="Linear mixed-effects model of well-formedness ratings including variant phonotactic scores with trigrams, bigrams, and unigrams.")
+kable(xtable(summary(modelNewScores)$coef), digits=3, caption="Table S15: Linear mixed-effects model of well-formedness ratings including variant phonotactic scores with trigrams, bigrams, and unigrams.")
 ```
 
 #### Phonotactic scores without the distinction between short and long vowels marked with macrons
@@ -930,5 +930,5 @@ kable(xtable(summary(modelNewScores)$coef), digits=3, caption="Linear mixed-effe
 # modelNoMacron <- lmer(enteredResponse ~ c.(scoreDictNoMacron)*group + c.(scoreRsNoMacron)*group + c.(scoreUnsegNoMacron)*group + (1 + c.(scoreDictNoMacron) + c.(scoreRsNoMacron) + c.(scoreUnsegNoMacron)|workerId) + (1+group|word), control=lmerControl(optimizer="bobyqa"), dataExp2)
 # saveRDS(modelNoMacron, file = "modelNoMacron.rds")
 modelNoMacron <- readRDS("./modelNoMacron.rds")
-kable(xtable(summary(modelNoMacron)$coef), digits=3, caption="Linear mixed-effects model of well-formedness ratings including phonotactic scores without the distinction between short and long vowels marked with macrons")
+kable(xtable(summary(modelNoMacron)$coef), digits=3, caption="Table S16: Linear mixed-effects model of well-formedness ratings including phonotactic scores without the distinction between short and long vowels marked with macrons")
 ```
