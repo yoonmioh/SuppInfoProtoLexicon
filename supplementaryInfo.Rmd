@@ -7,7 +7,7 @@ output:
   html_document:
     fig_caption: yes
     highlight: textmate
-    theme: readable
+    theme: flatly
     toc: yes
     toc_depth: 6
     toc_float: yes
@@ -27,6 +27,7 @@ library(plyr)
 library(knitr)
 library(xtable)
 library(ggridges)
+library(dplyr)
 ```
 
 <style>
@@ -88,45 +89,54 @@ z.score <- function (df, vp.var, var) {
 ```
 
 # Introduction 
-This Rmarkdown script contains all the codes used for outlier detection, data analysis and plotting, including additional statistical analyses, description for Monte Carlo simulations, all the statistical models with their summary.
+This R Markdown script contains all the code used for outlier detection, data analysis, and plotting. It includes additional statistical analyses, the description for Monte Carlo simulations, and all the statistical models with summaries.
 
 # Experiment 1
-## Filtering out participants
+## Participant exclusions
 ```{r loading_data_Exp1, echo=TRUE, message=FALSE, warning=FALSE}
 # Loading the data to filter out participants
 dataExp1 <- read.delim("./dataNotFilteredExp1.txt", sep ="\t", header = TRUE)
+
 # Remove one participant who did 192 items instead of 303
 nbResponse <- aggregate(dataExp1$enteredResponse, by=list(dataExp1$workerId),  FUN=length)
 rmParticipant1Exp1 <- nbResponse[!nbResponse$x %in% c(303),]$Group.1 # CEA6BA7F432A7DD9F3352BD5AF605FED
 dataExp1 <- dataExp1[!dataExp1$workerId %in% rmParticipant1Exp1,]
+
 # Remove three participants who gave ratings lower than 4 to 3 most common Māori words borrowed into New Zealand English
 list_carrot <- c("haka","kai","aotearoa")
 carrots <- dataExp1[dataExp1$word %in% list_carrot,]
 carrots <- carrots[as.numeric(carrots$enteredResponse) < 4,]
 rmParticipant2Exp1 <- unique(carrots$workerId) # C2172ACC5CE7A076DF4AD48672826D17 CF5B1FC9D9FDDE28DABFB8B10F60F2A8 F317F5E5817BC9CA03FFA3D0AEE15BCC
 dataExp1 <- dataExp1[!dataExp1$workerId %in% rmParticipant2Exp1,]
+
 # Remove ratings for the three words (used to detect outliers)
 dataExp1 <- dataExp1[!dataExp1$word %in% c("haka","kai","aotearoa"),]
+
 # Remove two participants whose speakMaori or compMaori is at least (equal to or above) 3
 rmParticipant3Exp1 <- unique(dataExp1[dataExp1$speakMaori >= 3 | dataExp1$compMaori >= 3,]$workerId)  # 0CAEF0D07D102126BADE4B5F353F3549 FFF87DE6A3C8DCD73B120BD06C3EB966
 dataExp1 <- dataExp1[!dataExp1$workerId %in% rmParticipant3Exp1,]
+
 # Remove one participant who did not learn their English in NZ and have been living in their current location in NZ for less than ten years (duration == "short")
 summaryExp1WorkerId <- unique(dataExp1[,c("workerId","firstLangCountry","place","duration")])
 EngNotInNZExp1 <- summaryExp1WorkerId[!summaryExp1WorkerId$firstLangCountry=="NZ",]
 rmParticipant4Exp1 <- unique(EngNotInNZExp1[EngNotInNZExp1$duration=="short",]$workerId) # 31F2039C03219AE69C49AC468F37CA78
 dataExp1 <- dataExp1[!dataExp1$workerId %in% rmParticipant4Exp1,]
+
 # Remove two participants who know any other Polynesian languages
 rmParticipant5Exp1 <- unique(dataExp1[dataExp1$anyPolynesian=="Yes",]$workerId) # 2B474DC72567F38FD065757F11211DFD 2B92687E2CE8ABD8047732400DFDC424
 dataExp1 <- dataExp1[!dataExp1$workerId %in% rmParticipant5Exp1,]
+
 # Remove five participants with language impairments
 rmParticipant6Exp1 <- unique(dataExp1[dataExp1$impairments=="Yes",]$workerId) 
 # 1DD4DB335A0E2735A9AE2AD898AAEFD5 2C40866C3268DB45274C535937D3DA24 933DFF677472628574F9DB2874121FD9 D42298BA8985A7C8E6232CCFC8E99A31 F4599D280C20128B3F6E804C0D2726B0
 dataExp1 <- dataExp1[!dataExp1$workerId %in% rmParticipant6Exp1,]
+
 # Remove one participant whose pattern of responses (SD) is below 2SD of the mean of all participants
 SD <- aggregate(dataExp1$enteredResponse, by=list(dataExp1$workerId), sd)
 cut <- mean(SD$x)-2*sd(SD$x)
 rmParticipant7Exp1 <- SD[!SD$x > cut,]$Group.1 # B855CE4A15710AA41194B3D81EE68187
 dataExp1 <- dataExp1[!dataExp1$workerId %in% rmParticipant7Exp1,]
+
 # Check the total number of usable participants for Exp1
 # length(unique(dataExp1$workerId)) # 85
 ```
@@ -164,7 +174,10 @@ The data is structured as follows:
   - *score* is the dictionary phonotactic score normalized by the phonemic length of each stimulus.
 
 ## Overview of participants’ sociolinguistic profile
-```{r participantExp1, echo=FALSE, message=FALSE, warning=FALSE, evaluate=FALSE, fig.width=16, fig.height=9.7, fig.cap="Fig.S1: Overview of participants' sociolinguistic profile in Exp1."}
+
+This figure summarizes the distribution of participants on demographic and linguistic axes.
+
+```{r participantExp1, echo=FALSE, message=FALSE, warning=FALSE, evaluate=FALSE, fig.width=16, fig.height=9.7, fig.cap="Fig. S1: Overview of participants' sociolinguistic profile in Exp1."}
 # Basic knowledge of Māori
 Exp1ML <- unique(dataExp1[,c("maoriList","workerId")]);Exp1ML$maoriList <- as.factor(Exp1ML$maoriList)
 Exp1MLT <- as.data.frame(table(Exp1ML$maoriList));names(Exp1MLT) <- c("maoriList","freq")
@@ -210,17 +223,18 @@ FigS1Exp1Place <- ggplot(Exp1Place, aes(x=place, color=place, fill= place)) + th
 multiplot(FigS1Exp1ML, FigS1Exp1Gender, FigS1Exp1Place, FigS1Exp1MP, FigS1Exp1Age, FigS1Exp1Education, FigS1Exp1ME, cols=3)
 ```
 
-## Modeling NMS' confidence ratings in all bins with a linear mixed-effects model
-```{r Table.S1, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
+## NMS confidence ratings across word frequency with linear mixed-effects modeling
+### Table S1, model summary
+```{r Table S1, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
 # Model for TableS1
 # modelTableS1 <- lmer(enteredResponse ~ c.(length)*c.(score) + type*bin + (1 + c.(length)*c.(score) + type*bin|workerId) + (1|word), control=lmerControl(optimizer="bobyqa"), dataExp1)
 # saveRDS(modelTableS1, file = "modelTableS1.rds")
 modelTableS1 <- readRDS("./modelTableS1.rds")
-kable(xtable(summary(modelTableS1)$coef), digits=3, caption="Table.S1: Modeling NMS' confidence ratings in all bins with a linear mixed-effects model. All numeric variables in this model are centered.")
+kable(xtable(summary(modelTableS1)$coef), digits=3, caption="Table S1: LME model for NMS confidence ratings across word frequency. All numeric variables in this model are centered.")
 ```
 
-## Effect plots from the model presented in Table.S1
-```{r Fig.S2, echo=FALSE, message=FALSE, warning=FALSE, fig.width=16, fig.height=5.86, fig.cap="Fig.S2: Effect plots of the interaction between bin and the distinction between nonwords and real words (Fig.S2a, on the left) and the interaction between phonotactic score and length of stimuli (Fig.S2b, on the right). The x-axis represents the type of bins (Fig.S2a) or the range of phonotactic score (Fig.S2b)."}
+### Fig. S2, effect plots
+```{r Fig. S2, echo=FALSE, message=FALSE, warning=FALSE, fig.width=16, fig.height=5.86, fig.cap="Fig. S2: Effect plots of the interaction between bin and the distinction between nonwords and real words (Fig.S2a, on the left) and the interaction between phonotactic score and length of stimuli (Fig. S2b, on the right). The x-axis represents the type of bins (Fig. S2a) or the range of phonotactic score (Fig. S2b)."}
 
 figS2a <- as.data.frame(effect(term="type:bin", mod=modelTableS1))
 figS2a$Type <- "Word";figS2a[as.character(figS2a$type)=="pseudo",]$Type <- "Nonword"
@@ -233,8 +247,8 @@ PfigS2b <- ggplot(figS2b, aes(x=score, y=fit, group=Length)) + geom_point(aes(co
 multiplot(PfigS2a, PfigS2b, cols=2)
 ```
 
-## Code for plotting Fig.1 
-```{r Fig.1, echo=FALSE, message=FALSE, warning=FALSE, evaluate=FALSE, fig.width=16, fig.height=6, fig.cap="Fig.1: Mean rating for each stimulus per bin with predicted rating for each density plot. Bin1 contains the most frequent words and Bin5 consists of the least frequent words."}
+## Code for plotting Fig. 1 
+```{r Fig. 1, echo=FALSE, message=FALSE, warning=FALSE, evaluate=FALSE, fig.width=16, fig.height=6, fig.cap="Fig. 1: Mean rating for each stimulus per frequency bin with predicted rating for each density plot. Bin1 contains the most frequent words and Bin5 consists of the least frequent words."}
 
 #Get mean ratings for each stimulus per bin
 allBins <- list()
@@ -247,19 +261,25 @@ allBins[[i]] <- BinMeanRatings
 }
 allBins <- do.call(rbind,allBins)
 
+figS2a_mean = figS2a %>% group_by(type) %>% summarize(fit_mean = mean(fit))
+
 ggplot(allBins,aes(x = meanRating, y = as.factor(bin), fill = type)) +
     geom_density_ridges(data=allBins,scale=0.9,alpha=0.4,rel_min_height = 0.01) + 
-    labs(x = "Mean rating",y = "Bin type") +
-    scale_fill_manual(labels=c("pseudo"="Nonword", "real" ="Word"),values = c("pseudo" = "black", "real" = "blue")) +
-    scale_y_discrete(expand = c(0.01,0)) + theme_ridges(grid = FALSE)+ 
-    labs(fill='Stimulus type') + coord_flip()+
-    geom_line(data=figS2a, aes(x=fit, y=bin,group=Type,color=Type, linetype=Type),size=1) +
-    scale_color_manual(values = c("Nonword"="Black", "Word" = "blue")) +
-    scale_linetype_manual(values = c("Nonword" = "solid", "Word" = "dotted")) + labs(linetype='Stimulus type',color='Stimulus type')
+    labs(x = "Mean Rating",y = "Frequency Bin") +
+    scale_fill_manual(labels=c("pseudo" = "Nonword", "real" = "Word"),values = c("pseudo" = "black", "real" = "blue")) +
+    scale_y_discrete(expand = c(0.01,0)) + 
+    theme_ridges(grid = FALSE)+ 
+    labs(fill='Stimulus type') + 
+    coord_flip() +
+    # geom_line(data=figS2a, aes(x=fit, y=bin,group=Type,color=Type, linetype=Type),size=1) +
+    geom_vline(data=figS2a_mean,aes(xintercept = fit_mean,color=type, linetype=type),size=1) + 
+    scale_color_manual(labels=c("pseudo" = "Nonword", "real" = "Word"),values = c("pseudo"="black", "real" = "blue")) +
+    scale_linetype_manual(labels=c("pseudo" = "Nonword", "real" = "Word"),values = c("pseudo" = "solid", "real" = "dotted")) + 
+    labs(linetype='Overall Mean',color='Overall Mean')
 ```
 
-## Mean rating and phonotactic score for each stimulus per bin
-```{r Fig.S3, echo=FALSE, message=FALSE, warning=FALSE, fig.width=16, fig.height=10.5, fig.cap="Fig.S3: Mean rating and phonotactic score for each stimulus per bin. The range of mean rating is represented on the y-axis and the x-axis represents the range of phonotactic score."}
+## Mean rating and phonotactic score for each stimulus per frequency bin
+```{r Fig. S3, echo=FALSE, message=FALSE, warning=FALSE, fig.width=16, fig.height=10.5, fig.cap="Fig. S3: Mean rating and phonotactic score for each stimulus per frequency bin. The range of mean rating is represented on the y-axis and the x-axis represents the range of phonotactic score."}
 scores <- unique(dataExp1[,c("word","score")])
 allBins$Type <- "Word";allBins[as.character(allBins$type)=="pseudo",]$Type <- "Nonword"
 Bin1MeanRatings <- merge(allBins[allBins$bin=="Bin1",], scores, by="word")
@@ -281,8 +301,11 @@ multiplot(FigS3Bin1,FigS3Bin4,FigS3Bin2,FigS3Bin5,FigS3Bin3, cols=3)
 ```
 
 ## Rematching stimuli pairs
-### Rematched pairs: Mean rating and phonotactic score for each stimulus per bin
-```{r Fig.S4, echo=FALSE, message=FALSE, warning=FALSE, fig.width=16, fig.height=10.5, fig.cap="Fig.S4: Mean rating and phonotactic score for each stimulus per bin (rematched pairs). The range of mean rating is represented on the y-axis and the x-axis represents the range of phonotactic score."}
+
+During the analysis of Exp1, we found an overall bias towards higher phonotactic scores of Māori words and lower phonotactic score of Māori-like nonwords (see Fig. S3). This pattern is caused by a lack of nonwords which phonotactically matched the randomly selected words from the Māori RS corpora. To solve this problem, nonwords and words are rematched across participants by finding a phonotactically matched word with the lowest absolute difference for each nonword. Among the rematched pairs, only those whose absolute difference is below 0.3 are kept. In the initial dataset, there are 200 pairs in each bin. After rematching stimuli, the number of pairs in each bin is reduced as follows: 71 (Bin1), 52 (Bin2 and Bin3), 53 (Bin4), 56 (Bin5).
+
+### Rematched pairs: mean rating and phonotactic score for each stimulus per frequency bin
+```{r Fig. S4, echo=FALSE, message=FALSE, warning=FALSE, fig.width=16, fig.height=10.5, fig.cap="Fig. S4: Mean rating and phonotactic score for each stimulus per frequency bin (rematched pairs). The range of mean rating is represented on the y-axis and the x-axis represents the range of phonotactic score."}
 
 # Rematching pairs: for each nonword, find a word with the lowest absolute difference
 dataPseudo <- dataExp1[dataExp1$type=="pseudo",]
@@ -360,117 +383,142 @@ FigS4Bin5 <- ggplot(Bin5ReMeanRatings, aes(x=score, y=meanRating, group=Type, la
 multiplot(FigS4Bin1,FigS4Bin4,FigS4Bin2,FigS4Bin5,FigS4Bin3, cols=3)
 ```
 
-During the analysis of Exp1, we found an overall bias towards higher phonotactic score of Māori words and lower phonotactic score of Māori-like nonwords due to a lack of nonwords to phonotactically match randomly selected words from Māori RS corpora. To solve this problem, nonwords and words are rematched across participants by finding a phonotactically matched word with the lowest absolute difference for each nonword. Among the rematched pairs, only those whose absolute difference is below 0.3 are kept. In the initial dataset, there are 200 pairs in each bin but after rematching stimuli, the number of pairs in each bin is reduced as follows: 71 (Bin1), 52 (Bin2 and Bin3), 53 (Bin4), 56 (Bin5).
 
-### Modeling NMS' confidence ratings with a linear mixed-effects model (rematched pairs)
-```{r Table.S2, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
-# Model for Table.S2
+
+### NMS confidence ratings with linear mixed-effects model (rematched pairs)
+```{r Table S2, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
+# Model for Table S2
 # modelTableS2 <- lmer(enteredResponse ~ type + (1 + type|workerId) + (1|word), control=lmerControl(optimizer="bobyqa"), dataRematched) # saveRDS(modelTableS2, file = "modelTableS2.rds")
 modelTableS2 <- readRDS("./modelTableS2.rds")
-kable(xtable(summary(modelTableS2)$coef), digits=3, caption="Table.S2: Modeling NMS' confidence ratings with a linear mixed-effects model (rematched pairs).")
+kable(xtable(summary(modelTableS2)$coef), digits=3, caption="Table S2: Modeling NMS' confidence ratings with a linear mixed-effects model (rematched pairs).")
 ```
 
-Within each bin containing the rematched pairs, the distinction between nonwords and words is statistically significant in individual linear mixed-effects models for each bin: NMS still give higher ratings to words than nonwords across all the five bins. Furthermore, when the ratings of all the bins are modeled in a single linear mixed-effects model, the distinction between words and nonwords is the only significant predictor and the other predictors such as length, phonotactic score, and bin are systematically removed due to a lack of convergence and their p-values greater than significance level. The relevant statistical model is found below.
+Within each bin containing the rematched pairs, the distinction between nonwords and words is statistically significant in separate linear mixed-effects models for each bin: NMS give higher ratings to words than nonwords across all the five bins. When the ratings of all the bins are modeled in a single linear mixed-effects model, the distinction between words and nonwords is the only significant predictor; other predictors such as length, phonotactic score, and bin are systematically removed due to a lack of convergence or statistical insignificance.
 
 # Experiment 2
 ## Filtering out participants
 ```{r loading_data_Exp2, echo=TRUE, message=FALSE, warning=FALSE}
 # Loading the data to filter out participants:
 dataNotFiltered <- read.delim("./dataNotFilteredExp2.txt", sep ="\t", header = TRUE)
-# Removing unusable MS participants
+
+# Part 1: Removing unusable MS participants
 dataMS <- dataNotFiltered[dataNotFiltered$group=="MS",]
+
 # Remove one participant who did 285 items instead of 320 (length 5)
 nbResponse <- aggregate(dataMS$enteredResponse, by=list(dataMS$workerId),  FUN=length)
 rmParticipant1 <- nbResponse[!nbResponse$x %in% c(320,240),]$Group.1 #634726494EE0F397CE0F525B97FA6B76
 dataMS <- dataMS[!dataMS$workerId %in% rmParticipant1,]
+
 # Remove two participants whose speakMaori or compMaori is below 3
 rmParticipant2 <- unique(dataMS[dataMS$speakMaori <3 | dataMS$compMaori < 3,]$workerId) 
 #83D25CDFA45FC1A34F4A4176EC7626B3 B193DE3B787FEC86E6CCB3F82F9812E9
 dataMS <- dataMS[!dataMS$workerId %in% rmParticipant2,]
+
 # Remove one participant with language impairments
 rmParticipant3 <- unique(dataMS[dataMS$impairments=="Yes",]$workerId) #6C7F9A4676E026CD0E3056D8DA19E507
 dataMS <- dataMS[!dataMS$workerId %in% rmParticipant3,]
-# Detect participant whose median reactionTime is shorter than 2*SD below the mean of all MS
+
+# Detect participants whose median reactionTime is shorter than 2*SD below the mean of all MS
 median_RT <- aggregate(dataMS$reactionTime, by=list(dataMS$workerId), median)
 names(median_RT) <- c("workerId","median");dataMS <- merge(dataMS,median_RT,by="workerId")
 cut <- mean(median_RT$median)-2*sd(median_RT$median)
 # median_RT[!median_RT$median > cut,]$workerId # None detected!
+
 # Remove one participant whose pattern of responses (SD) is below 2SD of the mean of all MS participants
 SD <- aggregate(dataMS$enteredResponse, by=list(dataMS$workerId), sd)
 cut <- mean(SD$x)-2*sd(SD$x)
 rmParticipant4 <- SD[!SD$x > cut,]$Group.1 #B33F8EB38F232BB78667404E1D96025B
 dataMS <- dataMS[!dataMS$workerId %in% rmParticipant4,]
+
 # Check the total number of usable MS participants
 # length(unique(dataMS$workerId)) #40
 
-# Removing unusable NMS participants
+# Part 2: Removing unusable NMS participants
 dataNMS <- dataNotFiltered[dataNotFiltered$group=="NMS",]
+
 # Remove one participant who did 436 items instead of 240 (length 4)
 nbResponse <- aggregate(dataNMS$enteredResponse, by=list(dataNMS$workerId),  FUN=length)
 rmParticipant5 <- nbResponse[!nbResponse$x %in% c(320,240),]$Group.1 # A7017E9F3DD1CC6778A3BC47958CA9B7
 dataNMS <- dataNMS[!dataNMS$workerId %in% rmParticipant5,]
+
 # Remove fourteen participants whose speakMaori or compMaori is at least (equal to or above) 3
 rmParticipant6 <- unique(dataNMS[dataNMS$speakMaori >= 3 | dataNMS$compMaori >= 3,]$workerId)  # 04210C8909800F4041D775C8AE24720D 1E95A51880B3908528596F1CDC142382 1F90388DD2A6052379B3400E7E075B7B 2AABDB6A588C0A38D4D18DCCE2E411E0 3116B3E848662645051AE5AAA5D5E696 349856A9453BF2B1F7A026618E5F43D5 42564FDD3FE2B481B37DE8120E0BBB7C 5DBE9FB11F0E1FF4E5DA1149581576D0 90F93AC5E06AE66B73BFF3B46023FE3C A4B98DB8F5C9298E9FBF865FEB782486 B33F8EB38F232BB78667404E1D96025B C6243B5C4607EF24FD7F4D70B4CD0F41 C6C55B2283D35484E19BE5F4283F64D1 EB57DF86D41FFA1AD74E282B72D82856
 dataNMS <- dataNMS[!dataNMS$workerId %in% rmParticipant6,]
+
 # Remove ten participants who did not learn their English in NZ and have been living in their current location in NZ for less than ten years (duration == "short")
 summaryNMSWorkerId <- unique(dataNMS[,c("workerId","firstLangCountry","place","duration")])
 EngNotInNZ <- summaryNMSWorkerId[!summaryNMSWorkerId$firstLangCountry=="NZ",]
 rmParticipant7 <- unique(EngNotInNZ[EngNotInNZ$duration=="short",]$workerId) # 21C1D24B57F6157A628A04DC5A519135 2AB61EA1EEBB7193A3A178D5B819225E 37A91EA9A4A92600B4ECEA239DC5D149 422774F5956A4A43258293A27B497995 4894A6F7674ECBFB304BCA4D9FB11B05 90FBA7311D5EB571D3C88425E4D371C0 E4E762BA8ADADA1CB0D943F8131F09B1 E862C480A8CE650797BE9D7309E52E15 FD2E69EFA7B5138BA6CC0BA31A10BFF0 FFA73BE62F1F21F94F35BC49A9B74838
 dataNMS <- dataNMS[!dataNMS$workerId %in% rmParticipant7,]
+
 #Remove one participant who has lived in Hawaii
 rmParticipant8 <- unique(dataNMS[dataNMS$hawaii=="Yes",]$workerId) #6C3FBC26E49853CA97CFEB1DC3725C94
 dataNMS <- dataNMS[!dataNMS$workerId %in% rmParticipant8,]
+
 # Remove four participants who know any other Polynesian languages
 rmParticipant9 <- unique(dataNMS[dataNMS$anyPolynesian=="Yes",]$workerId) # 84B5591229AA4FDE2C154B7873BCCC1E 905775C26C73AF3648FDAF216C1C836B B64C60A9F8121A22B1431FD012FE1BC1 EA6C551EB61BD1B4A3907ADCA5AC8A8C
 dataNMS <- dataNMS[!dataNMS$workerId %in% rmParticipant9,]
+
 # Remove three participants with language impairments
 rmParticipant10 <- unique(dataNMS[dataNMS$impairments=="Yes",]$workerId) # 080658104D5BE0B7E5FDEDA8BCE32CED 504C5E7063935EB524BEC50FE180D24A CAA87C53B60F941BE5F4B3F4093B33D6
 dataNMS <- dataNMS[!dataNMS$workerId %in% rmParticipant10,]
+
 #Remove one participant whose median reactionTime is shorter than 2*SD below the mean of all NMS
 median_RT <- aggregate(dataNMS$reactionTime, by=list(dataNMS$workerId), median)
 names(median_RT) <- c("workerId","median");dataNMS <- merge(dataNMS,median_RT,by="workerId")
 cut <- mean(median_RT$median)-2*sd(median_RT$median)
 rmParticipant11 <- median_RT[!median_RT$median > cut,]$workerId # 0CC130754E535B995C330A62C70ABB29
 dataNMS <- dataNMS[!dataNMS$workerId %in% rmParticipant11,]
+
 # Remove four participants whose pattern of responses (SD) is below 2SD of the mean of all NMS participants
 SD <- aggregate(dataNMS$enteredResponse, by=list(dataNMS$workerId), sd)
 cut <- mean(SD$x)-2*sd(SD$x)
 rmParticipant12 <- SD[!SD$x > cut,]$Group.1 # 23F8C303E5981DC46B3998C680DF6DFE 3ADCE0E04FE200BA98BC5C3015AF9092 90E5DE278473C80C5C9B1F50642DA2D5 CA1853385689F12642034089CDBFBAE3
 dataNMS <- dataNMS[!dataNMS$workerId %in% rmParticipant12,]
+
 # Check the total number of usable NMS participants
 # length(unique(dataNMS$workerId)) #113
 
-# Removing unusable US participants
+# Part3: Removing unusable US participants
 dataUS <- dataNotFiltered[dataNotFiltered$group=="US",]
+
 # Remove one participant who did 248 items instead of 240 (length 3)
 nbResponse <- aggregate(dataUS$enteredResponse, by=list(dataUS$workerId),  FUN=length)
 rmParticipant13 <- nbResponse[!nbResponse$x %in% c(320,240),]$Group.1 # A9692Y27LBXT9
 dataUS <- dataUS[!dataUS$workerId %in% rmParticipant13,]
+
 # Remove fourteen participants whose speakMaori or compMaori is above 0
 rmParticipant14 <- unique(dataUS[dataUS$speakMaori > 0 | dataUS$compMaori > 0,]$workerId)  # A1AWHHBTJF1XCH A1L92Y6VBTRFP5 A1YAVTFZ9BULVV A28AX4H70DPKKK A2AMI7BVALOCJP A2DVRTL0JB0GT0 A2N0C5I6ZHNWV A2O5J0420C1UPC A2O762LZEZN3JC A4T642D9Z2UYC  AGVIHLR1DX7    AMKEGABQMZYIK  AMW2XLD9443OH  AWJUGWPCUGKEG 
 dataUS <- dataUS[!dataUS$workerId %in% rmParticipant14,]
+
 # Remove six participants whose maoriList is above 0
 rmParticipant15 <- unique(dataUS[dataUS$maoriList > 0,]$workerId) # A19R7FSNDW6WRK A21KGSK2BDVWOA A2XOYCKJJ4PYZA A3ET9X8TXMGXDI A3V8C77FN4FLUA AP4FDDWBJW47O 
 dataUS <- dataUS[!dataUS$workerId %in% rmParticipant15,]
+
 # Remove one participant who did not learn English in the US
 rmParticipant16 <- unique(dataUS[!dataUS$firstLangCountry=="US",]$workerId) # A33MBBGYASZPKN
 dataUS <- dataUS[!dataUS$workerId %in% rmParticipant16,]
+
 #Remove three participants who have been to Hawaii
 rmParticipant17 <- unique(dataUS[dataUS$hawaii=="Yes",]$workerId) # A1QLYBRMIULAYC A3L0XKGZL9P2ZC ADY44EV3GCW85
 dataUS <- dataUS[!dataUS$workerId %in% rmParticipant17,]
+
 #Remove one participant with language impairments
 rmParticipant18 <- unique(dataUS[dataUS$impairments=="Yes",]$workerId) # A1NUKP1UCT2R2R
 dataUS <- dataUS[!dataUS$workerId %in% rmParticipant18,]
-# Detect participant whose median reactionTime is shorter than 2*SD below the mean of all US
+
+# Detect participants whose median reactionTime is shorter than 2*SD below the mean of all US
 median_RT <- aggregate(dataUS$reactionTime, by=list(dataUS$workerId), median)
 names(median_RT) <- c("workerId","median");dataUS <- merge(dataUS,median_RT,by="workerId")
 cut <- mean(median_RT$median)-2*sd(median_RT$median)
 # median_RT[!median_RT$median > cut,]$workerId # None detected!
+
 # Remove one participant whose pattern of responses (SD) is below 2SD of the mean of all US participants
 SD <- aggregate(dataUS$enteredResponse, by=list(dataUS$workerId), sd)
 cut <- mean(SD$x)-2*sd(SD$x)
 rmParticipant19 <- SD[!SD$x > cut,]$Group.1 # A1UHNDB2EQ8TK0
 dataUS <- dataUS[!dataUS$workerId %in% rmParticipant19,]
+
 # Check the total number of usable US participants
 # length(unique(dataUS$workerId)) #94
 dataExp2 <- rbind.fill(dataMS, dataNMS, dataUS)
@@ -514,15 +562,15 @@ The data is structured as follows:
   - *scoreEng* is the score of the English phonotactics obtained from the English lexical database CELEX.
   - *scoreCV* is the word shape score obtained from a trigram language model built by identifying each segment as a consonant, vowel or long vowel and calculating probabilities over sequences of those categories.
   - *scorePosLength* is the position-length specific probability of phonemes obtained from a unigram language model.
-  - *scoreDictNew* 
-  - *scoreRsNew*
-  - *scoreUnsegNew*
+  - *scoreDictNew* is the alternate phonotactice score based on the dictionary training set; statistics for trigrams, bigrams, and unigrams are jointly included.
+  - *scoreRsNew* is the alternate phonotactice score based on the segmented running speech training set; statistics for trigrams, bigrams, and unigrams are jointly included.
+  - *scoreUnsegNew* is the alternate phonotactice score based on the unsegmented running speech training set; statistics for trigrams, bigrams, and unigrams are jointly included.
   - *scoreDictNoMacron* is the dictionary phonotactic score without the distinction between short and long vowels marked with macrons.
   - *scoreRsNoMacron* is the running speech phonotactic score without the distinction between short and long vowels marked with macrons.
   - *scoreUnsegNoMacron* is the unsegmented running speech phonotactic score without the distinction between short and long vowels marked with macrons.
 
 ## Participants' basic Māori knowledge and proficiency
-```{r Fig.S5, echo=FALSE, message=FALSE, warning=FALSE, fig.width=16, fig.height=8, fig.cap="Fig.S5: Participants' basic Māori knowledge and proficiency in Exp2."}
+```{r Fig. S5, echo=FALSE, message=FALSE, warning=FALSE, fig.width=16, fig.height=8, fig.cap="Fig. S5: Participants' basic Māori knowledge and proficiency in Exp2."}
 # MS - Basic knowledge of Māori
 MSML <- unique(dataMS[,c("maoriList","workerId")]);MSML$maoriList <- as.factor(MSML$maoriList)
 MSMLT <- as.data.frame(table(MSML$maoriList));names(MSMLT) <- c("maoriList","freq")
@@ -557,7 +605,7 @@ multiplot(FigS5MSML, FigS5MSMP, FigS5NMSML, FigS5NMSMP, FigS5USML, FigS5USMP, co
 ```
 
 ## Overview of participants' profile
-```{r Fig.S6, echo=FALSE, message=FALSE, warning=FALSE, fig.width=16, fig.height=11.32, fig.cap="Fig.S6: Overview of participants' profile in Exp2."}
+```{r Fig. S6, echo=FALSE, message=FALSE, warning=FALSE, fig.width=16, fig.height=11.32, fig.cap="Fig. S6: Overview of participants' profile in Exp2."}
 # MS - Gender
 MSgender <- unique(dataMS[,c("gender","workerId")]);MSgender$gender <- as.factor(MSgender$gender)
 MSgenderT <- as.data.frame(table(MSgender$gender));names(MSgenderT) <- c("gender","freq")
@@ -622,7 +670,7 @@ multiplot(FigS6MSgender, FigS6MSage, FigS6MSeducation, FigS6NMSgender, FigS6NMSa
 ```
 
 ## Overview of participants' profile
-```{r Fig.S7, echo=FALSE, message=FALSE, warning=FALSE, fig.width=16, fig.height=8, fig.cap="Fig.S7: Overview of participants' profile in Exp2."}
+```{r Fig. S7, echo=FALSE, message=FALSE, warning=FALSE, fig.width=16, fig.height=8, fig.cap="Fig. S7: Overview of participants' profile in Exp2."}
 # MS - Place
 MSplace <- unique(dataMS[,c("place","workerId")])
 place_levels <- c("north","south")
@@ -653,7 +701,7 @@ multiplot(FigS7MSplace, FigS7MSME, FigS7NMSplace, FigS7NMSME, cols=2)
 ```
 
 ## Number of participants per length within each group
-```{r Table.S3,echo=FALSE, message=FALSE, warning=FALSE}
+```{r Table S3,echo=FALSE, message=FALSE, warning=FALSE}
 dataExp2$word1 <- gsub("ā","A",dataExp2$word);dataExp2$word1 <- gsub("ē","E",dataExp2$word1)
 dataExp2$word1 <- gsub("ī","I",dataExp2$word1);dataExp2$word1 <- gsub("ō","O",dataExp2$word1)
 dataExp2$word1 <- gsub("ū","U",dataExp2$word1);dataExp2$word1 <- gsub("wh","f",dataExp2$word1)
@@ -676,21 +724,21 @@ dataUSlength$length <- as.factor(dataUSlength$length)
 dataUSlengthT <- as.data.frame(table(dataUSlength$length))
 names(dataUSlengthT) <- c("length", "US")
 lengthT <- merge(lengthT, dataUSlengthT, by="length")
-kable(lengthT, align="c", caption="Table.S3: Number of participants per length within each group")
+kable(lengthT, align="c", caption="Table S3: Number of participants per length within each group")
 ```
 
 ## Modeling all groups' well-formedness ratings with a linear mixed-effects model
-```{r Table.S4, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
-# Model for Table.S4
+```{r Table S4, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
+# Model for Table S4
 dataExp2$group <- relevel(dataExp2$group, ref="NMS")
 # modelTableS4 <- lmer(enteredResponse ~ c.(scoreDict)*group + c.(scoreRs)*group + c.(scoreUnseg)*group + (1 + c.(scoreDict) + c.(scoreRs) + c.(scoreUnseg)|workerId) + (1 + group|word), control=lmerControl(optimizer="bobyqa"), dataExp2)
 # saveRDS(modelTableS4, file = "modelTableS4.rds")
 modelTableS4 <- readRDS("./modelTableS4.rds")
-kable(xtable(summary(modelTableS4)$coef), digits=3, caption="Table.S4: Modeling all groups' well-formedness ratings with a linear mixed-effects model. All numeric variables in this model are centered.")
+kable(xtable(summary(modelTableS4)$coef), digits=3, caption="Table S4: Modeling all groups' well-formedness ratings with a linear mixed-effects model. All numeric variables in this model are centered.")
 ```
 
-## Code for plotting Fig.2
-```{r Fig.2, echo=FALSE, message=FALSE, warning=FALSE, fig.width=13, fig.height=6, fig.cap="Fig.2: Interaction between phonotactic scores and three groups. The range of phonotactic score is represented on the x-axis and the range of predicted rating is represented on the y-axis."}
+## Code for plotting Fig. 2
+```{r Fig. 2, echo=FALSE, message=FALSE, warning=FALSE, fig.width=13, fig.height=6, fig.cap="Fig. 2: Interaction between phonotactic scores and three groups. The range of phonotactic score is represented on the x-axis and the range of predicted rating is represented on the y-axis."}
 
 fig2a <- as.data.frame(effect(term="c.(scoreDict):group", mod=modelTableS4));fig2a$Group <- fig2a$group
 F2a <- ggplot(fig2a, aes(x=scoreDict, y=fit, group=Group)) + geom_point(aes(color=Group, shape=Group), size=3) + 
@@ -734,8 +782,8 @@ for(i in 1:1000){
 listLmerfitFinal <- unlist(listLmerfit)
 ```
 
-### Code for plotting Fig.3
-```{r Fig.3, echo=FALSE, message=FALSE, warning=FALSE, fig.width=16, fig.height=7.11, fig.cap="Fig.3: Monte Carlo Simulations with 1,000 random samples"}
+### Code for plotting Fig. 3
+```{r Fig. 3, echo=FALSE, message=FALSE, warning=FALSE, fig.width=16, fig.height=7.11, fig.cap="Fig. 3: Monte Carlo Simulations with 1,000 random samples"}
 fig3 <- read.delim("./dataFig3.txt", sep =" ", header = TRUE)
 fullDictT <- readRDS("./fullDictT.rds")
 fig3$Size <- ordered(fig3$Size,levels=c("15k","14k","13k","12k","11k","10k","9k","8k","7k","6k","5k","4k","3k","2k","1k"))
@@ -746,7 +794,7 @@ ggplot(fig3, aes(x=V1,colour=Size,fill=Size)) + geom_density(alpha=0.3) + labs(x
 ```
 
 ### Density plot of t values for frequency-weighted random samples
-```{r Fig.S8, echo=FALSE, message=FALSE, warning=FALSE, fig.width=16, fig.height=7.11, fig.cap="Figure 6: Density plot of t values for frequency-weighted random samples"}
+```{r Fig. S8, echo=FALSE, message=FALSE, warning=FALSE, fig.width=16, fig.height=7.11, fig.cap="Figure 6: Density plot of t values for frequency-weighted random samples"}
 figS8 <- read.delim("./dataFigS8.txt", sep =" ", header = TRUE)
 figS8$Size <- ordered(figS8$Size,levels=c("15k","14k","13k","12k","11k","10k","9k","8k","7k","6k","5k","4k","3k","2k","1k"))
 ggplot(figS8, aes(x=V1, colour = Size, fill=Size)) + geom_density(alpha = 0.3) + labs(title = "",x = "t value", y = "Density") + theme_classic() + geom_vline(aes(xintercept = fullDictT, linetype = "Full dictionary (20k)"), color="red", size=1) + theme(plot.title = element_text(hjust = 0.5, size=15)) + scale_linetype_manual(name = "", values=c("Full dictionary (20k)"="solid"))
@@ -754,7 +802,7 @@ ggplot(figS8, aes(x=V1, colour = Size, fill=Size)) + geom_density(alpha = 0.3) +
 
 ### Additional post hoc statistical analyses
 ```{r AddStats, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
-# The following predictors are added one by one to the linear mixed-effects model presented in Fig.2.
+# The following predictors are added one by one to the linear mixed-effects model presented in Fig. 2.
 # (a) Phonotactics derived from the dictionary of Māori words in New Zealand English (Macalister, 2005)
 # modelMāoriBorrowings <- lmer(enteredResponse ~ c.(scoreDictNze)*group + c.(scoreDict)*group + c.(scoreRs)*group + c.(scoreUnseg)*group + (1 + c.(scoreDictNze) + c.(scoreDict) + c.(scoreRs) + c.(scoreUnseg)|workerId) + (1+group|word), control=lmerControl(optimizer="bobyqa"), dataExp2)
 # saveRDS(modelMāoriBorrowings, file = "modelMāoriBorrowings.rds")
