@@ -177,7 +177,7 @@ The data is structured as follows:
 
 This figure summarizes the distribution of participants on demographic and linguistic axes.
 
-```{r participantExp1, echo=FALSE, message=FALSE, warning=FALSE, evaluate=FALSE, fig.width=16, fig.height=9.7, fig.cap="Fig. S1: Overview of participants' sociolinguistic profile in Exp1."}
+```{r participantExp1, echo=FALSE, message=FALSE, warning=FALSE, evaluate=FALSE, fig.width=9.5, fig.height=6.5, fig.cap="Fig. S1: Overview of participants' sociolinguistic profile in Exp1."}
 # Basic knowledge of Māori
 Exp1ML <- unique(dataExp1[,c("maoriList","workerId")]);Exp1ML$maoriList <- as.factor(Exp1ML$maoriList)
 Exp1MLT <- as.data.frame(table(Exp1ML$maoriList));names(Exp1MLT) <- c("maoriList","freq")
@@ -234,7 +234,7 @@ kable(xtable(summary(modelTableS1)$coef), digits=3, caption="Table S1: Linear mi
 ```
 
 ### Fig. S2, effect plots
-```{r Fig. S2, echo=FALSE, message=FALSE, warning=FALSE, fig.width=16, fig.height=5.86, fig.cap="Fig. S2: Interaction effect plots: Fig. S2a (left) shows the interaction between frequency bin and lexicality (real words vs. nonwords); Fig. S2b (right) shows the interaction between phonotactic score and length of stimuli ."}
+```{r Fig. S2, echo=FALSE, message=FALSE, warning=FALSE, fig.width=10, fig.height=3.5, fig.cap="Fig. S2: Interaction effect plots: Fig. S2a (left) shows the interaction between frequency bin and lexicality (real words vs. nonwords); Fig. S2b (right) shows the interaction between phonotactic score and length of stimuli ."}
 
 figS2a <- as.data.frame(effect(term="type:bin", mod=modelTableS1))
 figS2a$Type <- "Word";figS2a[as.character(figS2a$type)=="pseudo",]$Type <- "Nonword"
@@ -249,7 +249,7 @@ multiplot(PfigS2a, PfigS2b, cols=2)
 ```
 
 ## Code for plotting Fig. 1 
-```{r Fig. 1, echo=FALSE, message=FALSE, warning=FALSE, evaluate=FALSE, fig.width=16, fig.height=6, fig.cap="Fig. 1: Mean well-formedness ratings for real words and nonwords by frequency bin. Bin1 contains the most frequent words and Bin5 consists of the least frequent words. Horizontal lines show the model effect estimates for real words vs. nonwords across all frequencies."}
+```{r Fig. 1, echo=FALSE, message=FALSE, warning=FALSE, evaluate=FALSE, fig.width=14, fig.height=5, fig.cap="Fig. 1: Mean well-formedness ratings for real words and nonwords by frequency bin. Bin1 contains the most frequent words and Bin5 consists of the least frequent words. Horizontal lines show the model effect estimates for real words vs. nonwords across all frequencies."}
 
 #Get mean ratings for each stimulus per bin
 allBins <- list()
@@ -280,7 +280,7 @@ ggplot(allBins,aes(x = meanRating, y = as.factor(bin), fill = type)) +
 ```
 
 ## Mean rating and phonotactic score for each stimulus per frequency bin
-```{r Fig. S3, echo=FALSE, message=FALSE, warning=FALSE, fig.width=16, fig.height=10.5, fig.cap="Fig. S3: Mean rating vs. phonotactic score for each stimulus for real words and nonwords by frequency bin."}
+```{r Fig. S3, echo=FALSE, message=FALSE, warning=FALSE, fig.width=11, fig.height=6.5, fig.cap="Fig. S3: Mean rating vs. phonotactic score for each stimulus for real words and nonwords by frequency bin."}
 scores <- unique(dataExp1[,c("word","score")])
 allBins$Type <- "Word";allBins[as.character(allBins$type)=="pseudo",]$Type <- "Nonword"
 Bin1MeanRatings <- merge(allBins[allBins$bin=="Bin1",], scores, by="word")
@@ -306,7 +306,7 @@ multiplot(FigS3Bin1,FigS3Bin4,FigS3Bin2,FigS3Bin5,FigS3Bin3, cols=3)
 During the analysis of Exp1, we found an overall bias towards higher phonotactic scores of Māori words and lower phonotactic score of Māori-like nonwords (see Fig. S3). This pattern is caused by a lack of nonwords which phonotactically matched the randomly selected words from the Māori RS corpora. To solve this problem, nonwords and words are rematched across participants by finding a phonotactically matched word with the lowest absolute difference for each nonword. Among the rematched pairs, only those whose absolute difference is below 0.3 are kept. In the initial dataset, there are 200 pairs in each bin. After rematching stimuli, the number of pairs in each bin is reduced as follows: 71 (Bin1), 52 (Bin2 and Bin3), 53 (Bin4), 56 (Bin5).
 
 ### Rematched pairs: mean rating and phonotactic score for each stimulus per frequency bin
-```{r Fig. S4, echo=FALSE, message=FALSE, warning=FALSE, fig.width=16, fig.height=10.5, fig.cap="Fig. S4: Mean rating and phonotactic score for each stimulus per frequency bin (rematched pairs)."}
+```{r Fig. S4, echo=FALSE, message=FALSE, warning=FALSE, fig.width=11, fig.height=6.5, fig.cap="Fig. S4: Mean rating and phonotactic score for each stimulus per frequency bin (rematched pairs)."}
 
 # Rematching pairs: for each nonword, find a word with the lowest absolute difference
 dataPseudo <- dataExp1[dataExp1$type=="pseudo",]
@@ -572,7 +572,7 @@ The data is structured as follows:
   - *scoreUnsegNoMacron* is the unsegmented running speech phonotactic score without the distinction between short and long vowels marked with macrons.
 
 ## Participants' basic Māori knowledge and proficiency
-```{r Fig. S5, echo=FALSE, message=FALSE, warning=FALSE, fig.width=16, fig.height=8, fig.cap="Fig. S5: Participants' basic Māori knowledge and proficiency in Exp2."}
+```{r Fig. S5, echo=FALSE, message=FALSE, warning=FALSE, fig.width=9.5, fig.height=4.5, fig.cap="Fig. S5: Participants' basic Māori knowledge and proficiency in Exp2."}
 # MS - Basic knowledge of Māori
 MSML <- unique(dataMS[,c("maoriList","workerId")]);MSML$maoriList <- as.factor(MSML$maoriList)
 MSMLT <- as.data.frame(table(MSML$maoriList));names(MSMLT) <- c("maoriList","freq")
@@ -607,7 +607,7 @@ multiplot(FigS5MSML, FigS5MSMP, FigS5NMSML, FigS5NMSMP, FigS5USML, FigS5USMP, co
 ```
 
 ## Overview of participants' profile
-```{r Fig. S6, echo=FALSE, message=FALSE, warning=FALSE, fig.width=16, fig.height=11.32, fig.cap="Fig. S6: Overview of participants' profile in Exp2."}
+```{r Fig. S6, echo=FALSE, message=FALSE, warning=FALSE, fig.width=9.5, fig.height=6.5, fig.cap="Fig. S6: Overview of participants' profile in Exp2."}
 # MS - Gender
 MSgender <- unique(dataMS[,c("gender","workerId")]);MSgender$gender <- as.factor(MSgender$gender)
 MSgenderT <- as.data.frame(table(MSgender$gender));names(MSgenderT) <- c("gender","freq")
@@ -672,7 +672,7 @@ multiplot(FigS6MSgender, FigS6MSage, FigS6MSeducation, FigS6NMSgender, FigS6NMSa
 ```
 
 ## Overview of participants' profile
-```{r Fig. S7, echo=FALSE, message=FALSE, warning=FALSE, fig.width=16, fig.height=8, fig.cap="Fig. S7: Overview of participants' profile in Exp2."}
+```{r Fig. S7, echo=FALSE, message=FALSE, warning=FALSE, fig.width=6.5, fig.height=4.5, fig.align='center',fig.cap="Fig. S7: Overview of participants' profile in Exp2."}
 # MS - Place
 MSplace <- unique(dataMS[,c("place","workerId")])
 place_levels <- c("north","south")
@@ -740,7 +740,7 @@ kable(xtable(summary(modelTableS4)$coef), digits=3, caption="Table S4: Mixed eff
 ```
 
 ## Code for plotting Fig. 2
-```{r Fig. 2, echo=FALSE, message=FALSE, warning=FALSE, fig.width=13, fig.height=6, fig.cap="Fig. 2: Interaction between phonotactic scores and participant groups. The range of phonotactic score is represented on the x-axis and the range of predicted rating is represented on the y-axis."}
+```{r Fig. 2, echo=FALSE, message=FALSE, warning=FALSE, fig.width=11, fig.height=5, fig.align='center', fig.cap="Fig. 2: Interaction between phonotactic scores and participant groups. The range of phonotactic score is represented on the x-axis and the range of predicted rating is represented on the y-axis."}
 
 fig2a <- as.data.frame(effect(term="c.(scoreDict):group", mod=modelTableS4));fig2a$Group <- fig2a$group
 F2a <- ggplot(fig2a, aes(x=scoreDict, y=fit, group=Group)) + geom_point(aes(color=Group, shape=Group), size=3) + 
@@ -785,7 +785,7 @@ listLmerfitFinal <- unlist(listLmerfit)
 ```
 
 ### Code for plotting Fig. 3
-```{r Fig. 3, echo=FALSE, message=FALSE, warning=FALSE, fig.width=16, fig.height=7.11, fig.cap="Fig. 3: Monte Carlo simulations with 1,000 random samples over 15 dictionary sizes."}
+```{r Fig. 3, echo=FALSE, message=FALSE, warning=FALSE, fig.width=11, fig.height=5, fig.cap="Fig. 3: Monte Carlo simulations with 1,000 random samples over 15 dictionary sizes."}
 fig3 <- read.delim("./dataFig3.txt", sep =" ", header = TRUE)
 fullDictT <- readRDS("./fullDictT.rds")
 fig3$Size <- ordered(fig3$Size,levels=c("15k","14k","13k","12k","11k","10k","9k","8k","7k","6k","5k","4k","3k","2k","1k"))
@@ -796,10 +796,10 @@ ggplot(fig3, aes(x=V1,colour=Size,fill=Size)) + geom_density(alpha=0.3) + labs(x
 ```
 
 ### Code for plotting Fig. 6
-```{r Fig. S8, echo=FALSE, message=FALSE, warning=FALSE, fig.width=16, fig.height=7.11, fig.cap="Figure 6: Density plot of t-values for frequency-weighted random samples"}
+```{r Fig. S8, echo=FALSE, message=FALSE, warning=FALSE, fig.width=11, fig.height=5, fig.cap="Figure 6: Density plot of t-values for frequency-weighted random samples"}
 figS8 <- read.delim("./dataFigS8.txt", sep =" ", header = TRUE)
 figS8$Size <- ordered(figS8$Size,levels=c("15k","14k","13k","12k","11k","10k","9k","8k","7k","6k","5k","4k","3k","2k","1k"))
-ggplot(figS8, aes(x=V1, colour = Size, fill=Size)) + geom_density(alpha = 0.3) + labs(title = "",x = "t-value", y = "Density") + theme_classic() + geom_vline(aes(xintercept = fullDictT, linetype = "Full dictionary (20k)"), color="red", size=1) + theme(plot.title = element_text(hjust = 0.5, size=15)) + scale_linetype_manual(name = "", values=c("Full dictionary (20k)"="solid"))
+ggplot(figS8, aes(x=V1, colour = Size, fill=Size)) + geom_density(alpha = 0.3) + labs(title = "",x = "t-value", y = "Density") + theme_classic() + geom_vline(aes(xintercept = fullDictT, linetype = "Full dictionary (20k)"), color="red", size=1) + theme(plot.title = element_text(hjust = 0.5, size=15)) + scale_linetype_manual(name = "", values=c("Full dictionary (20k)"="solid")) + theme_ridges(grid = FALSE)
 ```
 
 ### Additional post hoc statistical analyses
