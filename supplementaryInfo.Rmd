@@ -269,14 +269,14 @@ ggplot(allBins,aes(x = meanRating, y = as.factor(bin), fill = type)) +
     labs(x = "Mean Rating",y = "Frequency Bin") +
     scale_fill_manual(labels=c("pseudo" = "Nonword", "real" = "Word"),values = c("pseudo" = "black", "real" = "blue")) +
     scale_y_discrete(expand = c(0.01,0)) + 
-    theme_ridges(grid = FALSE)+ 
+    theme_classic() + 
     labs(fill='Stimulus type') + 
     coord_flip() +
     # geom_line(data=figS2a, aes(x=fit, y=bin,group=Type,color=Type, linetype=Type),size=1) +
     geom_vline(data=figS2a_mean,aes(xintercept = fit_mean,color=type, linetype=type),size=1) + 
     scale_color_manual(labels=c("pseudo" = "Nonword", "real" = "Word"),values = c("pseudo"="black", "real" = "blue")) +
     scale_linetype_manual(labels=c("pseudo" = "Nonword", "real" = "Word"),values = c("pseudo" = "solid", "real" = "dotted")) + 
-    labs(linetype='Stimulus type effect estimate',color='Stimulus type effect estimate')
+    labs(linetype='Effect estimate',color='Effect estimate') 
 ```
 
 ## Mean rating and phonotactic score for each stimulus per frequency bin
@@ -745,16 +745,16 @@ kable(xtable(summary(modelTableS4)$coef), digits=3, caption="Table S4: Mixed eff
 fig2a <- as.data.frame(effect(term="c.(scoreDict):group", mod=modelTableS4));fig2a$Group <- fig2a$group
 F2a <- ggplot(fig2a, aes(x=scoreDict, y=fit, group=Group)) + geom_point(aes(color=Group, shape=Group), size=3) + 
   geom_line(aes(color=Group,linetype=Group), size=1)  + 
-  labs( x= "Dictionary phonotactic score", y="Predicted rating") + 
-  theme_ridges(grid = FALSE) + theme(legend.position="bottom") + 
+  labs( x= "Dictionary phonotactic score (Type)", y="Predicted rating") + 
+  theme_classic() + theme(legend.position="bottom") + 
   coord_cartesian(ylim = c(1.8, 3.7)) + scale_color_manual(values = c("black", "red", "orange")) + 
   scale_fill_manual(values = c("black", "red", "orange")) +
   geom_ribbon(aes(ymin=fit-se, ymax=fit+se, fill=Group),alpha=0.2)
 fig2b <- as.data.frame(effect(term="group:c.(scoreRs)", mod=modelTableS4));fig2b$Group <- fig2b$group
 F2b <- ggplot(fig2b, aes(x=scoreRs, y=fit, group=Group)) + geom_point(aes(color=Group, shape=Group), size=3) +
   geom_line(aes(color=Group, linetype=Group), size=1) + 
-  labs(x= "RS phonotactic score", y="Predicted rating") + 
-  theme_ridges(grid = FALSE) + theme(legend.position="bottom") + 
+  labs(x= "segmented RS phonotactic score (Token)", y="Predicted rating") + 
+  theme_classic() + theme(legend.position="bottom") + 
   coord_cartesian(ylim = c(1.8, 3.7)) + scale_color_manual(values = c("black", "red", "orange")) + 
   scale_fill_manual(values = c("black", "red", "orange")) +
   geom_ribbon(aes(ymin=fit-se, ymax=fit+se, fill=Group),alpha=0.2)
@@ -791,15 +791,14 @@ fullDictT <- readRDS("./fullDictT.rds")
 fig3$Size <- ordered(fig3$Size,levels=c("15k","14k","13k","12k","11k","10k","9k","8k","7k","6k","5k","4k","3k","2k","1k"))
 ggplot(fig3, aes(x=V1,colour=Size,fill=Size)) + geom_density(alpha=0.3) + labs(x="t-value", y="Density") +
   theme_classic() + geom_vline(aes(xintercept=fullDictT, linetype="Full dictionary (20k)"), color="red", size=1) + 
-  scale_linetype_manual(name="", values=c("Full dictionary (20k)"="solid")) +theme(legend.text=element_text(size=10))+
-  theme_ridges(grid = FALSE)
+  scale_linetype_manual(name="", values=c("Full dictionary (20k)"="solid")) +theme(legend.text=element_text(size=12))
 ```
 
 ### Code for plotting Fig. 6
 ```{r Fig. S8, echo=FALSE, message=FALSE, warning=FALSE, fig.width=11, fig.height=5, fig.cap="Figure 6: Density plot of t-values for frequency-weighted random samples"}
 figS8 <- read.delim("./dataFigS8.txt", sep =" ", header = TRUE)
 figS8$Size <- ordered(figS8$Size,levels=c("15k","14k","13k","12k","11k","10k","9k","8k","7k","6k","5k","4k","3k","2k","1k"))
-ggplot(figS8, aes(x=V1, colour = Size, fill=Size)) + geom_density(alpha = 0.3) + labs(title = "",x = "t-value", y = "Density") + theme_classic() + geom_vline(aes(xintercept = fullDictT, linetype = "Full dictionary (20k)"), color="red", size=1) + theme(plot.title = element_text(hjust = 0.5, size=15)) + scale_linetype_manual(name = "", values=c("Full dictionary (20k)"="solid")) + theme_ridges(grid = FALSE)
+ggplot(figS8, aes(x=V1, colour = Size, fill=Size)) + geom_density(alpha = 0.3) + labs(title = "",x = "t-value", y = "Density") + theme_classic() + geom_vline(aes(xintercept = fullDictT, linetype = "Full dictionary (20k)"), color="red", size=1) + theme(plot.title = element_text(hjust = 0.5, size=15)) + scale_linetype_manual(name = "", values=c("Full dictionary (20k)"="solid"))
 ```
 
 ### Additional post hoc statistical analyses
