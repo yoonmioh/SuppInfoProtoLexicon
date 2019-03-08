@@ -89,10 +89,15 @@ z.score <- function (df, vp.var, var) {
 ```
 
 # Introduction 
-This R Markdown script contains all the code used for outlier detection, data analysis, and plotting. It includes additional statistical analyses, the description for Monte Carlo simulations, and all the statistical models with summaries.
+This R Markdown script contains all the code used for outlier detection, data analysis, and plotting. It includes the description for materials, methods, additional statistical analyses, Monte Carlo simulations, and all the statistical models with summaries.
 
 # Experiment 1
-## Participant exclusions
+## Stimuli
+Exp1 (identification task) tests NMS' implicit knowledge of Māori words with varying frequencies. The stimulus materials for the identification task consist of 1,000 Māori words and 1,000 Māori-like nonwords. To obtain a list of words, all words in two Māori running speech data (*36*, *37*) are divided into five frequency bins and 200 words are randomly selected from each of those bins. A list of 10,000 pseudowords (1,000 pseudowords for each phoneme length of nonwords ranging from length 3 to length 12) were generated from a trigram language model by a pseudoword generator (*38*) using a Māori dictionary (*39*) and two running speech corpora (*36, 37*) as training sets. For each word, a nonword is chosen by matching its length and phonotactic score. The phonotactic scores of stimuli are computed using type frequency obtained from a Māori dictionary (*39*). A trigram model is selected in order to take positional information within words into account, including an additional symbol to indicate word boundaries while building a language model. The phonotactic score of each stimulus is obtained by summing log-transformed transitional probabilities which better reflect frequency distributions than raw probabilities (*42*) and then is normalized by length. The Kneser-Ney smoothing in SRILM (SRI Language Modeling Toolkit) (*43*) is used to deal with unknown trigrams in nonwords since nonwords are created by training data composed of two RS corpora (*36*, *37*) and a Māori dictionary(*39*),some nonwords contain trigrams which are not observed in a trigram language model built from a dictionary. Every participant had a different list of 300 stimuli containing 30 pairs (words and nonwords) randomly selected from each of five bins (30\*2\*5 = 300 in total). The list of stimuli used in Exp1 can be found in "StimuliExp1.txt".
+
+## Participants
+In Exp1, nonfluent Māori speakers based in New Zealand (NMS), 18 years or older, were recruited online by Facebook Ads. Several exclusion criteria were applied to filter out unusable participants in this experiment. All participants speak New Zealand English as their first language. However, nine participants learned English outside New Zealand and among them, we discard one participant who currently lives in New Zealand for less than ten years. Furthermore, based on their answers to the post-questionnaire, two participants whose level of self-reported proficiency of Māori corresponds to at least “fairly well”, two participants with some knowledge of any other Polynesian languages, and five participants who reported a history of any speech or language impairments are removed. Due to a technical error during the experiment, the data of one participant who rated too small number of stimuli is discarded. After removing those outliers, we also look at the pattern of variability in participants' responses and discard one participant whose standard deviation of ratings falls below two times the standard deviation below the mean among participants.
+
 ```{r loading_data_Exp1, echo=TRUE, message=FALSE, warning=FALSE}
 # Loading the data to filter out participants
 dataExp1 <- read.delim("./dataNotFilteredExp1.txt", sep ="\t", header = TRUE)
@@ -141,41 +146,8 @@ dataExp1 <- dataExp1[!dataExp1$workerId %in% rmParticipant7Exp1,]
 # length(unique(dataExp1$workerId)) # 85
 ```
 
-## Dataset structure
-The data is structured as follows:
-
-  - *workerId* is the unique ID for each participant.
-  - *enteredResponse* is the wellformedness rating for each stimulus.
-  - *reactionTime* is the reaction time for each rating (second).
-  - *type* is the classification of each stimulus: word ('real') or nonword ('pseudo').
-  - *length* is the phoneme length of each stimulus.
-  - *word* is the stimulus used for the rating.
-  - *speakMaori* is each participant's answer to the question how well they can speak Māori (with a scale ranging from 0 to 5).
-  - *compMaori* is each participant's answer to the question how well they can understand/read Māori (with a scale ranging from 0 to 5). 
-  - *maoriProf* is the sum of quantified response for speakMaori and compMaori, which refers to the level of each participant's Māori proficiency.
-  - *age* is the age group where each participant belongs to .
-  - *gender* is the gender of each participant. 
-  - *ethnicity* is categorized into binary answers, either Māori (M) or non Māori (non M).
-  - *education* is each participant's highest level of education.
-  - *children* is each participant's answer to the question whether they have had any children who have attended preschool or primary school in New Zealand in the past five years.
-  - *maoriList* is each participant's basic knowledge of Māori (with a scale ranging from 0 to 9).
-  - *place* is each participant's current place of living (categorized into binary classification, either North or South Island in New Zealand).
-  - *duration* is each participant's time duration of living in their current place (categorized into binary classification, long: > 10 years and short: =< 10 years).
-  - *firstLang* is each participant's first language.
-  - *firstLangCountry* is the country where each participant learned their first language.  
-  - *anyOtherLangs* is the information regarding any other languages each participant can speak.
-  - *hawaii* is the binary response to the question whether participants have lived in Hawaii.
-  - *anyPolynesian* is the binary response to the question whether participants know any Polynesian such as Hawaiian, Tahitian, Sāmoan, or Tongan.
-  - *whichPolynesian* is the information regarding participants' knowledge of any Polynesian languages if they knew any.
-  - *impairments* is the answer to the question whether participants have a history of any speech or language impairments.
-  - *maoriExpo* is each participant's level of exposure to Māori (with a scale ranging from 0 to 10).
-  - *Freq* is the frequency of real word stimulus obtained from Māori running speech corpora (Freq=0 for pseudowords).
-  - *bin* is the classification of each stimulus according to their frequency of occurence in Māori running speech corpora.
-  - *score* is the dictionary phonotactic score normalized by the phonemic length of each stimulus.
-
 ## Overview of participants’ sociolinguistic profile
-
-This figure summarizes the distribution of participants on demographic and linguistic axes.
+Regarding participants' age and highest level of education, the distribution is quite balanced in comparison to their self-reported level of Māori proficiency, current place of living and gender. There are substantially more female participants than male and those living in the North Island than in the South Island. Regarding their sociolinguistic profile in relation to Māori, after filtering out participants who considered their level of Māori proficiency at least as fairly well, most participants self-reported that they had some basic knowledge of Māori and only a few participants responded that their level of exposure to Māori was less than once a year. This figure summarizes the distribution of participants on demographic and linguistic axes.
 
 ```{r participantExp1, echo=FALSE, message=FALSE, warning=FALSE, evaluate=FALSE, fig.width=9.5, fig.height=6.5, fig.cap="Fig. S1: Overview of participants' sociolinguistic profile in Exp1."}
 # Basic knowledge of Māori
@@ -222,6 +194,38 @@ FigS1Exp1Place <- ggplot(Exp1Place, aes(x=place, color=place, fill= place)) + th
 
 multiplot(FigS1Exp1ML, FigS1Exp1Gender, FigS1Exp1Place, FigS1Exp1MP, FigS1Exp1Age, FigS1Exp1Education, FigS1Exp1ME, cols=3)
 ```
+
+## Dataset structure
+The data is structured as follows:
+
+  - *workerId* is the unique ID for each participant.
+  - *enteredResponse* is the wellformedness rating for each stimulus.
+  - *reactionTime* is the reaction time for each rating (second).
+  - *type* is the classification of each stimulus: word ('real') or nonword ('pseudo').
+  - *length* is the phoneme length of each stimulus.
+  - *word* is the stimulus used for the rating.
+  - *speakMaori* is each participant's answer to the question how well they can speak Māori (with a scale ranging from 0 to 5).
+  - *compMaori* is each participant's answer to the question how well they can understand/read Māori (with a scale ranging from 0 to 5). 
+  - *maoriProf* is the sum of quantified response for speakMaori and compMaori, which refers to the level of each participant's Māori proficiency.
+  - *age* is the age group where each participant belongs to .
+  - *gender* is the gender of each participant. 
+  - *ethnicity* is categorized into binary answers, either Māori (M) or non Māori (non M).
+  - *education* is each participant's highest level of education.
+  - *children* is each participant's answer to the question whether they have had any children who have attended preschool or primary school in New Zealand in the past five years.
+  - *maoriList* is each participant's basic knowledge of Māori (with a scale ranging from 0 to 9).
+  - *place* is each participant's current place of living (categorized into binary classification, either North or South Island in New Zealand).
+  - *duration* is each participant's time duration of living in their current place (categorized into binary classification, long: > 10 years and short: =< 10 years).
+  - *firstLang* is each participant's first language.
+  - *firstLangCountry* is the country where each participant learned their first language.  
+  - *anyOtherLangs* is the information regarding any other languages each participant can speak.
+  - *hawaii* is the binary response to the question whether participants have lived in Hawaii.
+  - *anyPolynesian* is the binary response to the question whether participants know any Polynesian such as Hawaiian, Tahitian, Sāmoan, or Tongan.
+  - *whichPolynesian* is the information regarding participants' knowledge of any Polynesian languages if they knew any.
+  - *impairments* is the answer to the question whether participants have a history of any speech or language impairments.
+  - *maoriExpo* is each participant's level of exposure to Māori (with a scale ranging from 0 to 10).
+  - *Freq* is the frequency of real word stimulus obtained from Māori running speech corpora (Freq=0 for pseudowords).
+  - *bin* is the classification of each stimulus according to their frequency of occurence in Māori running speech corpora.
+  - *score* is the dictionary phonotactic score normalized by the phonemic length of each stimulus.
 
 ## NMS confidence ratings across word frequency with linear mixed-effects modeling
 ### Table S1, model summary
@@ -395,7 +399,18 @@ kable(xtable(summary(modelTableS2)$coef), digits=3, caption="Table S2: Linear mi
 Within each frequency bin containing the rematched pairs, the distinction between nonwords and words is statistically significant in separate linear mixed-effects models for each bin: NMS give higher ratings to words than nonwords across all the five bins. When the ratings of all the bins are modeled in a single linear mixed-effects model, the distinction between words and nonwords is the only significant predictor; other predictors such as length, phonotactic score, and bin are systematically removed due to a lack of convergence or statistical insignificance. This result demonstrates that NMS' ability to distinguish between words and nonwords is not an artefact of their phonotactic knowledge.
 
 # Experiment 2
-## Participant exclusions
+## Stimuli
+The stimulus materials for Exp2 (well-formedness task), comprise of a list of 240 or 320 Māori-like nonwords generated from a trigram model using a pseudoword generator (*38*). About 6,000 pseudowords (1,000 pseudowords for each phoneme length of pseudowords ranging from length 3 to length 8) were generated by using a Māori dictionary (*39*) and two running speech (RS) corpora (*36*,*37*). Nonwords are chosen by decorrelating their phonotactic scores. The phonotactic scores of nonwords are computed using a trigram language model obtained from a Māori dictionary (*39*) and token frequency from segmented two RS data (*36*, *37*), and from unsegmented RS data. The phonotactic score of each stimulus is obtained by summing log-transformed transitional probabilities which better reflect frequency distributions than raw probabilities (*42*) and then is normalized by length. After decorrelating the three types of phonotactic scores, 240 stimuli are chosen for a list of shorter phoneme length (3 and 4) and 320 stimuli for a list of longer phoneme length (5, 6, 7 and 8). In total, there are six lists with either 240 or 320 nonwords of the same phoneme length which are presented in a different random order. The experiment is designed this way in order not to include any additional influence from the length of stimuli. The list of stimuli used in Exp2 can be found in "StimuliExp2.txt".
+
+## Participants
+In Exp2, there are three groups of participants: Fluent Māori speakers (MS), non-Māori-speaking speakers of New Zealand English (NMS), and non-Māori-speaking speakers of American English (US). MS and NMS were recruited online by Facebook Ads and US were recruited online by Amazon Mechanical Turk. Participants are adults (18 years or older) who did not previously study linguistics. Most of NMS speak New Zealand English as their first language but 12 participants who did not learn their English in New Zealand but have been living there for at least 10 years are regarded as NMS. On the other hand, 10 participants who learned English outside New Zealand but currently live in New Zealand for less than ten years are discarded. All US speak American English as their first language and one participant who learned English outside the United States is discarded.
+
+In addition to participants' first language, multiple criteria are applied to detect unusable participants. For MS, two participants whose self-reported proficiency level of Māori corresponding to either “no more than a few words or phrases” or “not very well” in their post-questionnaire (below the score of 6) are discarded. For NMS, 14 participants who indicated their proficiency level of Māori as “fairly well”, “well”, or “very well” (above the score of 4) are removed. Among them, the data of five participants whose proficiency level of Māori corresponds to at least “fairly well” (equal to or above the score of 6) are imported to MS. For US, 14 participants who reported a certain proficiency level of Māori and six participants with some basic knowledge of Māori are discarded. For NMS and US, we also discard eight participants who have lived in Hawaii and have some knowledge of any other Polynesian languages such as Hawaiian, Tahitian, Tongan, and Samoan, since any knowledge of those languages belonging to the same language family as Māori may influence participants' well-formedness judgements. However, these criteria are not applied to MS. Among all groups, five participants who reported a history of any speech or language impairments are removed.
+
+The experiment setting for MS and NMS in New Zealand allows us to detect participants using the same browser and within each group, two participants are detected. However, after examining their data, these participants are kept as they do not look suspicious and can be identified as different participants based on their responses to the post-questionnaire. Furthermore, due to a technical error during the experiment, the data of two participants who rated too small or large number of stimuli are discarded.
+
+After removing unusable participants, there are 40 MS, 113 NMS and 94 US. At the initial stage of filtering, 140 participants who did not complete the entire task in Experiment 2 are removed. We also filter out participants who rated items with phoneme length longer than 8 (i.e. 9 and 10 in MS and 9 in NMS) while running the experiment. This decision was made due to a very high rate of uncompleted experiment and the difficulty of recruiting participants for longer lengths such as 9 and 10. We also look at the pattern of participants' response variability within each group and discard one participant in MS, four participants in NMS, and one participant in US whose standard deviation of responses falls below two times the standard deviation below the mean within each group and discard one participant in NMS whose median of reaction time per stimulus is shorter than two times the standard deviation below the mean within the group.
+
 ```{r loading_data_Exp2, echo=TRUE, message=FALSE, warning=FALSE}
 # Loading the data to filter out participants:
 dataNotFiltered <- read.delim("./dataNotFilteredExp2.txt", sep ="\t", header = TRUE)
@@ -523,53 +538,9 @@ dataUS <- dataUS[!dataUS$workerId %in% rmParticipant19,]
 dataExp2 <- rbind.fill(dataMS, dataNMS, dataUS)
 ```
 
-## Dataset structure
+## Overview of participants' profile
+Regarding participants’ gender, there are substantially more female than male participants in MS and NMS while the gender distribution is quite balanced in US. The distribution of participants' age is also particularly disproportionate in MS and NMS, exhibiting more participants in younger groups. Regarding participants' highest level of education, there are more high school graduates than undergraduates and graduates in MS whereas there are more undergraduates in NMS and US. We only asked MS and NMS to provide their geographical information in New Zealand and self-report their level of exposure to Māori in daily life. There are more participants from the North Island in both MS and NMS due to a large number of population in the North Island. The level of exposure to Māori ranges from 2 (“less than once a year”) to 10 (“multiple times a day”) and the distribution of participants' level of exposure reveals that most of MS are very frequently exposed to Māori in daily life and only a very small number of both MS and NMS are exposed to Māori less than once a year.
 
-The data is structured as follows:
-
-  - *workerId* is the unique ID for each participant.
-  - *enteredResponse* is the wellformedness rating for each stimulus.
-  - *reactionTime* is the reaction time for each rating (second).
-  - *word* is the stimulus used for the rating.
-  - *speakMaori* is each participant's answer to the question how well they can speak Māori (with a scale ranging from 0 to 5).
-  - *compMaori* is each participant's answer to the question how well they can understand/read Māori (with a scale ranging from 0 to 5). 
-  - *maoriProf* is the sum of quantified response for speakMaori and compMaori, which refers to the level of each participant's Māori proficiency.
-  - *age* is the age group where each participant belongs to .
-  - *gender* is the gender of each participant. 
-  - *ethnicity* is categorized into binary answers, either Māori (M) or non Māori (non M).
-  - *education* is each participant's highest level of education.
-  - *children* is each participant's answer to the question whether they have had any children who have attended preschool or primary school in New Zealand in the past five years.
-  - *maoriList* is each participant's basic knowledge of Māori (with a scale ranging from 0 to 9).
-  - *place* is each participant's current place of living (categorized into binary classification, either North or South Island in New Zealand).
-  - *duration* is each participant's time duration of living in their current place (categorized into binary classification, long: > 10 years and short: =< 10 years).
-  - *firstLang* is each participant's first language.
-  - *firstLangCountry* is the country where each participant learned their first language.  
-  - *anyOtherLangs* is the information regarding any other languages each participant can speak.
-  - *hawaii* is the binary response to the question whether participants have lived in Hawaii.
-  - *anyPolynesian* is the binary response to the question whether participants know any Polynesian such as Hawaiian, Tahitian, Sāmoan, or Tongan.
-  - *whichPolynesian* is the information regarding participants' knowledge of any Polynesian languages if they knew any.
-  - *impairments* is the answer to the question whether participants have a history of any speech or language impairments.
-  - *maoriExpo* is each participant's level of exposure to Māori (with a scale ranging from 0 to 10).
-  - *group* is the classification of participants according to their fluency of Māori and/or exposure to Māori.
-  - *nz* is the binary response to the question whether participants have ever lived in New Zealand.
-  - *median* is the median of each participant's reaction time.
-  - *scoreDic* is the dictionary phonotactic score normalized by the phonemic length of each stimulus.
-  - *scoreRs* is the running speech phonotactic score normalized by the phonemic length of each stimulus.
-  - *scoreUnseg* is the unsegmented running speech phonotactic score normalized by the phonemic length of each stimulus - 2.
-  - *scoreDictNze* is the score of the phonotactics derived from the dictionary of Māori words in New Zealand English.
-  - *scoreSmall* is the score of the phonotactics derived from NMS’ small active lexicon of Māori (comprising of 121 common loanwords that most NMS can identify as Māori words in our previous study plus 55 urban placenames).
-  - *scoreFunc* is the score of the phonotactics generalized over a list of function words.
-  - *scoreEng* is the score of the English phonotactics obtained from the English lexical database CELEX.
-  - *scoreCV* is the word shape score obtained from a trigram language model built by identifying each segment as a consonant, vowel or long vowel and calculating probabilities over sequences of those categories.
-  - *scorePosLength* is the position-length specific probability of phonemes obtained from a unigram language model.
-  - *scoreDictNew* is the variant phonotactice score based on the dictionary training set; statistics for trigrams, bigrams, and unigrams are jointly included.
-  - *scoreRsNew* is the variant phonotactice score based on the segmented running speech training set; statistics for trigrams, bigrams, and unigrams are jointly included.
-  - *scoreUnsegNew* is the variant phonotactice score based on the unsegmented running speech training set; statistics for trigrams, bigrams, and unigrams are jointly included.
-  - *scoreDictNoMacron* is the dictionary phonotactic score without the distinction between short and long vowels marked with macrons.
-  - *scoreRsNoMacron* is the running speech phonotactic score without the distinction between short and long vowels marked with macrons.
-  - *scoreUnsegNoMacron* is the unsegmented running speech phonotactic score without the distinction between short and long vowels marked with macrons.
-
-## Participants' basic Māori knowledge and proficiency
 ```{r Fig. S5, echo=FALSE, message=FALSE, warning=FALSE, fig.width=9.5, fig.height=4.5, fig.cap="Fig. S5: Participants' basic Māori knowledge and proficiency in Exp2."}
 # MS - Basic knowledge of Māori
 MSML <- unique(dataMS[,c("maoriList","workerId")]);MSML$maoriList <- as.factor(MSML$maoriList)
@@ -604,7 +575,6 @@ FigS5USMP <- ggplot(USMP, aes(x=maoriProf,color=maoriProf,fill=maoriProf)) + the
 multiplot(FigS5MSML, FigS5MSMP, FigS5NMSML, FigS5NMSMP, FigS5USML, FigS5USMP, cols=3)
 ```
 
-## Overview of participants' profile
 ```{r Fig. S6, echo=FALSE, message=FALSE, warning=FALSE, fig.width=9.5, fig.height=6.5, fig.cap="Fig. S6: Overview of participants' profile in Exp2."}
 # MS - Gender
 MSgender <- unique(dataMS[,c("gender","workerId")]);MSgender$gender <- as.factor(MSgender$gender)
@@ -669,7 +639,6 @@ FigS6USeducation <- ggplot(USeducation, aes(x=education,color=education,fill=edu
 multiplot(FigS6MSgender, FigS6MSage, FigS6MSeducation, FigS6NMSgender, FigS6NMSage, FigS6NMSeducation, FigS6USgender, FigS6USage, FigS6USeducation, cols=3)
 ```
 
-## Overview of participants' profile
 ```{r Fig. S7, echo=FALSE, message=FALSE, warning=FALSE, fig.width=6.5, fig.height=4.5, fig.align='center',fig.cap="Fig. S7: Overview of participants' profile in Exp2."}
 # MS - Place
 MSplace <- unique(dataMS[,c("place","workerId")])
@@ -699,6 +668,52 @@ FigS7NMSME <- ggplot(NMSME, aes(x=maoriExpo,color=maoriExpo,fill= maoriExpo)) + 
 
 multiplot(FigS7MSplace, FigS7MSME, FigS7NMSplace, FigS7NMSME, cols=2)
 ```
+
+## Dataset structure
+
+The data is structured as follows:
+
+  - *workerId* is the unique ID for each participant.
+  - *enteredResponse* is the wellformedness rating for each stimulus.
+  - *reactionTime* is the reaction time for each rating (second).
+  - *word* is the stimulus used for the rating.
+  - *speakMaori* is each participant's answer to the question how well they can speak Māori (with a scale ranging from 0 to 5).
+  - *compMaori* is each participant's answer to the question how well they can understand/read Māori (with a scale ranging from 0 to 5). 
+  - *maoriProf* is the sum of quantified response for speakMaori and compMaori, which refers to the level of each participant's Māori proficiency.
+  - *age* is the age group where each participant belongs to .
+  - *gender* is the gender of each participant. 
+  - *ethnicity* is categorized into binary answers, either Māori (M) or non Māori (non M).
+  - *education* is each participant's highest level of education.
+  - *children* is each participant's answer to the question whether they have had any children who have attended preschool or primary school in New Zealand in the past five years.
+  - *maoriList* is each participant's basic knowledge of Māori (with a scale ranging from 0 to 9).
+  - *place* is each participant's current place of living (categorized into binary classification, either North or South Island in New Zealand).
+  - *duration* is each participant's time duration of living in their current place (categorized into binary classification, long: > 10 years and short: =< 10 years).
+  - *firstLang* is each participant's first language.
+  - *firstLangCountry* is the country where each participant learned their first language.  
+  - *anyOtherLangs* is the information regarding any other languages each participant can speak.
+  - *hawaii* is the binary response to the question whether participants have lived in Hawaii.
+  - *anyPolynesian* is the binary response to the question whether participants know any Polynesian such as Hawaiian, Tahitian, Sāmoan, or Tongan.
+  - *whichPolynesian* is the information regarding participants' knowledge of any Polynesian languages if they knew any.
+  - *impairments* is the answer to the question whether participants have a history of any speech or language impairments.
+  - *maoriExpo* is each participant's level of exposure to Māori (with a scale ranging from 0 to 10).
+  - *group* is the classification of participants according to their fluency of Māori and/or exposure to Māori.
+  - *nz* is the binary response to the question whether participants have ever lived in New Zealand.
+  - *median* is the median of each participant's reaction time.
+  - *scoreDic* is the dictionary phonotactic score normalized by the phonemic length of each stimulus.
+  - *scoreRs* is the running speech phonotactic score normalized by the phonemic length of each stimulus.
+  - *scoreUnseg* is the unsegmented running speech phonotactic score normalized by the phonemic length of each stimulus - 2.
+  - *scoreDictNze* is the score of the phonotactics derived from the dictionary of Māori words in New Zealand English.
+  - *scoreSmall* is the score of the phonotactics derived from NMS’ small active lexicon of Māori (comprising of 121 common loanwords that most NMS can identify as Māori words in our previous study plus 55 urban placenames).
+  - *scoreFunc* is the score of the phonotactics generalized over a list of function words.
+  - *scoreEng* is the score of the English phonotactics obtained from the English lexical database CELEX.
+  - *scoreCV* is the word shape score obtained from a trigram language model built by identifying each segment as a consonant, vowel or long vowel and calculating probabilities over sequences of those categories.
+  - *scorePosLength* is the position-length specific probability of phonemes obtained from a unigram language model.
+  - *scoreDictNew* is the variant phonotactice score based on the dictionary training set; statistics for trigrams, bigrams, and unigrams are jointly included.
+  - *scoreRsNew* is the variant phonotactice score based on the segmented running speech training set; statistics for trigrams, bigrams, and unigrams are jointly included.
+  - *scoreUnsegNew* is the variant phonotactice score based on the unsegmented running speech training set; statistics for trigrams, bigrams, and unigrams are jointly included.
+  - *scoreDictNoMacron* is the dictionary phonotactic score without the distinction between short and long vowels marked with macrons.
+  - *scoreRsNoMacron* is the running speech phonotactic score without the distinction between short and long vowels marked with macrons.
+  - *scoreUnsegNoMacron* is the unsegmented running speech phonotactic score without the distinction between short and long vowels marked with macrons.
 
 ## Number of participants per length within each group
 ```{r Table S3,echo=FALSE, message=FALSE, warning=FALSE}
@@ -927,3 +942,113 @@ kable(xtable(summary(modelNewScores)$coef), digits=3, caption="Table S15: Linear
 modelNoMacron <- readRDS("./modelNoMacron.rds")
 kable(xtable(summary(modelNoMacron)$coef), digits=3, caption="Table S16: Linear mixed-effects model of well-formedness ratings including phonotactic scores without the distinction between short and long vowels marked with macrons")
 ```
+
+# Post-questionnaire
+1. How well are you able to speak Māori?<br />
+☐ Very well (I can talk about almost anything in Māori)<br />
+☐ Well (I can talk about many things in Māori)<br />
+☐ Fairly well (I can talk about some things in Māori)<br />
+☐ Not very well (I can only talk about simple/basic things in Māori)<br />
+☐ No more than a few words or phrases<br />
+☐ Not at all
+
+2. How well are you able to understand/read Māori?<br />
+☐ Very well (I can understand almost anything said/written in Māori)<br />
+☐ Well (I can understand many things said/written in Māori)<br />
+☐ Fairly well (I can understand some things said/written in Māori)<br />
+☐ Not very well (I can only understand simple/basic things said/written in Māori) <br />
+☐ No more than a few words or phrases<br />
+☐ Not at all
+
+3. Which age group do you belong to?<br /> 
+☐ 18 - 29<br />
+☐ 30 - 39<br />
+☐ 40 - 49<br />
+☐ 50 - 59<br />
+☐ +60
+
+4. Please state your gender:
+
+5. Please state your ethnicity:
+
+6. Your highest education is:<br /> 
+☐ High school<br />
+☐ Undergraduate degree<br />
+☐ Graduate degree<br />
+
+7. How often do you think you are exposed to the Māori language in your daily life, by means of Māori radio, Māori TV, online media? (only relevant for fluent Māori speakers and non-fluent Māori speakers of New Zealand English)<br />
+☐ Less than once a year<br />
+☐ Less than once a month<br />
+☐ Less than once a week<br />
+☐ Less than once a day<br />
+☐ Multiple times a day<br />
+
+8. How often do you think you are exposed to Māori language in your daily life, in conversation at work, at home, in social settings? (only relevant for fluent Māori speakers and non-fluent Māori speakers of New Zealand English)<br />
+☐ Less than once a year<br />
+☐ Less than once a month<br /> 
+☐ Less than once a week<br />
+☐ Less than once a day<br /> 
+☐ Multiple times a day<br />
+
+9. In the past five years, have you had any children living with you who have attended preschool or primary school in New Zealand? (only relevant for fluent Māori speakers and non-fluent Māori speakers of New Zealand English)<br />
+☐ Yes<br />
+☐ No<br />
+
+10. Please tick all boxes that apply.<br />
+☐ I can give a mihi in Māori.<br />
+☐ I can sing a few songs in Māori.<br />
+☐ I can sing the NZ national anthem in Māori.<br />
+☐ I know how to say some basic phrases (e.g. My name is..., I'm from...) in Māori.<br /> 
+☐ I know how to say some commands (e.g. Sit down / Come here) in Māori.<br />
+☐ I know how to say some greetings in Māori.<br />
+☐ I know how to say some numbers in Māori.<br /> 
+☐ I know how to say some body parts in Māori.<br /> 
+☐ I know how to say some colors in Māori.<br />
+
+11. What region of New Zealand do you live in currently? (Please choose ``overseas" if you are living outside of New Zealand.) (only relevant for fluent Māori speakers and non-fluent Māori speakers of New Zealand English)<br />
+☐ Northland<br />
+☐ Auckland<br />
+☐ Waikato<br />
+☐ Bay of Plenty<br />
+☐ Gisborne<br />
+☐ Hawke's Bay<br />
+☐ Taranaki<br />
+☐ Wanganui<br />
+☐ Manawatu<br />
+☐ Wairarapa<br />
+☐ Wellington<br />
+☐ Nelson Bays<br />
+☐ Marlborough<br />
+☐ West Coast<br />
+☐ Canterbury<br />
+☐ Timaru - Oamaru<br /> 
+☐ Otago<br />
+☐ Southland<br />
+☐ Overseas<br />
+
+12. How long have you been living there? (only relevant for fluent Māori speakers and non-fluent Māori speakers of New Zealand English)
+
+13. Please state your first language (the language you speak/use most of your time).
+
+14. What country were you living in when you first learned this language?
+
+15. Please list any other languages that you can speak fluently:
+
+16. Have you ever lived in Hawaii? <br />
+☐ Yes<br />
+☐ No
+
+17. Have you ever lived in New Zealand (only relevant for non-fluent Māori speakers of American English)?<br />
+☐ Yes<br />
+☐ No
+
+18. Do you speak/understand any Polynesian languages such as Hawaiian, Tahitian, Sāmoan, or Tongan?<br />
+☐ Yes<br />
+☐ No
+
+19. If you replied yes to question 18, please state the language you know.
+
+20. Do you have a history of any speech or language impairments that you are aware of?<br /> 
+☐ Yes<br />
+☐ No
+
