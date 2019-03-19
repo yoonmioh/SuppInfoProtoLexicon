@@ -708,9 +708,9 @@ The data is structured as follows:
   - *scoreEng* is the score of the English phonotactics obtained from the English lexical database CELEX.
   - *scoreCV* is the word shape score obtained from a trigram language model built by identifying each segment as a consonant, vowel or long vowel and calculating probabilities over sequences of those categories.
   - *scorePosLength* is the position-length specific probability of phonemes obtained from a unigram language model.
-  - *scoreDictNew* is the variant phonotactice score based on the dictionary training set; statistics for trigrams, bigrams, and unigrams are jointly included.
-  - *scoreRsNew* is the variant phonotactice score based on the segmented running speech training set; statistics for trigrams, bigrams, and unigrams are jointly included.
-  - *scoreUnsegNew* is the variant phonotactice score based on the unsegmented running speech training set; statistics for trigrams, bigrams, and unigrams are jointly included.
+  - *scoreDictNew* is the variant phonotactic score based on the dictionary training set, divided by item phonemic length; statistics for trigrams, bigrams, and unigrams are jointly included.
+  - *scoreRsNew* is the variant phonotactic score based on the segmented running speech training set, divided by item phonemic length; statistics for trigrams, bigrams, and unigrams are jointly included.
+  - *scoreUnsegNew* is the variant phonotactic score based on the unsegmented running speech training set, divided by item phonemic length; statistics for trigrams, bigrams, and unigrams are jointly included.
   - *scoreDictNoMacron* is the dictionary phonotactic score without the distinction between short and long vowels marked with macrons.
   - *scoreRsNoMacron* is the running speech phonotactic score without the distinction between short and long vowels marked with macrons.
   - *scoreUnsegNoMacron* is the unsegmented running speech phonotactic score without the distinction between short and long vowels marked with macrons.
