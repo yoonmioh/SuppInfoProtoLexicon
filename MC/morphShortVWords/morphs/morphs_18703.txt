@@ -1,0 +1,3611 @@
+61	t e
+28	i
+624	a
+81	k i
+387	N a
+60	o
+21	e
+298	k a
+752	k o
+49	h e
+54	m a i
+18	a n a
+26	n e i
+17	a t u
+15	k e i
+95	a u
+1	r a t o u
+10	k u a
+8	m e
+110	n a
+56	k i a
+115	m o
+11	m e a
+2	a n o
+146	r a
+47	r o
+204	t o
+18	r e r o
+11	h a e r e
+22	t o u
+682	t a
+28	m a h i
+464	m a
+104	h o
+86	w a
+1	r e i r a
+9	m a o r i
+18	a i
+26	h e i
+2	e N a r i
+90	i a
+7	a e
+3	t o n u
+25	n o
+48	k e
+11	k o e
+10	r e o
+28	t o a
+19	i w i
+13	r u N a
+10	t a k u
+1	k o u t o u
+451	t a u
+73	t a h i
+20	t a u a
+4	N a t a
+194	k a u
+148	p a p a
+49	p a i
+15	n o h o
+8	h i o
+1	k a o r e
+82	n u i
+42	f a r e
+3	t i n o
+506	t u
+22	n o a
+11	n e
+2735	f a k a
+76	a r o
+67	k u r a
+69	k o r e
+295	w a i
+19	a h a
+35	f e n u a
+39	r e
+197	r u a
+6	t a n a
+7	p e a
+43	t a e
+49	o r a
+21	a h u a
+7	e r a
+69	r i k i
+24	t a m a
+369	t a N a
+10	i h o
+39	k o i
+27	p u t a
+284	h a u
+52	a r a
+6	k a i N a
+87	f a i
+13	k i t e
+3	m a r a e
+480	k a i
+11	f a n a u
+38	t a h a
+11	t o n a
+1	h e o i
+19	r a w a
+164	h i
+15	k o a
+43	a o
+505	p u
+21	m u a
+441	p a
+15	h i n e
+22	m a t u a
+27	m u r i
+36	w a k a
+387	t i
+219	r a u
+28	h u i
+71	m a u
+45	k a h a
+42	r o N o
+116	t u a
+46	p e
+2	t i t i r o
+5	t a o N a
+725	h i a
+38	m a t e
+2	t i k a N a
+2	t a e a
+38	h e a
+1	t o k u
+5	m a u a
+19	k u p u
+18	r a r o
+15	t i r a
+85	r a N a
+187	r a N i
+17	m i h i
+10	p e r a
+23	t o r u
+6	i N o a
+5	k o t a h i
+229	m a t a
+25	m u t u
+123	r o a
+4	a u a
+106	h u
+56	r i
+12	a k u
+15	r o h e
+7	r a u a
+27	h o a
+27	a k o
+93	h a N a
+23	r a m a
+1	a n e i
+5	n a i a
+7	n a N a
+67	h a r a
+12	r i m a
+47	t a r i
+3	k a w a n a
+60	a t a
+6	k u i a
+8	o n a
+10	t o n o
+3	w i k i
+182	f a
+52	t o k o
+220	t a i
+15	o t i
+16	m o a n a
+8	m o m o
+12	t u r e
+1	o k u
+15	p u n a
+80	u r u
+57	h o u
+248	h a
+3	k o i a
+30	t a N i
+91	r e r e
+5	m o n i
+286	p o
+21	w a r u
+15	w a e N a
+3	k o r o u a
+2	k a u a
+55	t o h u
+11	t a n e
+128	h u a
+38	r a h i
+4	i w a
+10	o n o
+44	h e k e
+11	r i r o
+17	p u k a
+25	m o k o
+9	a r o h a
+18	i k a
+9	w a h o
+55	t u k u
+20	k a o
+27	a f i
+34	a w a
+11	m a n o
+15	m a k i
+36	w e r a
+19	N a i
+32	k e k e
+1	p o a r i
+20	u r i
+1	a n a k e
+1	e n a
+6	f i t u
+25	u t u
+68	t e a
+4	f a e a
+3	m a u N a
+29	h o e
+32	e k e
+44	m a n u
+23	w e
+43	m o e
+1	h a p u
+3	u i r a
+8	m i n i
+92	k a r a
+19	f a N a
+185	p i
+16	h a k a
+19	N a r o
+25	k a r o
+22	p i k i
+3	t e h i
+40	h o r e
+5	p a n u i
+3	k i i a
+24	k a N a
+1	p o r o u
+2	k a u n i
+12	h e r a
+1	i m a
+1	h a h i
+2	t i r i t i
+1	h o i h o
+14	t i p u
+36	t u r u
+12	n i
+7	m a n a k o
+1	a r a w a
+17	r a r u
+36	f i
+9	t i a k i
+16	m a h a r a
+11	t a k o t o
+3	w a i h o
+48	i t i
+8	w a e a
+26	h o k o
+141	k u
+41	a h u
+2	m a k a u
+13	N a k a u
+16	o n e
+6	t i n a n a
+8	r a u n a
+37	i r i
+14	t i r o
+36	k o t i
+1	h a o r a
+16	h o k i
+17	r i N a
+107	i n a
+27	k a w e
+42	r i t e
+13	t o k e
+9	a t u a
+24	p o n o
+31	t i k i
+4	k i m i
+17	r a p u
+1	a k a n a
+1	w e n e i
+161	t a k a
+38	t e r e
+1	e t e h i
+25	t u k i
+30	u a
+2	t a a
+30	n e k e
+10	h i t a
+10	u p o k o
+5	h o m a i
+9	k a t o
+22	w a h i
+29	w a r e
+3	w a N a
+8	p e p a
+12	i r o
+34	u
+71	t a k i
+16	n o h i
+2124	t i a
+2	m e m a
+4	k o m i t i
+61	f i t i
+48	h a e
+14	r e N a
+37	k a h u
+17	m o u
+34	k i n o
+57	m a n a
+33	a k i
+62	r u
+1	p i r i h i
+18	h a r i
+1	p o u a k a
+17	p o t i
+16	h a i
+72	h e r e
+149	r i a
+5	p u p u r i
+28	p u h i
+5	m a h u e
+5	a r i k i
+5	h o a t u
+6	h u i a
+43	p a r e
+18	p a u
+87	p o u
+16	n a m u
+34	t u h i
+4	w a w a t a
+69	f i r i
+4	k a r a k a
+176	k o r o
+32	h i r i
+25	a h i
+11	h i N a
+3	h a t u
+1	t a f i t o
+14	n a u
+11	f e a
+9	t u m u
+75	p a e
+31	t i k a
+23	n u k u
+5	p u r e i
+16	k u h u
+12	p e n e
+6	k a m u
+3	t o r i a
+49	w a e
+1	r a t a u
+7	r a w e
+7	k i w a
+8	f a i a
+20	p a k u
+115	k i r i
+23	w e h e
+13	m a r i e
+10	n u
+4	p a k a r i
+29	n a k i
+159	t a r a
+1	k e m u
+12	k u r i
+5	t a r i N a
+15	w i
+23	m a r a
+12	p o u r i
+20	p o p o
+8	n a w a
+5	m a m a e
+14	w a r i
+4	h o h i
+2	i n a n a h i
+65	p i r i
+1	p e p i
+2	p a m u
+25	t a k e
+42	k i n a
+3	h o h o n u
+6	n a m a
+1	t e i n a
+8	p a o r o
+2	f u t u
+16	h o p u
+9	t a t u
+8	t e i
+38	p a t u
+3	m u r u
+3	i n o i
+18	t u p u
+19	k u i
+24	p o t o
+35	r i r i
+25	k e t e
+20	h o n o
+32	k a w a
+9	h a p a i
+7	k i o r e
+36	r e k a
+7	k u t a
+80	h u r i
+44	w a h a
+12	w e h i
+2	m o k u
+6	n o r e
+40	p e k a
+17	m o t u
+19	h a k e
+2	p o a k a
+64	h a n a
+7	h i r a
+21	m a r o
+38	p u r u
+34	t u r i
+8	m o n a
+19	a r e
+4	r i p o a t a
+3	r o i a
+10	m a h a
+1	m i r i o n a
+6	t u n a
+7	k i N i
+29	p o i
+11	w e r o
+3	k u i n i
+10	t a N o
+2	m i h i n i
+19	p u n i
+480	N i a
+10	u t a
+42	m i
+8	h a r o
+12	i h u
+1	t i k i n a
+10	k o r e r o
+54	p u k u
+12	h i k i
+14	n a n a
+2	a i t u a
+9	e a
+1	t u N a n e
+9	p i h a
+2	h a w a i
+5	m a i h i
+12	p i t o
+7	h i p a
+7	k o k a
+20	r a k i
+3	m i r a k a
+5	m o e a
+84	f e
+6	t e N a
+25	f i u
+24	h i k u
+1	n o k u
+2	k a r a e h e
+4	o h u
+5	N a h a u
+12	t a h u
+4	t u a r a
+2	p a r a i r e
+34	p u k e
+3	k e r e m e
+8	N e r e
+1	m e n e t i
+7	n e k i
+3	m a t a u
+27	o h o
+6	h i p i
+8	k o m i
+2	n a r e
+16	r a k u
+2	p a r a o a
+1	p u e a
+2	k e N a
+2	k o u r a
+9	m i t a
+25	k a r u
+2	p i r e
+6	k a u t e
+13	a t i
+13	r i h i
+7	r u m a
+44	r e h u
+13	u m u
+5	f a i N a
+20	h a k i
+6	t a n i f a
+7	p i u
+4	n a r a
+7	t a r a i
+5	w a r i u
+41	r e i
+3	p e f e a
+45	r e a
+32	k i h i
+8	k a k e
+8	k o h i
+2	h o r o i
+86	t o r o
+10	p a t o
+24	r a i
+3	h a f e
+19	m i t i
+14	o p e
+2	p a h u r e
+19	t o k a
+9	m e r e
+27	r e h e
+18	k a t a
+5	p a o a
+2	t e p u
+2	t e r e i n a
+2	a i a
+5	k a r a N a
+10	n a w e
+9	r u h i
+11	k a n i
+8	u i
+20	r u k u
+36	t o h e
+3	t i f i
+8	m i r a
+9	e k a
+26	f a r a
+3	k a p u a
+24	k a r e
+2	m a h a u
+5	h e r i
+11	h u n a
+16	p a r i
+6	h o p a
+14	h u h u
+13	t i h i
+45	h i k o
+15	o m a
+3	r e t a
+9	t u n u
+7	n a t a
+9	t o e
+8	p o u n a m u
+4	n o n a
+9	p e t a
+25	a r i
+8	r a N o
+16	r o i
+44	k a r i
+16	h a o
+33	r u r u
+23	r e t i
+10	k o r a
+28	k a t i
+14	i n u
+46	r a p a
+7	h a i n a
+1	m a i a
+16	k a n o
+1	h e n e t i
+4	p u e h u
+4	t i n a
+20	t i t o
+23	p i r o
+35	h u r u
+24	i h i
+26	m a k a
+2	p a u a
+20	f a t i
+9	k a p u
+32	t i n i
+2	t a m e
+26	f e r a
+104	p o r o
+1	k a p e n e
+61	p a k i
+148	p a r a
+38	r e w a
+2	h e k e r e
+22	h o r a
+28	h u N a
+58	k e r e
+15	r e n a
+33	a N a
+27	p a n a
+1	r o a N a
+10	r i k a
+16	f a o
+15	h i w i
+14	k i k o
+2	a u a u
+1	k u k i
+10	m a n i
+7	n u k a
+5	m e i
+2	o u
+7	t i h e
+11	t o r i
+14	m a h a n a
+1	w o
+11	k e n e
+15	N a u
+18	N o i
+1	r a i n e i
+6	r a k a i
+1	r a r a N a
+31	a h o
+18	i r a
+9	m o t o
+12	u r a
+1	m a h u t a
+2	m a t e a
+8	m o k e
+26	r o r o
+16	h i n u
+9	N e
+46	t a p a
+8	k i w i
+1	r a n o
+4	t a r a i w a
+15	w i n i
+17	N i
+18	k o r i
+20	t a p u
+4	f o a t u
+9	h u e
+23	k a p o
+5	o k i
+20	a p a
+20	f i f i
+7	m a N u
+11	p u r i
+35	h u k a
+17	h u r a
+6	k a k i
+28	k o h u
+19	h i t i
+8	t o m o
+29	f a t u
+5	k a u r i
+15	m o k a
+18	p u t u
+11	e m i
+7	r i m u
+1	t a r a k a
+1	t i a t i
+2	k a u t a
+11	m u r a
+8	n i u
+4	p u t i
+1	t a h i t o
+2	t a n u
+8	t o h a
+7	k a p i
+5	n e t i
+1	r a h a k i
+3	t a i m a h a
+23	p i t i
+25	e r e
+6	t e r a
+6	m a r o k e
+2	m u i a
+3	N a n a
+7	N a r u
+9	n e h e
+8	p e r e h i
+5	r e r i
+2	t a p a h i
+10	h e u
+21	N o
+5	h o t u
+2	r e t u
+14	p e i
+42	a k a
+4	f e u
+6	f i r i a
+3	k o r o r i a
+6	N a k o
+15	p a r a u
+2	r u m a k i
+2	r e N i
+9	w a i a
+3	k a r a i h e
+4	k o t i t i
+10	r i r e
+14	r i N i
+24	t u i
+21	u n u
+5	a m a
+22	t u t u
+16	f e r o
+7	u r e
+13	w a o
+4	a m u
+2	a u t e
+7	h a u a
+2	k a w i t i
+14	k e r i
+1	k u a k a
+1	k u p e
+55	k u r u
+2	m i n e N a
+17	p a N a
+3	p i p i r i
+7	p u a r e
+3	t a r a u
+8	r a k a u
+10	h u t u
+2	m a t a a r a
+1	m u r u a
+27	r a r a
+36	t a o
+1	k a r a i
+1	p i t u r e
+3	m a r a r a
+5	m u k a
+47	t a t a
+5	f a r a u
+18	p i p i
+9	t o p e
+2	a r e r o
+17	f a t a
+5	N a r e
+16	m a t i
+2	r i u
+2	t i k e i
+1	t i k i t i
+2	t o h o
+6	t o i a
+34	N u
+4	m a t o
+2	m i r i a
+9	N a r a
+22	N u t u
+7	p a t a i
+28	p a t a
+19	p o k a
+5	o r u
+10	r i n o
+3	a m e n e
+18	a r u
+22	n a k o
+1	h e r e n i
+39	k o k o
+18	n e n e
+19	m i r o
+14	n i k o
+2	p a p a r a
+4	t a i a o
+4	t i p u a
+18	t o N a
+1	t u m e k e
+5	p u a k i
+19	h i k a
+13	i o
+9	m a o
+5	m a u i
+8	k e a
+52	p e k e
+1	r a i t i
+10	h a p a
+2	m a k a w e
+3	m o h i
+14	n i h o
+13	N u r u
+13	p e h u
+1	w a i h a N a
+16	a m o
+5	h a w e a
+4	p a k e h a
+6	k a u a e
+2	u n i
+11	w a u
+42	p u a
+11	k u m e
+1	m a r i n o
+10	p a N o
+14	p o h o
+1	t a h a k i
+10	k o h a
+15	t e k a
+33	w i r i
+10	a t e
+11	a w e
+6	r a p o
+9	f i a
+18	h o i
+6	k u t i
+8	m e t e
+7	o a t i
+19	p a n i
+1	p a r a t a
+16	p a r u
+36	p e r e
+1	p o r a k a
+24	m a n a w a
+13	p u r a
+1	n e h i
+3	t u i a
+26	m a N a
+1	a k u n i
+11	h o p e
+3	h u a k i
+5	k o n o
+2	k o p o
+15	o h a
+2	m a n a i a
+1	N e u
+1	p e r e t i
+17	p i a
+1	k e t a
+13	t i o
+11	r a h a
+2	k o r e a
+4	m u t u a
+2	n u i a
+3	k i r i m i
+1	p u p u r u
+6	h e m o
+66	h o r o
+24	p o k o
+3	k o h u a
+36	r a k a
+11	t a w a
+1	w e p u
+6	m i n e
+2	m o m o r i
+57	t o i
+28	f a n a
+12	f e k e
+7	h a r e
+2	k i t i
+22	m i r i
+3	p i r i t i
+1	w a t e n e
+16	w e t e
+1	w o k u
+3	f a n o
+1	i n e i
+18	m e n e
+14	m o a
+2	n a i h i
+3	N a k i
+4	n o u
+33	m i a
+4	u n a
+2	p e n i
+3	p e p e h a
+18	p i k o
+64	o r o
+5	r a w e k e
+2	t a i e p a
+12	o r i
+10	t i u
+10	w a r o
+6	w a w e
+1	e h e a
+4	k e h u
+2	m o h o u
+1	t u k o h u
+45	t i t i
+11	t e n e
+14	m a m a
+2	p o a i
+2	m a i r e
+1	m i n i t i
+17	n e h u
+14	p a o
+6	p a r a i
+4	h i n i
+24	p u N a
+3	r e i N a
+4	r e i t i
+14	u e
+1	w a h i e
+4	w e r i
+4	w u r u
+9	t a i a
+1	a w a u
+2	h u n e
+1	k i e
+14	m e k e
+1	m e m e h a
+8	m i m i
+3	n a k u a
+12	o t a
+9	h a m u
+12	p a n e
+9	p i h i
+1	p i t i t i
+24	p o k i
+10	r e p o
+36	r o r i
+13	t a r u
+13	t i p i
+9	t o h i
+16	f e t u
+1	h o r o i a
+7	h e t e
+3	n a h e a
+1	o t i i a
+10	m a m a o
+14	p a t i
+13	p i n e
+18	r a e
+3	t a N u r u
+3	r i a n a
+4	t e k o
+2	t e r e N a
+27	t i r i
+10	t o N i
+3	t o t o h u
+19	f i o
+2	a i h i
+20	r a t a
+1	f e o i
+1	f i o r e
+1	h a u p o
+12	e r o
+9	k u t u
+1	m o t a t a u
+1	n e h a
+2	N i r a
+6	k e k a
+4	t e h e
+12	k a n a
+9	r a r a u
+13	t a r e
+1	t e n e t i
+14	u h i
+2	u m e r e
+2	w e w e h i
+5	n i w a
+1	f a e n e
+2	f e t a i
+2	f a N a i
+45	k a k a
+10	h i w a
+12	h o N i
+2	k a n a t a
+26	m u
+14	w e t i
+9	k o h e
+3	k o N a
+15	k o u
+2	m a r a m a
+39	m a r u
+2	m o a r i
+19	o r e
+1	p a k a k e
+33	p a k a
+4	k u i h i
+32	t o t o
+16	r a h o
+1	r a r a p a
+5	r i r i k i
+1	t a r a m u
+5	t a r o
+1	t e k e h i
+6	t u k e
+14	w a t a
+2	u i a
+3	k i N a
+2	f i r a
+3	k e h i
+3	h a t a
+1	h e o t i
+1	h e r e N i
+13	h o r i
+2	k a t e a
+11	k a h i
+12	t a N a t a
+1	k a k a m a
+10	k a m o
+3	m a t u
+10	m o m i
+3	N e r u
+13	p e t i
+1	p i h i N a
+6	p o r o a
+20	r e k e
+10	r o p i
+12	r o u
+9	t u r a
+6	m e h a
+1	w e p u a
+24	k i k i
+38	h i n a
+1	h o a r i
+5	i n i
+16	i N o
+1	k a n a w a
+22	k a p e
+1	k e k e n o
+14	k e n a
+2	k o r a h a
+2	k o r o i
+23	t o r e
+6	h u r e
+4	m a k e t e
+18	m a k o
+10	p a h u
+1	p a i h i
+15	r e r a
+16	p u r e
+1	r e i h i
+11	r i t a
+6	r i t o
+2	r o k o
+5	r o t a
+4	o h i
+3	t i m u
+4	t o h e a
+8	u m a
+1	a r a n i
+1	a w a N a
+37	t e t e
+5	f a r o
+2	f i f i N a
+9	h a p e
+5	h o p i
+9	h u t i
+5	k a m a
+16	m i n a
+10	p u p u
+3	k o r o u
+1	m a w e
+5	n a p i
+2	n o h o i a
+1	p a h e m o
+10	u k a
+10	r i p o
+10	r u a k i
+12	r u i
+1	r u i h i
+3	p a k e k e
+4	t a k a h i
+3	t a p e p e
+1	t u p e k a
+6	a p i t i
+12	a p u
+1	k a t i a
+7	k o p i
+2	f i k a
+12	h a k u
+5	h a m o
+16	h o k a
+11	o N a
+15	i p u
+1	k a e N a
+8	k a h o
+1	k a k a h i
+7	m e r a
+14	e n e
+7	m a e n e
+35	k u k u
+3	m i N a
+6	m a r e
+1	m a t e n e
+7	m i k i
+2	k i t i h i
+4	p a r e a
+1	p a r e N o
+1	p e n e t i
+10	h a r u
+1	p u n u a
+2	r u k e a
+3	t a k a o
+3	t a m i
+1	t a p e p a
+2	t a r e a
+7	t i k e
+10	t i k o
+1	t o r o m i
+3	t o r o n a
+3	w a t i
+1	w i t a
+10	a n u
+6	t u m a
+3	u r u a
+1	h a r i N a
+3	N a N a
+1	n o t a
+1	h u a t a
+1	i n i h i
+1	k a e o
+1	k a h i k a
+2	k a r a k i a
+16	r o h i
+5	k i t a
+2	k o k o r u
+4	r a k o
+1	m a r i u
+1	N a e h e
+1	n a p o
+3	N a u a
+1	n i a o
+1	N o i r o
+14	N o t e
+1	p a e k e
+2	p a e r a
+17	h i h i
+2	p a p i
+4	p a r a k i
+12	p o n a
+12	r e m u
+9	r e f a
+10	r e k o
+6	w a n a
+7	r i h a
+9	r o n a
+9	n a k a
+3	t i t i a
+3	r e m i
+6	h a h a
+1	w e u
+14	e h u
+8	h a k o
+1	r e r e a
+17	r o t o
+2	t a p u a
+2	f a k i n a
+1	f a m a
+11	f e r e
+9	f i r o
+1	h a k e k e
+11	h a m a
+4	t u p u a
+4	k a k a u
+17	n i h i
+1	r a n i
+3	k a r i h i
+2	k e r i a
+4	k i k i r i
+2	k u p a
+1	m a k a i
+5	m e k a
+8	m o h o
+11	m u k u
+10	n a e
+1	n a n a o
+2	n i k a
+11	o k e
+11	p a h i
+3	k i r a
+2	p a r a n i
+1	p a i a r e h e
+1	p i r i N i
+4	p o i a
+6	p o k a i
+1	p u n a N a
+23	r a h u
+9	r a k e
+3	r a o
+7	r a r e
+7	r u p e
+4	k a i a
+5	w a h i n e
+6	m u r e
+7	p u i
+2	t a r a p u
+1	t a u i
+5	k e r a
+1	t i n e i a
+1	t i n i h a N a
+1	t o k a N a
+4	t u h a
+2	u a r a
+1	u f a
+13	u k u
+2	k i r i h i
+1	w e h e N a
+3	a i o
+13	a k e
+2	a r u h e
+1	f a e
+9	w a w a
+1	r i t i
+5	h a e a
+9	h e r u
+3	h o n e
+2	h o u r a
+20	h u k i
+3	m a r i r e
+5	k a k a p a
+1	t a r a h a e
+3	k a n a e
+15	o i
+4	k i r o
+6	k u m u
+6	i h e
+2	m a i k i
+1	m a p i
+5	m a r i
+19	r i p i
+4	t a k i n a
+15	m o r e
+3	m o r o
+16	N a o
+11	N a r i
+5	n o k e
+2	n o n o h i
+1	o h o N a
+1	r i w a
+22	p a k o
+1	p a n a n a
+1	k i r e
+1	p a r a u r i
+23	r o r e
+16	r u r e
+1	p a t a N a
+6	p e r u
+1	p i k a u
+1	p i k i a
+1	p o h u
+3	p o k e a
+1	e r u
+9	r a r i
+6	r a r a h i
+2	w e n a
+14	k o n a
+3	r o m a
+4	t a i r i
+7	t e f a
+8	t e k i
+4	e k i
+1	t o k e n a
+4	t a t a k i
+7	u h u
+11	w e k a
+5	w i t i
+3	a f a
+1	a h a h a
+2	k a r o a
+2	a i h e
+16	a N i
+21	a p o
+11	r e p a
+5	e N a
+3	t e n a
+1	f a t a r a N i
+10	t e r o
+2	h a e a t a
+1	h a p o r i
+7	h e m a
+2	h i h i r i
+4	h o a k e
+14	h u n u
+8	i k e
+1	k a r o r e
+1	k e N e
+1	k e r e w a
+7	k i o
+13	k i p a
+5	h i m u
+8	k o m o
+4	k o n i
+1	k o r a u
+2	k u h u a
+2	k u m i
+1	m a m a h a
+1	m a r e t i
+2	m a u k u
+5	w a k e
+2	m o n i t a
+2	m o r o k i
+3	N a i o
+2	n e k o
+1	n a n a h i
+2	N o t a
+9	o k o
+2	p a o k a
+2	p a r a i h e
+3	p a r a k a
+6	p e h a
+7	p i o
+1	n i h a
+1	a n a N a
+2	p o k a i n a
+6	k i h a
+1	p o p a
+11	p o r e
+2	p u n e
+1	p u r o t u
+13	r a p i
+2	r i p e n e
+8	r u k i
+2	t a e r a
+9	a f i o
+1	t a p u i
+4	t a p u h i
+10	r u k e
+15	n a h a
+6	t a u n u
+12	k a p a
+11	t o p a
+7	t o t e
+3	t u r u k i
+1	u k u i a
+2	m a r i a
+26	w a r a
+11	w e n e
+17	w e r e
+11	w e t o
+3	a n i n i
+9	a t o
+2	e t i t a
+7	f a f a
+3	f a i n a
+7	p a e a
+4	p o h a n e
+6	t a p o k o
+1	f a o n a
+5	f e n u
+8	f e o
+9	h a n e
+13	h e w a
+2	t i m i
+9	i t a
+17	f a k i
+1	k a f i
+5	w a w a o
+1	k a m e t a
+1	h e i h a n a
+1	k a p u n i
+8	r a m u
+2	r o t i
+10	t i p a
+11	f a u
+11	u N a
+2	k i m o
+3	k o e k a
+1	k o f a k i
+1	k o k a k o
+16	k o p a
+1	k o r i h i
+11	k o r u
+1	k u p a e
+2	m a i n a
+1	m a i p i
+4	m a k u r u
+1	m a n i n i
+1	m e r e n i
+1	m o k a i
+15	m o r i
+1	m u r u N a
+1	N a e r e
+2	N a N a h u
+9	n a o
+8	n a t i
+12	n i a
+5	n i n i
+13	n o n o
+4	N o r e
+1	N u h a
+6	o r o k o
+1	p a r e h e
+2	p e i r a
+6	p e n a
+12	p e n u
+2	p e r e k i
+3	n a h o
+6	f i t a
+5	f i u a
+1	h i a N a
+1	p o t a e a
+2	p u t u a
+1	r a i h i
+1	r a k a i n a
+2	r a n a
+1	r a n u i
+1	r a w a k a
+1	r e i n a
+1	r e m e
+18	r u t u
+2	t a i k a
+5	i N a
+2	t a m a h i n e
+7	t a k o
+3	t a o n a
+7	p o r a
+1	t a p u a e
+4	t a r a i a
+1	t a r a t a
+3	u k e
+1	t e r e i
+1	t i a r e
+9	t i f a
+1	t o m a
+2	N a h u r u
+1	t u k u n a
+1	w e r a N a
+1	a h e i a
+17	t o k i
+5	m i o
+1	a N a N a
+1	a o N a
+2	e h u N a
+25	e p a
+5	e w e
+1	f a i a o
+4	a h u r u
+1	a r o a
+1	i r i N a
+6	t a h e
+2	t e r e a
+5	f a n a k e
+1	f a n a t u
+1	f u r u t u
+1	h a h a o
+1	h a h a r i
+1	h a h u
+1	h a h u N a
+11	m u m u
+1	h a n a r a
+9	n e a
+10	t e r i
+1	h i a k o
+3	h o a t a
+3	h u k e
+1	h u k e a
+1	h u r a i n a
+3	h u r i a
+3	k a e a
+6	f e n a
+3	k a n a p a
+2	k a n u
+1	k a p a n a
+1	k a p u N a
+2	k a r a p a
+2	k a t e n e
+2	k a u i
+1	k a u k a
+12	k e t u
+1	k i k i k i
+1	k o a u
+3	k o e a
+1	k o m e
+1	k o n a k a
+3	m i k o
+1	k u r u k i
+1	m a h u h u
+9	m a h u
+1	m a i k a
+1	m e r e N i
+2	m o t e
+2	n a h e
+2	N a h u
+2	N a h u a
+2	N a k u
+1	n a n a t i
+2	N a p u
+1	N a t a r i
+2	N i h a
+12	N o h e
+5	n o n e
+14	N o N o
+5	n u k e
+1	n u n u m i
+1	o h i a
+1	o h o u
+12	o k a
+2	o p a
+1	o r e a
+2	p a p a p a
+1	p a p u
+2	p a r a h a
+1	p a r a m u
+1	p a r a r e
+3	p a r i a
+4	p a r o r i
+2	p e i a
+9	p e p e
+1	n i k i
+5	p i o i
+3	p i u a
+12	p o a
+9	p o h e
+8	p o k e
+6	h e n i
+1	p u a N a
+5	p u h a
+1	p u k a n a
+5	k e k o
+2	p u n e N a
+1	p u r i n i
+3	r a o a
+1	r a r a k a
+6	r a t o
+2	r e f e
+3	r i p i a
+11	r o h a
+1	r o h e N a
+2	r o t u
+1	r u p i
+3	r u r u k u
+1	t a a r a
+6	t a i k o
+1	t a i n a h i
+1	t a k e o
+3	m e m e
+3	t a o r a
+1	t a p a i
+7	t a p i
+3	t a r a k i
+2	t a r e k a
+1	t a t a r a m o a
+7	t a u t e
+4	w e w e
+9	t e k e
+2	t e m e
+11	t i m o
+2	t i o k a
+1	t i o k e
+2	t o h i p a
+3	t o n e
+1	t o p e N a
+2	t u e k e
+8	h o t o
+1	k a h u k i
+1	t u m e r a
+1	N a r o a
+4	N o u
+13	u f i
+1	u h a
+4	r a t i
+3	w e a
+4	w e k u
+7	w e t a
+1	w o n a
+4	a i t u
+1	a m a r u
+6	a n i
+3	a N o
+3	a p i
+3	a r i h i
+2	a u h i
+1	a u i n a k e
+3	m a N e
+2	m i h i a
+5	a u r u
+2	e h u a
+3	e t e
+2	h o r a p a
+4	h o r o a
+4	k a k a o
+2	k a r a i t i a n a
+2	m a n a n a
+4	m a t a r a
+4	m a u r u
+1	n o h o a
+3	n o i
+1	o r i t e
+2	r i r i k a
+5	t a i r a N a
+1	r a f i t i
+2	t i k i a
+11	u t e
+1	f a n a N a
+3	f a N o
+1	f e i N a
+2	f e k u
+4	f e N u
+1	f e o r o
+11	r o k i
+2	f u r u
+4	h a h a n i
+3	h a h a u
+7	h a n i
+1	h a p a i a
+2	h a r a u
+4	r u i a
+1	r o N a
+3	h a r o r e
+2	a r e a
+1	h a k e n a
+4	h e i a
+3	h e m i
+1	h e p a
+4	r e i t a
+3	h e u a
+1	h i k i n a
+1	h i n o
+1	h i r a k a
+1	h o h o k i
+5	h o h o r o
+1	h o k i o i
+2	h o n u
+2	h o r u
+3	h o t a
+2	h u h i
+2	h u n u a
+12	i n e
+1	i o k a
+3	p o n u
+3	k a m e
+1	k a n e i
+1	k a p o a
+4	p u i a
+2	k a r a e
+8	m u i
+1	k a r o r i
+2	k e m o
+5	k e o
+2	k e r e p e
+3	k e w a
+2	k i t e a
+3	k o e m i
+1	k o e t i
+16	f e t e
+3	k o h i k a
+5	k o k e
+1	k o k o e a
+2	k o t a
+11	n a t u
+5	k o p e n u
+3	k o t o
+1	k o u N a
+4	k u m e a
+1	k u p i
+4	m a e
+1	m a e a
+1	m a e h e
+2	m a h e n o
+1	m a h o
+4	h o N e
+1	m a i e a
+1	m a k e n u
+2	m a k e r e
+1	m a m a k u
+1	m a N i
+4	N u N u
+1	m a r a k e
+1	m a r e w a
+3	r o k e
+4	m a t a t a
+4	a h a r a
+2	m e h o
+7	m e N e
+6	m i h a
+4	m i N i
+3	m i r u
+6	n e n e h u
+4	m u n a
+1	N a h e
+3	n a k e
+1	N a k i N a
+2	N a N a r e
+2	n a n e
+1	N a t e
+2	n e k e a
+1	N e N e r e
+14	n i f a
+5	n i t i
+1	n a i a n e i
+4	n o n o k e
+1	N o N o r o
+1	N o r i
+8	n u m i
+4	o r u a
+1	p a h i k e t e
+7	p a k e
+1	p a k e r e
+3	m a e r o
+1	p a k o h e
+4	k u h a
+1	p a r a i a
+1	p a r e t i
+5	p a r o
+1	p e h e
+3	p e h o
+2	p e n u a
+1	p e p e a
+3	p e r e i
+5	p e w a
+8	o i o i
+2	p i r i t a
+1	p o a t a
+3	p o N i
+1	p o p o t o
+1	p o r o k a
+3	u t o
+1	p u a k a
+1	w a n a N a
+1	r e k i
+1	r a p a i a
+8	w e k e
+1	r e r e w e
+6	w e i
+5	r e t o
+7	r i f a
+6	r i k o
+8	r o k u
+8	r o m i
+4	r o r a
+1	r o r o i
+1	r o t u a
+10	f e t a
+2	t a h u n a
+4	a t e a
+1	t a i o h i
+4	t a n u k u
+1	t a o k i
+3	t a p e h a
+7	t u N a
+1	t o h i t o
+1	t i a k a
+8	r e t e
+1	k a p e a
+6	t i n e i
+1	t i r i k i
+1	r a i r a k a
+1	t i t o i
+3	t o e a
+4	t o t a
+4	t u a k i
+1	a r a k i
+7	u k i
+2	t u h e n e
+1	t u k e a
+3	n o h u
+1	p a r a r a
+1	t u p e a
+1	t u r u t u
+6	t u t e
+3	t u t e a
+3	u n a h i
+1	w a h u
+4	h o N a
+3	p a w a
+1	t u h i a
+2	w a k i
+1	w a w a r a
+4	w e h e a
+8	w e r u
+2	w i h i
+1	w i h i k i
+1	w u r u h i
+1	a e h a
+1	f a t o
+15	a f e
+2	f e t o
+1	a h a k u
+1	a h a n a
+1	a h e i
+1	a h e u
+1	k o m a u
+1	k o u k a
+1	a h u k a r e o
+3	h u m e
+1	a h u N a
+1	a i i i
+1	k o a r e
+1	k o p u k a
+1	p o h u e
+1	t a f i f i
+2	k e N o
+2	p i h o p a
+3	k u a r a
+7	k u n e
+1	a m a i a
+1	a m e n e a
+3	a m i
+4	m i k u
+1	a m i n e a
+1	a m i n o
+1	m i o a
+4	a m i o
+1	a n a n a
+4	r o p e
+1	a n a u
+2	a n e a
+1	a n e
+4	n e w a
+1	a n i n a
+2	n i n a
+1	a N i t u
+3	n a n i
+1	a o p o r i
+1	a p a i
+4	p a i a
+1	a p e r e
+1	a p e
+2	a p o a
+1	a p o i a
+1	a p u a
+3	p u r u a
+8	a r a i
+1	h a m o a
+1	a r a k a
+1	a r a u
+4	r e i a
+1	a r e i N a
+1	k e i t a
+3	k e h e
+2	m a t a i
+2	p e r e i n a
+1	a r o r o
+1	a t a N a
+1	t e h a
+1	t i h a
+2	r i k o n a
+1	a t i r u
+2	a t i t i
+1	a t o a
+3	a u a h i
+1	t u r o a
+2	a u a r e
+1	a u f i
+1	a u i n a
+14	p e h i
+1	p i k i N a
+1	a u r a k i
+2	k o f a o
+1	a u t a
+1	a u t e t a r a N a
+1	a u t o
+1	a w a i h o
+2	a w e k e
+2	a w e k o
+1	a w e r e
+1	e a o i a
+1	e h a k e
+1	e h i n u
+1	k a r e t a
+1	e k u
+2	e m e
+1	e m o h i
+1	e N a i o
+1	e n a N a
+1	e N e
+1	e n e a
+3	e o
+1	e p a r e h i
+1	e p e
+1	e r e m a
+1	e r o a
+3	e t i
+1	e t o k o h i n u
+1	f a k o u
+1	f a p u
+3	f a f a u
+1	f a u a
+5	f a f e
+1	f a f e a
+4	r o r o a
+1	f a i h a N a
+1	m o h i o
+2	f a i n e
+2	o r a N a
+2	p a i N a
+1	t a k i w a
+1	a f i f i
+2	a r i a
+1	a r i N a
+1	a w e a
+1	e p a i a
+1	e t e a
+2	e t o
+3	f a r a r a
+3	n a n a u
+20	r a n u
+3	f e r e a
+3	f e r e r e i
+2	f i t i a
+3	h a h a k e
+3	h a h a k i
+2	h a k o k o
+2	h a N a a
+3	h a n u m i
+2	h a n u
+4	h a o a
+1	h a w e
+2	h e m o a
+8	h e N i
+2	h e n u m i
+4	h i a p o
+4	h i e
+1	h i p a a
+1	h i w a a
+2	h i w a i
+4	h o a i n a
+13	h o h e
+8	h o h o
+3	h o k a i
+4	h o p o
+1	h o p o a
+2	h o r i a
+2	h u e n e
+1	i h i a
+1	i h o a
+3	i n a t i
+7	i p o
+2	i t a r i a n a
+5	i t o
+3	k a e
+2	k a f e n a
+1	k a k a o n a
+2	r a u r i
+3	k a p i t i
+4	k e r o
+2	k i a t o
+1	k i k i a
+25	k i n i
+2	k i k i w i
+2	k o e r o
+2	k o h e i
+5	k o h u k i
+3	k o i r o
+2	k o k o i
+1	k o n u k a
+5	k o p e
+4	k o r o a
+4	k u e n e
+2	k u n a
+1	r a k u a
+2	k u r e p e
+4	m a h e n i
+2	m a h i n e
+2	m a h i r i
+2	m a k a k a
+7	m a k u
+3	m a m a t i
+1	m a n a a
+7	N e o
+1	m a o k o
+1	m a t i k a
+2	m a t i t i
+1	m a t u t u
+2	m e m e k e
+1	m e n e a
+1	m e n e N a
+1	m e n o
+4	m e t o
+8	m i N o
+1	m i r e i
+1	m i t o
+3	m o h o a
+5	m o i
+1	m o k e k e
+4	k i t o
+2	m o m o k a
+5	m o m o t u
+3	m o r e a
+3	r e a r e a
+8	N a e
+4	N a f i
+2	n a i t i
+1	N a m i
+2	n a n o
+1	n a n o a
+9	n a n u
+2	n a n u a
+1	t e r i a
+1	n a u a
+2	N a w a r i
+8	n e f a
+4	N e h e
+4	N e i
+1	n e n e a
+7	N e n e
+3	N e t e
+1	N e t e a
+4	N i o
+4	N i t a
+1	N i t a i a
+1	n o i a
+3	n o n o i
+1	n o n o i a
+10	N o r u
+2	N o t e a
+5	n o t i
+2	n o t i a
+1	n o u a
+2	N u t u a
+1	o h o a
+6	m a u r i
+3	o m o
+1	k a o n a
+3	o N e
+3	o p e t i
+4	e k o
+4	p a h a
+1	p a h o h o
+1	f a k a p a i a h a h a
+1	f a k a p a i a h a h a t i a
+3	p a k a r u
+2	p a k e k a
+1	p a k e a
+1	p a k i r i
+3	p a r a h i
+2	p a r a N a
+1	p a r u r e
+6	t a r i a
+2	p a t i a
+4	p e a u
+1	p e a u a
+5	p e t o
+3	p i r a r a
+2	p i r o a
+2	p o a i n a
+5	p o h e w a
+3	k a r e a
+3	p o N e r e
+1	p o t o N a
+11	f a r u
+1	p u f e t o
+1	p u h e t o
+1	p u h i a
+2	p u p u n i
+2	p u r a N a
+1	p u t a i a
+1	r a h i a
+2	r a k e a
+4	m e m e n e
+2	r a n u a
+1	r a p o p o t o
+2	r a r e a
+2	r a r u a
+2	r a t o a
+3	i r i a
+2	r a u N a
+3	r a w e a
+1	r e w a i a
+1	r i k a i a
+1	r i u k a
+2	r o a k a
+2	r o a u
+4	r u e
+4	r u n a
+1	r u r u N a
+1	t a h a i a
+1	t a h e a
+3	t a h u a
+2	r i t e N a
+2	t a k a a
+1	o a
+3	t a k u n e
+3	t a N e
+1	t a n u k u a
+5	t a t a r a
+2	t a t a r e
+4	t a t a r i
+1	t a t u t u
+3	n a h u a
+4	u p e
+1	f a k a t e m a r a N a i
+1	t e m o a n a
+11	t e p e
+2	t e p e a
+4	t e t e a
+2	t e t e r e
+1	t e u m a
+2	t i e k e
+3	t i m a
+1	t i n a i a
+6	t i n a k u
+5	t i t i n a
+4	h e n e
+1	t o k a r a
+1	t o m e n e
+2	t o r e k e
+4	t o r e a
+5	t o r o a
+2	t o r o u k a
+5	k a w i
+3	N a N i
+2	p e r e r u
+2	t u r u a
+7	u p a
+1	u p a i a
+2	u r u h i
+3	u t i
+3	u t u a
+3	w a h a a
+2	w e r e a
+3	w i r i a
+1	f a k i a
+1	k o e k o e
+14	k o k i
+3	k u r u a
+3	f a N a a
+1	f a n a u a
+4	f a n e
+1	f a N e
+1	f a n o a
+1	f a n o k e
+1	f a n o N a
+1	f i n a
+1	N a N a r a
+1	N a r a r a
+2	f a r i
+3	f a r i t e
+2	r i t u a
+4	r u k a
+1	f a t a a
+5	t a t a i
+1	f a t i a
+1	f a t o r o
+1	u a m a
+1	f e a o
+1	f e a u
+1	f e f e i
+1	f e f e N i
+1	f e i
+1	f e i n u
+1	f e k a
+2	f e k i
+3	f e k o
+4	f e n e
+3	f e n e k i
+1	f e N o
+1	f e N u a
+1	f e p u
+2	r o n i
+1	f e t e k e
+2	f e t e N i
+3	f e t i
+1	f e t o k i
+3	f i f i t a
+1	f i k a i a
+1	f i r o i a
+1	f i t o
+1	p a r a N i
+1	h a h a k a
+2	h a h o
+1	t o r a n a
+1	h a k a a
+1	h a k a k a o
+3	m e t a
+1	h a k e k a
+1	k u a i
+1	h a k u k u
+4	h a k u r e
+1	h a m a i a
+2	m o n i a
+1	m u r e a
+1	h a n a k e
+1	h a N e
+2	N e N a
+5	N e N e
+1	h a N e r e
+1	h a n i a
+1	h a N i n a
+2	h a N o
+1	h a N o N i
+1	h a N o r o
+1	h a N u t u
+1	h a p a r a
+4	p a r u a
+3	p i n e a
+2	p i r a
+1	h a p u r u
+1	h a p u t a
+2	h a r a k i
+1	h a r a n u
+2	p a k i a
+1	h a r a r e
+1	t u a i n a
+1	w i w i n i
+1	h a r e t o
+1	h a r o t u
+1	h a t a i
+1	h a t e t e
+3	t o p e a
+1	h a u a i t u
+1	a t i u
+1	h a k e a
+1	h a u i
+1	k e r e a
+4	k o f a i
+21	k o n u
+1	h a u m a k a r o a
+5	m a N o
+3	m a o t a
+2	m a r a N a i
+1	m a r i N i
+1	h a u m a r u r u
+1	m a u i u i
+2	h a u p a
+4	p a t u a
+3	u p a u p a
+1	p i t o N a
+2	p u n u
+2	h a u r a
+1	h a u r a t e a
+1	h a u t a
+1	t o m a i
+1	t o r u a
+9	h a w a
+13	w a n i
+1	w a t e
+1	w a t o
+2	h a w e n e
+3	h e h e N i
+8	h e k a
+1	h e m o N a
+5	h e N a
+1	h e N e r e
+1	h e N o
+3	i m u
+1	k o r e N a
+1	t i t a
+7	h e t i
+1	h e t i a
+1	h e u e N a
+1	h e w a r o
+1	h i a m o
+1	w a e r o
+1	h i h o r e a
+1	h i h u e
+1	h i i a
+1	h i k a i a
+1	h i k a k a
+1	m o r a
+2	h i k a w e
+4	k a w e a
+2	h i k o i
+1	h i n a k i
+5	m o k i
+1	h i n a N i
+9	r e p e
+1	h i n e N a
+1	w a i a p u
+1	N o N a
+1	h i o r e
+3	h i p o
+1	h i p o r a
+1	h i r a N a
+1	h i r a u
+1	h i r i a
+1	h i r o u
+3	t a m o
+1	t a r a r i
+1	h i t a u
+2	t a w e
+7	t e N i
+1	h i w i a
+1	h o e h a
+9	h o n i
+1	h o h o r e
+1	h o h o t a
+3	p i n i
+1	h o k e
+1	h o k i k i
+1	h o k o i
+1	h o n a e
+1	h o N a i a
+1	h o n e a
+1	h o N e a
+1	h o N e r e
+1	h o n i a
+2	k o m a
+2	h o n o a
+1	N a i t u a
+1	h o n o r e
+1	h o p u a
+3	h o r e a
+1	h o r e p a t a t a i
+1	h o r e r a
+1	h o r e t e
+3	p a k i n a
+1	p e t a i a
+1	p u k u a
+1	p u k u n a
+1	h o t e
+1	h o t i k i n a
+1	h o u a
+1	h o u h i
+1	h o u i
+3	k u m a r a
+1	m a p a r a
+1	h o u t o
+1	h u a i
+2	k a r o r o
+2	k e t o
+1	h u a N i
+1	h u a r a N a
+2	w a e r e
+1	f e r e i
+1	h i m a t i
+3	h u h u a
+1	h u h u k a
+1	h u i h i
+1	h u i k i
+1	h u k i a
+2	h u k u
+2	m a e k o
+1	m a r i k a
+1	h u m e i a
+1	m e N a
+1	h u m i
+7	h u m u
+1	h u n a a
+1	h u N a a
+1	N a m o h o
+1	h u n e n e
+1	n o N a
+4	N u e
+1	h u N u i
+1	h u p a
+2	p i r a u
+1	h u p i r i
+1	k o a r o
+1	k o t u a
+2	p o k i a
+2	t o r o r e
+2	t o t o i
+2	t a w a i
+2	i a n a
+1	i a t a
+2	i e r e
+1	i h e u
+1	i h e u a
+2	m a n e a
+8	i k i
+1	i k i r i a t a
+1	i k u
+1	i k u r a
+1	i n a h o
+2	i n a k i
+1	i n a N a
+1	i n a o a k e
+1	i n a o a k e n u i
+1	i N i k i
+1	i n i t a r e t e
+2	i n o h i
+1	i n o i a
+1	i n o
+1	i o a
+1	i p u a
+2	i r e
+4	e h e
+1	e w a
+4	f e f e
+1	k a h a u
+1	k a h e
+1	k a h e r a
+3	k a w a k a
+1	k a h i w i
+1	k a h u i
+1	k a h u k u
+1	a k i k o
+2	m a h e r e
+1	a r u r e
+3	w a i u
+1	k a i k a
+2	k a t i k i
+4	m a o a
+3	p a o e
+3	p a w e
+2	p e r i
+1	p i k o a
+1	p u k a h u
+1	r a m u a
+3	r i f i
+4	t a f i
+1	t o r o h i
+1	k a k a k a
+2	k a k a n o
+1	k a k a p e
+1	p i N a
+3	k a k a r a
+2	k a k a r e
+1	r e a o
+2	k a k a r u
+2	k a k a w a
+1	w a i a r i k i
+1	k a k e a
+1	k a k e r e
+4	k a k u
+1	k a m e a
+1	k a m e N a
+2	k a m i
+1	k a m u N a
+1	k a N a a
+1	k a N a i a
+1	k a n a k u
+2	n a p a
+6	k a n e
+1	k a n e k e
+2	a f e a
+1	n i n i h i
+1	k a n i o
+2	k a n o i
+1	k a f e
+1	k a n o n o
+2	k a n o t i
+1	k a o a
+1	k a o n e
+1	k a p e n e i
+1	p e u
+4	N a f a
+1	k a p u r a N a
+1	k a r a e h i
+1	p a i n a
+1	k a r a i p i
+1	k a r a k a k a h o
+1	k a r a k o t a e r a
+1	k a r a m u m a n o
+2	p e t a u
+1	p i p i t i
+5	p o t a
+1	r a r a h a
+4	r u r i
+1	k a r a t i
+1	k a r a u
+1	k a r e h u
+1	k a r e i
+1	k a r e k o
+1	k a r e n i
+1	k a r e N o
+1	k a r e p a
+1	k a r e p a r a o a
+1	k a r e p e
+1	k a r e u
+1	k a r i k i
+1	k a r i k o
+2	k a r i p i
+1	k a r i p i a
+3	t u a N i
+1	k a r o h e
+1	k a r o h i
+1	k a r o n a
+1	k a r o w i
+3	p a r e r a
+3	r u r e a
+1	k a r u r e
+1	k a r u t a
+4	t a i n a
+1	k a t a k a
+1	k a t a i n a
+1	k a t a m u
+1	r o e r a
+1	m a u h e
+1	k a t i r a
+1	k a t i r a f e
+2	k a u a f i
+1	k a u a N a
+1	N a w a i
+1	h o e a
+1	k a u n a
+5	n o n i
+3	p a p a r e
+2	p a r a r i
+3	p e h i a
+3	r o r i a
+2	t a h a N a
+1	t a k o a
+3	k a u t a u
+2	k a u t o
+1	k a u t o i
+1	k a w a i a
+1	k a w a N a
+1	k a w a r i
+1	k a w a u
+1	k a w e a u
+1	k a w e k a
+1	k a w e n a t i
+1	w e r u a
+1	k e f a
+4	k e h a
+4	k e h o
+2	k e i a
+1	k e i h a
+1	k e k e h o
+5	k e k e r e
+1	k e k e r e u
+1	k e k e t u
+1	m e h i
+2	m e t i
+1	k e n o
+1	m a t a t u
+1	k e r e p i
+1	t e r e h e
+1	k e r u p a
+1	k e t o a
+1	k e t u a
+2	k e u
+1	k e u a
+1	k i a t u
+2	k i f i
+1	k i h i h i
+2	k i h u
+1	k i k a p a i t a
+1	k i k i m o
+1	k i n i a
+2	k i r e a
+1	f a k a a r i
+1	h a u N a
+1	k o t e a
+1	p o h a t u
+3	k a r a m u
+2	k i u
+1	k o a e a
+1	k o a i a
+1	k o a p i
+1	k o a t i
+1	k o e a e
+1	e a e a
+1	k o e o
+2	k o e r e
+1	k o f a n e a
+1	k o f e t a
+1	f e t e a
+2	h a k i n a
+1	k o h a N a
+2	r a i n a
+1	h a r i a
+1	k o h a u
+1	k a t o t e
+1	k o h e a
+1	k o h i n u a
+1	k o h o h o
+1	h o i m a k o
+1	k o h o r e
+1	k o h u k a
+1	k o h u k e
+1	h u m u a
+1	h u r e a
+1	k o i N a
+1	k o i o
+2	t a r e k e
+4	k o k i r o
+2	k o k o h u
+1	k o k o p i
+11	k o p u
+1	k o k o p u
+2	r u a o
+1	k o k o r i
+1	r o i h e
+1	r o u r i
+1	k o m a e
+1	k o m a i
+1	k o m e m e
+1	k o m i N i
+2	k o m o u
+2	m o u a
+9	m u h u
+1	m u h u a
+1	m u k u n a
+1	k o m u
+1	k o n a k i
+1	k o n a n a
+5	N a N e
+2	k o n a n u
+1	k o n a p e
+1	k o n a t u
+1	n a t u a
+1	k o n a u a
+1	k o n e h e
+1	k o n e
+2	k o n i h i
+1	k o n i u
+1	k o n o h e
+4	N o N e
+3	N o t u
+1	k o n u k a w a t a
+1	k o h a t u
+1	k o r e k o
+3	m o h e
+2	n u n u
+1	k o n u o i
+1	k o p a k i
+1	p a n a i a
+1	k o p a r e
+1	p e h u a
+2	p e k a i a
+1	k o p e n u a
+2	p e o
+2	p e r e a
+1	k o p i p i o
+1	p i r i a
+2	p i p i r o
+1	k o p o t i
+1	k o p o u
+1	k o p o u a
+1	k o p u p u
+1	k o p u r a
+3	t o t a r a
+1	k o r a e N a
+1	r a h e
+2	k o r a N a
+1	k o r a n u
+1	r a p u a
+4	k o r e p e
+1	k o r e r a
+3	r e r e h u
+1	k o r i a
+1	a n a r a
+1	k o r i f a i
+1	k o r i o
+3	r i o
+5	r i p a
+2	r i p o a
+1	k o r i r e
+1	k o r i t a
+1	k o r i t e
+1	h a w i n i
+1	k o r o h i
+1	k o r o k a
+5	m a h a N a
+1	m a k i n a
+4	m a m a h u
+2	m e m e N e
+1	m u k u a
+1	n a e a
+2	k o r o n i
+1	r o p e a
+1	k o r o p i h a N a
+3	r o r o h u
+4	t i N o
+1	t u o h u
+1	t u p a
+1	k o r o u w a
+2	r u h e
+1	k o t a i
+1	k o t a m i
+4	t a m u
+1	k o t a o
+1	k o t a r e
+1	k o t a t e a
+1	k o t a u
+1	k o t a w a
+2	k o t e
+5	t e o
+1	k o t e t e a
+3	t i t i t i
+1	k o t o u
+1	t u t u a
+1	k o u a
+3	k o u e
+1	k o u m a
+3	k o u n u
+2	k o u r e
+3	p o u a
+1	k o u t e
+1	k o u t u a
+1	w a e n a
+1	w a n i a
+1	k o w e r a
+1	k u a w a
+1	k u e o
+1	k u f a r u
+1	k u h a r u
+4	k u h i
+1	k u i k i
+3	k u k a
+1	k u k u r u
+2	t i N a
+1	k u m e m e
+6	n a k u
+1	k u n a n u
+4	N o N i
+1	k u p a N o
+1	k u r a i
+1	t o p u n i
+2	k u r e
+1	k u r e h e
+4	r e u
+1	k u r i r i
+1	f e N i
+2	p a k a r a
+2	p o p o p o
+3	k u t e
+1	m a e h a
+1	m a f a r u
+2	m a h e
+2	m a h e u
+1	m a h e u a
+1	m a h i r a
+1	m a h o r e
+1	e N i
+1	m a i e p a
+1	i k o
+2	i o i o
+1	m a i r a N a
+1	m a k a a
+1	m a k a N a
+1	m a k a o
+1	m a k a r o
+1	t a m i a
+1	m a k e
+1	m a k e k e h u
+1	m a k e k e n o
+1	h u h u n u
+1	k i r i a
+1	t o h e n e
+1	m a k i u
+1	m a k o a
+1	m a k u e
+3	m a i t i
+1	m a m a r e a
+1	m a m a t e
+3	m a m a u
+2	m a n a h a
+1	N a i a
+1	m a N a i N a
+1	m a n a k a
+1	m a N a i
+1	n a n a n a
+8	p o r i
+2	r i n i
+4	t a f i t i
+1	t o k o n a
+1	t o k o N a
+2	t o p u
+1	m a n a u
+1	m a n e
+1	m a n e h u
+1	m a n e i
+1	m a N e N e
+1	n e n e i
+6	h e k o
+1	N i n a
+1	m a n i n i r a u
+2	n o h e a
+2	k a f a k i
+2	k a h a k i
+3	m a o k a
+1	m a o N a
+1	m a o p o
+1	m a p i a
+4	m a p u
+1	m a r a h a
+1	m a r a k i
+1	m a r a r e
+1	m a r e N a
+1	r i h i a
+1	m a r i k o
+1	m a r i N a
+2	m a r u a
+3	m a r u r e
+2	f a f a t i
+2	f a n u i
+1	f i f i u
+2	t a h a e
+2	h e h e
+1	m a t a i a
+2	k o k i r i
+2	k u p e N a
+1	h u a N a
+1	m o r a r i
+1	m o r a r u
+1	m a t a m u r a
+2	m a t a N a
+5	N o h i
+1	N o N o r e
+1	p a h e r u
+1	p a k i N a
+1	p a t e t e
+6	p o k e r e
+2	p o p o r e
+2	p u p u t u
+1	t i k e r e
+1	t o h u N a
+2	t o u a
+1	m a t i a
+1	m a t i h e
+1	m a t i r a
+1	m a t i r e
+1	t i t o r e
+1	m a t o h a
+1	m a t o h e
+1	m a t o h u
+1	p o t i k i
+2	N a r u a
+1	m a u n u
+1	m a u t i
+1	m a w e r a
+1	m a w e t e
+1	m a w e u
+1	m e a k e
+1	t i N i a
+1	m e i h i
+1	m e k a r i
+1	m e k e a
+1	m e k o
+1	m e k o a
+2	f e t a u
+5	m e r o
+1	m e w a r o
+1	m i i a
+1	m i m i k o
+1	m i m i N o
+2	m i r e
+2	m i n a i a
+3	m i n a k a
+1	m i n e t i
+2	m i n o
+1	m i r e t e
+1	m i r i t i
+1	m i r o i a
+2	m i t i a
+1	m i u r a
+1	m i u r u
+1	m i w a r e
+1	m o e a o
+1	m o f i
+1	m o h a
+4	h o k u
+2	m o h u
+1	m o i a
+1	m o k o r i
+5	t a f a
+1	m o k u t i a
+1	m o m o h a N a
+1	m o m o h e
+2	m o m o t o
+1	m o N a
+2	m o n e
+1	n e h u a
+2	m o n o a
+1	m o n o
+1	m o n o k u
+2	m o n o w a
+1	m o r o r o h u
+1	m o r o t o
+1	m o r u k a
+2	m o r u
+1	m o r u r u
+1	m o t a
+2	p a i k a
+1	m o u k u
+1	m o u N a
+1	m o u r i
+1	m u a N a
+1	m u e r a
+3	m u h a
+2	m u h a n i
+1	m u h e k e
+1	m u h e
+1	m u k i
+1	m u m u r a
+1	m u m u t u
+1	m u N a
+1	k o k a i
+1	N a e k i
+1	N a e o
+4	N a h a
+3	n a h i
+1	N a h o
+1	n a h u i
+2	N a k e
+1	N a k e k e
+1	n a m a a
+1	n a m a t a
+2	n e i t i
+1	n e r a
+3	n a n a i
+1	n a n a m u
+1	n a n e a
+2	o h e
+1	N a o k i
+1	N a o r a
+1	N a o r e
+6	n a p e
+1	n a p u k a
+1	N a r e h e
+1	N a r e a
+1	N a r u e
+1	r u e a
+1	N a t u
+2	N a u e
+1	N a u r e
+1	n a w a i
+1	n a w a k i
+1	N a w e k i
+2	w e k i
+2	N e a
+1	N e h i
+3	N e k i
+1	n e k u
+3	N e r i
+1	N e N e r o
+1	n e n e t i
+1	N e N e t i
+1	N e n i
+2	N e r o
+1	N e t a
+3	t i n e
+1	N i N i h a
+1	n i p a
+1	N i N i t a
+1	n i n i w a
+2	N i r u
+2	N o e
+1	N o h o
+1	N o h u
+1	N o i n e
+1	N o i o
+3	n o k o
+1	n a i
+1	n o n a o a k e n u i
+1	n o n e a
+1	N o N o a
+5	n o p e
+1	n o n o r o
+1	n o n o r o h e k o
+3	n o n o t i
+3	N o t o
+1	N o u a
+1	n u k a i a
+1	n u m i a
+6	N u n u
+1	N u r e
+1	N u t o r o
+3	o f a
+1	o h a u r u N a
+1	o h e k e
+1	o h i k i
+1	h i p e r a
+2	h o n a
+1	o i a
+1	o i N a
+1	o k a m u
+2	o k e a
+1	o k o i
+1	o k o i a
+1	o k o n a
+1	o m a k i
+8	o n i
+1	o p i k i
+1	o p i
+1	o p u r u
+1	o p u
+1	o r o a
+1	o r o i
+1	o r o i a
+1	h a N a N a
+1	t i m a t a N a
+1	t e k a u
+1	o t i k i
+1	t i m i r a
+1	o u e
+1	o u m u
+2	o w a
+1	o w a r o
+1	p a e a r a u
+1	p a e r e
+4	w i r a
+1	p a f a r u
+2	p a f i r i
+1	p a h a k i
+2	h e h a
+4	p a h e k o
+1	p a h e n o
+1	p a h e
+1	r o w a
+1	p a h i a
+1	h i n i p i
+4	p a h o
+1	p a h u h u a
+1	p a i a h a h a
+1	e r e a
+1	p a i h e r e a
+1	p a i k e
+1	n a p o r o
+1	p a k a i
+1	p a k a k a u
+1	p a k a u a
+2	p a k a u
+1	p a k e t i
+1	p a k e w a
+1	p a k i h a
+1	k i r e h e
+2	p a k i n i
+1	p u m e k a
+2	r e h u a
+1	p a k o h u
+2	k o i r e
+1	p a k o k i
+1	p a k o N a
+1	p a k o r a
+2	k a r a n e t e
+1	p a m a
+1	p a m e
+2	p a n a a
+1	p a N a a
+1	p a N a N a
+1	p a N a i a
+1	p a N a r e
+1	p a n a t a
+1	p a n a t i
+1	p a n e k e
+1	n i p i
+2	p a n o k o
+3	p a n o n i
+1	n o n o k o
+1	p a N o r e
+1	p a N o r o
+1	p a n u n u
+3	p a o i
+2	p a o w e
+1	h u e k e
+1	p a p a i h o r e
+1	p a p a k i r a N o
+1	p a p a k i
+1	k o a k a
+1	m o n e h u
+1	p a p a n i
+1	N o k o
+1	p a p a o
+5	r a h u a
+1	k a u h e
+1	r o n a k i
+1	t a N a r o a
+2	t a u r a
+1	u N u
+3	p a p e
+1	p a r a h e
+1	h i t i k i
+1	h u h a r e
+1	k a e t o
+1	k a i N a k i
+1	p a r a k e t u a
+1	k a k o
+1	N e t u
+1	n o h i a
+2	r a i h a
+1	r a w a h a
+2	r u t i k i
+1	t i n a m u
+2	t u t a e
+1	p a r e h o
+1	p a r e m o
+1	r e m o
+1	p a r e N a
+1	r e N o
+1	r i k o u
+1	p a r o r o
+1	f a t i t i r i
+1	p a r u h i
+1	p a r u n a
+1	p a r u n u
+1	r u r e N a
+1	p a t a r i
+1	p a t a t e
+1	p a t e
+1	p a t e k o
+1	t i h a u
+1	p a t i k i
+1	p a t i k o
+1	p a t u i
+2	t u k i a
+2	t u t u k i
+1	p a u k u
+1	p a u n i
+1	p a u t e
+3	p a w e r o
+1	p e i h i
+1	p a i p a
+1	p e k e a
+1	p e k i
+1	p e o i
+1	p e p e h a t u
+1	p e p e k e h a
+2	p e p e k e
+2	p e p e r e
+1	p e r a r o
+1	h e p e
+3	p e r o
+1	p e r o r i
+1	p e t a k o
+1	p e t i a
+1	p e w a r o
+1	r e m a n a
+1	p i a r i
+1	p i a u
+1	p i e k e
+1	p i f i
+2	p i h a N a
+1	p i h e
+2	p i h o
+1	p i i a
+2	p i k a
+1	p i k o n i
+1	p i n a
+1	p i N a w i
+2	N a w i
+1	p i n o
+1	p i p i h i
+1	p i p i n e
+1	p i r i h i a
+1	h o N o
+3	k e t i
+1	p i r i n i h e h e
+1	o t e
+1	p i r o e
+1	r o h u
+1	t a w i
+2	t o t o a
+1	p i w a
+1	p o a r e
+2	p o a u
+1	p o h a h a
+2	p o h a
+1	p o h a u
+1	p o h i o
+1	h u h e
+1	p o h u k a
+1	k o p i k o
+1	p o k a n a
+1	p o k a i a
+1	p o k o k o
+6	p o N a
+1	p o N a r e
+1	p o n e
+5	p o n i
+2	p o N i a
+1	t a k a i n a
+2	n i t a
+1	p o n i u
+1	p o n o a
+1	p o p i
+1	p o p o i
+1	a N o r e
+1	p o p o k a n u a
+1	p o p o k e
+1	p o p o k o
+2	p o p o r o
+1	p o r o i
+1	p o r a i
+1	p o r e i
+2	p o r e k u
+2	f i f i f i
+1	r o i r e
+1	h a k e r e
+1	p o r o N a
+1	p o r o r o t u a
+1	t a f a o
+1	t a k a t a k a
+1	t i t a h a
+1	t u t a k i
+2	t a f e
+1	p o t a e
+1	p o t e h e
+1	t e t e k e
+1	p o u e
+2	h a w a i k i
+1	n e m u
+2	r e k u
+1	t i r i a o
+2	t o t i
+1	h e i r i
+1	p u a i
+1	p u a k a i t o
+1	k a r i m u
+1	p u a t a
+1	p u f a u r e r o a
+1	p u h a h a n a
+1	p u h a N a
+2	p u h a u
+1	u r e r o a
+2	h e k i
+1	h i h i k o
+1	p u i r a
+1	k a n o h i
+2	k a r i a
+1	k e r u
+1	p u k i r a
+1	k o n o h i
+1	t a k a r o
+1	p u m a
+1	m a t a o
+1	p u m a t u
+1	p u N a a
+1	p u n e k e
+1	n u k i
+1	o t o
+1	p u p a u
+1	p o n i k i
+2	p u p u h a
+2	p u p u k u
+1	p u r a k a
+1	p u r a k u
+2	m o r u a
+2	r o u a
+1	p u r u a a
+1	p u r u h i
+1	p u r u k i
+1	p u r u n u
+1	a i h u
+1	t a h o r o
+1	t a i k i
+1	p u t e
+1	p u w a i
+1	f a k a r u a
+1	w a w a u
+1	w i w i
+9	r a f i
+2	r a f i a
+1	r a h o t o
+1	r a i h e
+1	h i n o N a
+1	r a m a a
+1	r a m e n e
+1	r a N a a
+1	r a n a k i
+1	r a N a t i r a N a
+3	t a m i r o
+1	r a p a a
+1	h u k i n a
+1	r o N o a
+3	r a p e
+2	r a p i a
+1	r a p o i a
+1	r a r a i
+1	r a i a
+1	k a i n a
+3	r a r a k u
+2	r a r a p i
+1	r a r a r u
+1	r a t e
+1	r a u k a k a i
+1	m a h e h e
+1	N a i t i
+2	t a r a N a
+1	t a f i r i
+1	t a h i r i
+1	t a o a
+3	t a t e a
+1	r a w e o i
+1	r e f e t e n e t i
+1	r e h e N a
+2	r e h o
+1	r e i r i
+1	m a r o a
+1	r e m a
+1	n e i r i
+1	r e n a a
+1	r e n e t i
+1	r e n e
+1	r e o a
+2	r e p e r a
+1	r e p i
+1	r e r e h e
+1	r e h i
+1	r e r e n a
+1	r e u a
+1	r e w e n a a
+1	r e w e n a
+1	r e w e
+2	r i a k i
+1	r i e n a
+1	r i h i t i
+1	r i i a
+1	r i k i n i
+1	r e h i a
+1	p u o r o
+1	n e n a
+1	r i N i a
+1	r i p a i a
+1	r i r o i
+1	r i u a
+1	r o f e a
+1	r o h a i
+1	r o m i a
+1	r o n a a
+1	r o p i a
+1	r o r a h a
+1	h a p e a
+1	r o r o k u
+1	r o r o t u
+1	r o r u
+1	r o t a i a
+1	r o w i
+1	r u a w a i
+1	r u e k e
+1	r u f a
+1	r u n a a
+2	r u r u t u
+1	r u t u a
+1	r u w a o
+1	t a e k a
+2	m a t u k u
+1	t a e o
+1	t a e p u
+1	t a f a i
+1	r a u n u i
+1	t a f a k i
+2	t a f a N a
+1	t a f e r a
+1	t a f e t a
+2	h a N a i
+1	h e k e a
+1	t a h i a
+1	t a h i w i
+1	k o t i a
+1	t a i a p o
+1	t a i e a
+4	e r i
+1	f a N a i a
+2	i h a
+1	h o r o p i
+1	t a i k a r e h a
+1	t a i n a k a r e h a
+1	n a n a k i a
+1	t a i n a o k e
+2	t a i N a
+2	n o k a
+2	t a i o
+2	t o k a i
+1	t a k a f e
+1	t a k a i a p u
+3	t a k a i
+1	m o r i a
+1	p a p a a
+3	r e r e w a
+2	r o r e a
+1	t a k e k e
+1	h a i a
+1	t a k e r e
+1	t a k i n i
+1	t a k i r i
+1	t a k o u
+1	t a k u h e
+1	t a k u N a
+1	t a m a t o
+4	t a m e m e
+1	t a N a i
+1	N a N a o
+2	n a p u
+1	a w a i
+1	t a N e o
+1	t a N e r e
+1	n e r o
+1	h a r u r u
+1	t a N o r o
+1	N o r o
+1	p a k a i a
+1	t a p a a
+1	t a p a k i
+1	k u f a
+1	t a p a p e
+1	t a p a t a i
+1	t a p a t i u
+1	t a p e
+3	p e t u
+4	t a p o n a
+1	t a p o t u
+1	p o t u
+1	p u k e a
+1	p u k e n a
+1	p u k e N a
+1	k o r a k o
+1	h a t i
+1	r a h u n a
+1	t a r a i r e
+1	t a r a k i t a
+1	m u w e
+1	t a r a o
+1	t a r a r e
+1	t i m o h o
+1	t a r e p a
+1	r i o n a
+1	t a r o m a
+1	t a r o r i
+1	r u p e a
+1	r u r u a
+1	t a t a a p o p o
+1	t a k u a
+1	N a e k o
+1	t a u i r a
+1	t a t a w a
+2	t a t e
+2	f a f a i
+1	t a u f a N a
+1	t a u h a N a
+1	h e n a
+2	k a h o r e
+2	m a t a k i
+1	n a n a w e
+3	p a p a t u
+1	t a u p a
+1	r a k i n a
+1	t a u r a r u a
+3	t a u r i
+1	t a r a a
+1	t a u t a
+1	a m o a
+1	t e t e t e
+2	t a u t i
+2	t o t o h e
+1	t o t o h e a
+1	w a r e a
+1	t a w a k i
+1	t a w a o
+2	w e k o
+1	t e h o
+1	t e i k i
+1	t e i t i
+1	t e k i o n a
+1	t e m o
+1	t e n i h i
+1	t e n o
+1	t e o a
+1	t e p u t e i h a n a
+1	f o n o
+1	t e r e h i
+1	t e r e h u
+1	k a r a f e
+2	t e r e p u
+1	w i h a n a
+1	a w e k a
+1	t e t e p e
+1	t e t i
+2	t e w e
+1	t i a a
+1	t i a f e
+1	t i a m u
+1	t i a m u p i a n a
+1	t i a n a
+1	n o r a
+1	t i a p a r a n i
+1	t i a p u
+1	t i a r i a
+1	t i e k i n a
+1	t i f a i a
+1	t i h a e
+1	h a t e
+1	t i h o
+1	t i h o i
+1	t i k i n i
+1	t i k i N i
+1	t i k o a k a
+2	k o h i a
+1	t i k o k i
+1	k o k o a
+1	k o k o n a
+1	t i k u m u
+1	t i m a t a
+1	m o h e a
+1	t i n a r a
+1	t i N o N o
+1	t i o a
+2	t i o r a
+1	p a k o a
+1	t i p a k o
+1	p a t e r e
+1	t i p o k a
+1	t i p u n u
+1	t i r a k i
+2	t i r a u
+1	t i r a w a
+1	t i r e
+1	t i r i p i
+1	t i r o h e
+1	t i r o u
+1	t i t e k e
+1	t i p o
+1	p o r a N i
+3	r e t u a
+3	t o h u a
+1	t i t o N a
+1	t i t o t a r a
+1	t i u a
+2	t i u t i
+1	t i w e
+1	t o a t i
+1	t o e n e
+1	r i r i a
+1	m a r a u
+1	t o i e
+1	k a n u k u
+1	p u a h a
+1	p u h a k e
+1	r e k o a
+1	t o N a k o
+1	m u m u h u
+1	t o p a k i
+1	t o p i
+1	t o r a
+1	t o r e N i
+1	t o r e t e
+1	h i h i h i
+1	t o r o i h i
+1	t o t e a
+1	p i t a
+2	t o t o h i
+1	t o t o k e
+2	k i p i
+1	t o t o p e
+1	t o t o p u
+6	t o t o r o
+1	i e
+1	a r a N i
+1	k o r e r e
+1	p i o r e
+1	a h a e
+1	h a N a t a
+2	t u a i
+1	t u a k a h i w i
+1	k u k u a
+1	a N e a
+1	t u a p a
+1	a p a e
+1	t u a r a N a
+1	t u a r e
+1	t u a t a
+5	t u f a
+1	h a N a i a
+1	t u h i N a
+1	h o t o a
+1	t u h u h i
+1	t u h u i
+1	t u i a u
+1	p u m u a
+1	t u k a
+1	k a u k i
+1	k a u N a
+1	p u N a o
+1	t u k u r a
+1	t u k u a
+1	t u m a t a
+1	m a t o h i
+1	t u n a h i
+1	t u N a a
+1	N a u r u
+1	t u N i
+1	t u n i
+2	t u N u
+1	t u n u a
+1	o k u r a
+1	t u o n e
+1	p a e N a
+1	t u p a n a
+1	p a p a h u
+1	t u p a t a
+1	p a t i u
+1	t u p e
+1	t u p e h a u
+1	t u p e h a u k i a
+1	t u p e h u
+1	p o k i n a
+1	p o r e a
+1	t u p u k e
+1	t u r a r a a
+1	t u r a i n a
+1	t u r a k i
+1	k a k o a
+1	r o h i a
+1	t u r o u a
+1	r u a w e
+1	t u r u p a
+1	t u r u r u
+1	t u t a N a
+2	t u t a N a t a N a
+1	k a u i k a
+1	t e i a
+1	t o h i a
+1	t o h i N a
+1	t u t o k e
+1	t u t u m a i r e k u r a i
+1	t u t u r i
+1	t u t u r u
+1	a i n a
+1	u a k o a o
+1	u a k o a u
+1	u a N a
+1	u a p o
+2	u e a
+1	u e r e
+1	u f i a
+2	u h o
+1	u h o n o
+1	u i u i
+1	u k u i
+1	u m i k i
+1	u m i
+2	u N a a
+1	u n a h i a u a
+2	u n a k a
+1	u p a n e
+1	u p u
+1	m a r a N a
+1	t a u N a
+1	u t a i n a
+1	u t o k a
+1	w a h a i n a
+1	h i n a u
+1	p a h u a
+1	h o a k a
+1	r a w e k i
+2	t a f a r a
+1	t a h e N a
+1	t u e r e
+1	p i h a u
+6	w a k u
+1	w a k u a
+1	w a m u
+1	w a n e a
+1	w a o a
+1	w a r a k i
+1	w a r a N a
+1	w a r a n a
+1	w a r e t e
+1	w a r u a
+1	w a t a t a
+2	w a u a
+3	w a w a e
+1	w a w a n i
+1	r o k a
+1	w e a i n a
+1	w e h a
+1	w e i r a
+1	w e i t i
+1	w e k u a
+2	w e t e a
+1	w e w e i a
+1	w e w e t e
+1	w o n a t i

@@ -1,7 +1,7 @@
 ---
 title: "An Adult Proto-lexicon"
 subtitle: "Participant filtering, statistical analysis, plots and tables"
-author: "Yoon Mi Oh, Clay Beckner, Jen Hay, Jeanette King and Jeremy Needle"
+author: "Yoon Mi Oh, Clay Beckner, Simon Todd, Jen Hay, Jeanette King and Jeremy Needle"
 date: '`r Sys.time()`'
 output:
   html_document:
@@ -28,6 +28,10 @@ library(knitr)
 library(xtable)
 library(ggridges)
 library(dplyr)
+library(ordinal)
+library(MASS)
+library(readr)
+library(stringr)
 ```
 
 <style>
@@ -78,13 +82,36 @@ multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
   }
 }
 
-z.score <- function (df, vp.var, var) {
-  split.df <- split(df, list(df[,vp.var]))
-  result.df <- data.frame()
-  for (sub.df in split.df) {
-    sub.df[,paste("z.",var,sep="")] <- (sub.df[,var] - mean(sub.df[,var], na.rm = T)) / sd(sub.df[,var])
-    result.df <- rbind(result.df, sub.df) }
-  return(result.df)
+# A function to format ordinal regression results in a nice table, LaTeX-style
+clm_table <- function(mod) {
+  coefs.all <- summary(mod)$coefficients
+  coefs.thresholds <- data.frame(coefs.all[grepl("\\|", rownames(coefs.all)),])
+  coefs.thresholds[,c("z.value", "Pr...z..", "Significance")] <- NA
+  coefs.effects <- data.frame(coefs.all[!grepl("\\|", rownames(coefs.all)),])
+  coefs.effects$Significance <- with(coefs.effects,
+                                   ifelse(Pr...z..<0.001,"***",
+                                          ifelse(Pr...z..<0.01,"**",
+                                                 ifelse(Pr...z..<0.05,"*",
+                                                        ifelse(Pr...z..<0.1,".",
+                                                               "")))))  
+  coefs.table <- rbind(coefs.effects, coefs.thresholds)
+  coefs.table <- cbind(data.frame(Type = c("Effects", rep("", nrow(coefs.effects)-1), "Thresholds", rep("", nrow(coefs.thresholds)-1)), Parameter = rownames(coefs.table)), coefs.table)
+  rownames(coefs.table) <- NULL
+  names(coefs.table) <- c(" ", "Parameter", "Estimate", "Std. Error", "z.value", "Pr(>|z|)", "")
+  return(coefs.table)
+}
+
+options(knitr.kable.NA = '')
+
+# A function to add predicted mean ratings from an ordinal regression Effect table, given a set of thresholds
+add_predicted_ratings = function(effect_table, threshold_table) {
+  effect_table$predicted.mean = sapply(effect_table$fit, 
+                                       function(x){return(sum(c(1, plogis(x-threshold_table$threshold))))})
+  effect_table$predicted.lower = sapply(effect_table$lower, 
+                                       function(x){return(sum(c(1, plogis(x-threshold_table$threshold))))})
+  effect_table$predicted.upper = sapply(effect_table$upper, 
+                                       function(x){return(sum(c(1, plogis(x-threshold_table$threshold))))})
+  return(effect_table)
 }
 ```
 
@@ -93,53 +120,55 @@ This R Markdown script contains all the code used for outlier detection, data an
 
 # Experiment 1
 ## Stimuli
-Exp1 (identification task) tests NMS' implicit knowledge of Māori words with varying frequencies. The stimulus materials for the identification task consist of 1,000 Māori words and 1,000 Māori-like nonwords. To obtain a list of words, all words in two Māori running speech data (*32*, *33*) are divided into five frequency bins and 200 words are randomly selected from each of those bins. A list of 10,000 pseudowords (1,000 pseudowords for each phoneme length of nonwords ranging from length 3 to length 12) were generated from a trigram language model by a pseudoword generator (*34*) using a Māori dictionary (*35*) and two running speech corpora (*32, 33*) as training sets. For each word, a nonword is chosen by matching its length and phonotactic score. The phonotactic scores of stimuli are computed using type frequency obtained from a Māori dictionary (*35*). A trigram model is selected in order to take positional information within words into account, including an additional symbol to indicate word boundaries while building a language model. The phonotactic score of each stimulus is obtained by summing log-transformed transitional probabilities which better reflect frequency distributions than raw probabilities (*36*) and then is normalized by length. The Kneser-Ney smoothing in SRILM (SRI Language Modeling Toolkit) (*37*) is used to deal with unknown trigrams in nonwords since nonwords are created by training data composed of two RS corpora (*32*, *33*) and a Māori dictionary(*35*),some nonwords contain trigrams which are not observed in a trigram language model built from a dictionary. Every participant had a different list of 300 stimuli containing 30 pairs (words and nonwords) randomly selected from each of five bins (30\*2\*5 = 300 in total). The list of stimuli used in Exp1 can be found in "StimuliExp1.txt".
+Exp1 (identification task) tests NMS' implicit knowledge of Māori words with varying frequencies. The stimulus materials for the identification task consist of 1,000 Māori words and 1,000 Māori-like nonwords. To obtain a list of words, all words in two Māori running speech data (*32*, *33*) are divided into five frequency bins and 200 words are randomly selected from each of those bins. A list of 10,000 pseudowords (1,000 pseudowords for each phoneme length of nonwords ranging from length 3 to length 12) were generated from a trigram language model by a pseudoword generator (*34*) using a Māori dictionary (*35*) and two running speech corpora (*32, 33*) as training sets. For each word, a nonword is chosen by matching its length and phonotactic score. The phonotactic scores of stimuli are computed using type frequency obtained from a Māori dictionary (*35*). A trigram model is selected in order to take positional information within words into account, including an additional symbol to indicate word boundaries while building a language model. The phonotactic score of each stimulus is obtained by summing log-transformed transitional probabilities which better reflect frequency distributions than raw probabilities (*36*) and then is normalized by length. The Witten-Bell smoothing in SRILM (SRI Language Modeling Toolkit) (*37*) is used to deal with unknown trigrams in nonwords since nonwords are created by training data composed of two RS corpora (*32*, *33*) and a Māori dictionary (*35*), some nonwords contain trigrams which are not observed in a trigram language model built from a dictionary. Every participant had a different list of 300 stimuli containing 30 pairs (words and nonwords) randomly selected from each of five bins (30\*2\*5 = 300 in total). The list of stimuli used in Exp1 can be found in "StimuliExp1.txt".
 
 ## Participants
 In Exp1, nonfluent Māori speakers based in New Zealand (NMS), 18 years or older, were recruited online by Facebook Ads. Several exclusion criteria were applied to filter out unusable participants in this experiment. All participants speak New Zealand English as their first language. However, nine participants learned English outside New Zealand and among them, we discard one participant who currently lives in New Zealand for less than ten years. Furthermore, based on their answers to the post-questionnaire, two participants whose level of self-reported proficiency of Māori corresponds to at least “fairly well”, two participants with some knowledge of any other Polynesian languages, and five participants who reported a history of any speech or language impairments are removed. Due to a technical error during the experiment, the data of one participant who rated too small number of stimuli is discarded. After removing those outliers, we also look at the pattern of variability in participants' responses and discard one participant whose standard deviation of ratings falls below two times the standard deviation below the mean among participants.
 
 ```{r loading_data_Exp1, echo=TRUE, message=FALSE, warning=FALSE}
 # Loading the data to filter out participants
-dataExp1 <- read.delim("./dataNotFilteredExp1.txt", sep ="\t", header = TRUE)
+dataExp1 <- read.delim("./dataAnonNotFilteredExp1.txt", sep ="\t", header = TRUE)
+dataExp1$word = as.character(dataExp1$word)
+Encoding(dataExp1$word) = "UTF-8"
 
 # Remove one participant who did 192 items instead of 303
 nbResponse <- aggregate(dataExp1$enteredResponse, by=list(dataExp1$workerId),  FUN=length)
-rmParticipant1Exp1 <- nbResponse[!nbResponse$x %in% c(303),]$Group.1 # CEA6BA7F432A7DD9F3352BD5AF605FED
+rmParticipant1Exp1 <- nbResponse[!nbResponse$x %in% c(303),]$Group.1 # 4c62b407
 dataExp1 <- dataExp1[!dataExp1$workerId %in% rmParticipant1Exp1,]
 
 # Remove three participants who gave ratings lower than 4 to 3 most common Māori words borrowed into New Zealand English
 list_carrot <- c("haka","kai","aotearoa")
 carrots <- dataExp1[dataExp1$word %in% list_carrot,]
 carrots <- carrots[as.numeric(carrots$enteredResponse) < 4,]
-rmParticipant2Exp1 <- unique(carrots$workerId) # C2172ACC5CE7A076DF4AD48672826D17 CF5B1FC9D9FDDE28DABFB8B10F60F2A8 F317F5E5817BC9CA03FFA3D0AEE15BCC
+rmParticipant2Exp1 <- unique(carrots$workerId) # 51aee430 7d4efcd7 15950569
 dataExp1 <- dataExp1[!dataExp1$workerId %in% rmParticipant2Exp1,]
 
 # Remove ratings for the three words (used to detect outliers)
 dataExp1 <- dataExp1[!dataExp1$word %in% c("haka","kai","aotearoa"),]
 
 # Remove two participants whose speakMaori or compMaori is at least (equal to or above) 3
-rmParticipant3Exp1 <- unique(dataExp1[dataExp1$speakMaori >= 3 | dataExp1$compMaori >= 3,]$workerId)  # 0CAEF0D07D102126BADE4B5F353F3549 FFF87DE6A3C8DCD73B120BD06C3EB966
+rmParticipant3Exp1 <- unique(dataExp1[dataExp1$speakMaori >= 3 | dataExp1$compMaori >= 3,]$workerId) # b59cb76f 56496f48
 dataExp1 <- dataExp1[!dataExp1$workerId %in% rmParticipant3Exp1,]
 
 # Remove one participant who did not learn their English in NZ and have been living in their current location in NZ for less than ten years (duration == "short")
 summaryExp1WorkerId <- unique(dataExp1[,c("workerId","firstLangCountry","place","duration")])
 EngNotInNZExp1 <- summaryExp1WorkerId[!summaryExp1WorkerId$firstLangCountry=="NZ",]
-rmParticipant4Exp1 <- unique(EngNotInNZExp1[EngNotInNZExp1$duration=="short",]$workerId) # 31F2039C03219AE69C49AC468F37CA78
+rmParticipant4Exp1 <- unique(EngNotInNZExp1[EngNotInNZExp1$duration=="short",]$workerId) # 2fc57ffc
 dataExp1 <- dataExp1[!dataExp1$workerId %in% rmParticipant4Exp1,]
 
 # Remove two participants who know any other Polynesian languages
-rmParticipant5Exp1 <- unique(dataExp1[dataExp1$anyPolynesian=="Yes",]$workerId) # 2B474DC72567F38FD065757F11211DFD 2B92687E2CE8ABD8047732400DFDC424
+rmParticipant5Exp1 <- unique(dataExp1[dataExp1$anyPolynesian=="Yes",]$workerId) # aa4d5676 2b08d4eb
 dataExp1 <- dataExp1[!dataExp1$workerId %in% rmParticipant5Exp1,]
 
 # Remove five participants with language impairments
 rmParticipant6Exp1 <- unique(dataExp1[dataExp1$impairments=="Yes",]$workerId) 
-# 1DD4DB335A0E2735A9AE2AD898AAEFD5 2C40866C3268DB45274C535937D3DA24 933DFF677472628574F9DB2874121FD9 D42298BA8985A7C8E6232CCFC8E99A31 F4599D280C20128B3F6E804C0D2726B0
+# ae48fa46 b589ecc3 367285b5 6ff6dcb6 bcae3239
 dataExp1 <- dataExp1[!dataExp1$workerId %in% rmParticipant6Exp1,]
 
 # Remove one participant whose pattern of responses (SD) is below 2SD of the mean of all participants
 SD <- aggregate(dataExp1$enteredResponse, by=list(dataExp1$workerId), sd)
 cut <- mean(SD$x)-2*sd(SD$x)
-rmParticipant7Exp1 <- SD[!SD$x > cut,]$Group.1 # B855CE4A15710AA41194B3D81EE68187
+rmParticipant7Exp1 <- SD[!SD$x > cut,]$Group.1 # d7a9b857
 dataExp1 <- dataExp1[!dataExp1$workerId %in% rmParticipant7Exp1,]
 
 # Check the total number of usable participants for Exp1
@@ -225,89 +254,158 @@ The data is structured as follows:
   - *maoriExpo* is each participant's level of exposure to Māori (with a scale ranging from 0 to 10).
   - *Freq* is the frequency of real word stimulus obtained from Māori running speech corpora (Freq=0 for pseudowords).
   - *bin* is the classification of each stimulus according to their frequency of occurence in Māori running speech corpora.
-  - *score* is the dictionary phonotactic score normalized by the phonemic length of each stimulus.
+  - *score* is the phonotactic score obtained across word types in the dictionary.
 
-## NMS confidence ratings across word frequency with linear mixed-effects modeling
+## NMS confidence ratings across word frequency with ordinal mixed-effects modeling
 ### Table S1, model summary
-```{r Table S1, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
+```{r Table S1, echo=FALSE, message=FALSE, warning=FALSE, eval=TRUE}
 # Model for TableS1
-# modelTableS1 <- lmer(enteredResponse ~ c.(length)*c.(score) + type*bin + (1 + c.(length)*c.(score) + type*bin|workerId) + (1|word), control=lmerControl(optimizer="bobyqa"), dataExp1)
+dataExp1$enteredResponse <- as.factor(dataExp1$enteredResponse)
+helmert <- matrix(c(c(4,-1,-1,-1,-1)/5, c(0,3,-1,-1,-1)/4, c(0,0,2,-1,-1)/3, c(0,0,0,1,-1)/2), ncol=4)
+colnames(helmert) <- c("1v2+", "2v3+", "3v4+", "4v5")
+dataExp1$bin <- as.factor(dataExp1$bin)
+contrasts(dataExp1$bin) <- helmert
+# modelTableS1 <- clmm(enteredResponse ~ c.(length)*c.(score) + type*bin + (1 + c.(length)*c.(score) + type*bin|workerId) + (1|word), dataExp1)
 # saveRDS(modelTableS1, file = "modelTableS1.rds")
 modelTableS1 <- readRDS("./modelTableS1.rds")
-kable(xtable(summary(modelTableS1)$coef), digits=3, caption="Table S1: Linear mixed-effects model of NMS confidence ratings across word frequency. All numeric variables in this model are centered.")
+kable(clm_table(modelTableS1), digits=3, caption="Table S1: Ordinal mixed-effects model of NMS confidence ratings across word frequency. All numeric variables in this model except for the wellformedness rating are centered.")
 ```
 
 ### Fig. S2, effect plots
-```{r Fig. S2, echo=FALSE, message=FALSE, warning=FALSE, fig.width=10, fig.height=3.5, fig.cap="Fig. S2: Interaction effect plots: Fig. S2a (left) shows the interaction between frequency bin and lexicality (real words vs. nonwords); Fig. S2b (right) shows the interaction between phonotactic score and length of stimuli ."}
+```{r Fig. S2, echo=FALSE, message=FALSE, warning=FALSE, fig.width=10, fig.height=3.5, fig.cap="Fig. S2: Interaction effect plots: Fig. S2a (left) shows the interaction between frequency bin and lexicality (real words vs. nonwords); Fig. S2b (right) shows the interaction between phonotactic score and length of stimuli. The bars represent 95% confidence intervals."}
+thresholds.S2a <- data.frame(label=names(modelTableS1$alpha), threshold=modelTableS1$alpha, row.names=NULL)
 
-figS2a <- as.data.frame(effect(term="type:bin", mod=modelTableS1))
-figS2a$Type <- "Word";figS2a[as.character(figS2a$type)=="pseudo",]$Type <- "Nonword"
-PfigS2a <- ggplot(figS2a, aes(x=bin, y=fit, group=Type)) + geom_point(aes(color=Type, shape=Type)) + geom_line(aes(color=Type)) + geom_ribbon(aes(ymin=fit-se, ymax=fit+se, fill=Type),alpha=0.1)+
-labs(x="Frequency Bin (High to Low)", y="Predicted rating") + theme_classic()+ theme(plot.title = element_text(hjust = 0.5, size=15)) + theme(legend.position="right") + theme(legend.title=element_blank())
+figS2a <- as.data.frame(Effect(c("type", "bin"), modelTableS1, latent=TRUE))
+levels(figS2a$type) = c("Nonword", "Word")
+figS2a <- add_predicted_ratings(figS2a, thresholds.S2a)
 
-figS2b <- as.data.frame(effect(term="c.(length):c.(score)", mod=modelTableS1))
-figS2b$Length <- figS2b$length
-PfigS2b <- ggplot(figS2b, aes(x=score, y=fit, group=Length)) + geom_point(aes(color=Length)) + geom_line(aes(color=Length)) + geom_ribbon(aes(ymin=fit-se, ymax=fit+se, fill= Length),alpha=0.1) + labs(x= "Phonotactic score", y="Predicted rating") + theme_classic() + theme(plot.title = element_text(hjust = 0.5, size=15)) + theme(legend.position="right")
+figS2b <- as.data.frame(Effect(c("length", "score"), modelTableS1, xlevels=list(length=c(3,6,9,12)), latent=TRUE))
+figS2b <- add_predicted_ratings(figS2b, thresholds.S2a)
 
-multiplot(PfigS2a, PfigS2b, cols=2)
+RfigS2a <- ggplot(figS2a, aes(x=as.integer(bin), y=predicted.mean, color=type, fill=type, shape=type)) +
+  geom_ribbon(aes(ymin=predicted.lower, ymax=predicted.upper), alpha=0.1, color=NA) + 
+  geom_line(size=1, alpha=0.4) +
+  geom_point(size=4) +
+  geom_errorbar(aes(ymin=predicted.lower, ymax=predicted.upper), size=1, width=0.3) +
+  xlab("Frequency Bin (High to Low)") +
+  ylab("Predicted Mean Rating") + 
+  scale_shape_manual(values = c("Nonword" = 19, "Word" = 17)) +   
+  theme_classic() + 
+  theme(
+    plot.title = element_text(hjust = 0.5, size=15),
+    legend.position="right",
+    legend.title=element_blank())
+
+RfigS2b <- ggplot(figS2b, aes(x=score, y=predicted.mean, color=length, group=length)) +
+  geom_ribbon(aes(ymin=predicted.lower, ymax=predicted.upper), alpha=0.1, color=NA) + 
+  geom_line(size=1) +
+  scale_color_continuous(breaks=c(3,6,9,12), guide = guide_colourbar(title="Length", draw.ulim = FALSE, draw.llim = FALSE)) +
+  xlab("Phonotactic score") +
+  ylab("Predicted Mean Rating") + 
+  theme_classic() + 
+  theme(
+    plot.title = element_text(hjust = 0.5, size=15),
+    legend.position="right")
+
+multiplot(RfigS2a, RfigS2b, cols=2)
 ```
 
 ## Code for plotting Fig. 1 
-```{r Fig. 1, echo=FALSE, message=FALSE, warning=FALSE, evaluate=FALSE, fig.width=14, fig.height=5, fig.cap="Fig. 1: Mean well-formedness ratings for real words and nonwords by frequency bin. Bin1 contains the most frequent words and Bin5 consists of the least frequent words. Horizontal lines show the model effect estimates for real words vs. nonwords across all frequencies."}
+```{r Fig. 1, echo=FALSE, message=FALSE, warning=FALSE, evaluate=FALSE, fig.width=14, fig.height=5, fig.cap="Fig. 1: Mean well-formedness ratings for real words and nonwords by frequency bin. Bin1 contains the most frequent words and Bin5 consists of the least frequent words. Horizontal lines show mean ratings for real words vs. nonwords per bin."}
 
 #Get mean ratings for each stimulus per bin
 allBins <- list()
 for(i in 1:5){
 Bin <- dataExp1[dataExp1$bin==i,]
-BinMeanRatings <- aggregate(Bin$enteredResponse, by=list(Bin$word, Bin$type), mean)
+BinMeanRatings <- aggregate(as.numeric(Bin$enteredResponse), by=list(Bin$word, Bin$type), mean)
 names(BinMeanRatings) <- c("word","type","meanRating")
 BinMeanRatings$bin <- paste0("Bin",i)
 allBins[[i]] <- BinMeanRatings
 }
 allBins <- do.call(rbind,allBins)
+allBins$type = factor(allBins$type)
+levels(allBins$type) = c("Nonword", "Word")
 
-figS2a_mean = figS2a %>% group_by(type) %>% summarize(fit_mean = mean(fit))
+figS2a_mean = allBins %>% group_by(type, bin) %>% summarize(grand_mean = mean(meanRating))
 
-ggplot(allBins,aes(x = meanRating, y = as.factor(bin), fill = type)) +
-    geom_density_ridges(data=allBins,scale=0.9,alpha=0.4,rel_min_height = 0.01) + 
-    labs(x = "Mean Rating",y = "Frequency Bin") +
-    scale_fill_manual(labels=c("pseudo" = "Nonword", "real" = "Word"),values = c("pseudo" = "black", "real" = "blue")) +
-    scale_y_discrete(expand = c(0.01,0)) + 
+ggplot(allBins,aes(x = bin, y = meanRating, fill = type)) +
+    geom_violin(alpha=0.4, position=position_identity()) + 
+    labs(y = "Mean Rating (by stimulus)",x = "Frequency Bin") +
     theme_classic() + 
-    labs(fill='Stimulus type') + 
-    coord_flip() +
-    # geom_line(data=figS2a, aes(x=fit, y=bin,group=Type,color=Type, linetype=Type),size=1) +
-    geom_vline(data=figS2a_mean,aes(xintercept = fit_mean,color=type, linetype=type),size=1) + 
-    scale_color_manual(labels=c("pseudo" = "Nonword", "real" = "Word"),values = c("pseudo"="black", "real" = "blue")) +
-    scale_linetype_manual(labels=c("pseudo" = "Nonword", "real" = "Word"),values = c("pseudo" = "solid", "real" = "dotted")) + 
-    labs(linetype='Effect estimate',color='Effect estimate') 
+    geom_point(data=figS2a_mean, aes(y=grand_mean, shape=type), size=4) +
+    geom_line(data=figS2a_mean, aes(x=as.numeric(as.factor(bin)), y=grand_mean, color=type, linetype=type), size=1) + 
+    scale_fill_manual(name="Stimulus type",
+                      values = c("Nonword" = "black", "Word" = "blue")) +  
+    scale_shape_manual(name="Stimulus type",
+                      values = c("Nonword" = 21, "Word" = 24)) +   
+    scale_color_manual(name="Effect estimate",
+                       values = c("Nonword"="black", "Word" = "blue"),
+                       guide=FALSE) +
+    scale_linetype_manual(name="Effect estimate",
+                          values = c("Nonword" = "solid", "Word" = "dotted"),
+                          guide=FALSE)
 ```
 
 ## Mean rating and phonotactic score for each stimulus per frequency bin
 ```{r Fig. S3, echo=FALSE, message=FALSE, warning=FALSE, fig.width=11, fig.height=6.5, fig.cap="Fig. S3: Mean rating vs. phonotactic score for each stimulus for real words and nonwords by frequency bin."}
 scores <- unique(dataExp1[,c("word","score")])
-allBins$Type <- "Word";allBins[as.character(allBins$type)=="pseudo",]$Type <- "Nonword"
+
 Bin1MeanRatings <- merge(allBins[allBins$bin=="Bin1",], scores, by="word")
-FigS3Bin1 <- ggplot(Bin1MeanRatings, aes(x=score, y=meanRating, group=Type, label=word)) + labs(x= "Phonotactic score (Bin 1)", y="Mean rating") + theme_classic()+ theme(legend.title=element_blank()) + geom_point(aes(color=Type,shape=Type),size=2)+ scale_colour_manual(values=c("#F8766D", "#00BFC4")) + theme(legend.position="bottom")
+FigS3Bin1 <- ggplot(Bin1MeanRatings, aes(x=score, y=meanRating, color=type, shape=type, label=word)) + 
+  labs(x= "Phonotactic score (Bin 1)", y="Mean rating") + 
+  theme_classic()+ 
+  geom_point(size=2) + 
+  scale_colour_manual(values=c("#F8766D", "#00BFC4")) + 
+  theme(
+    legend.position="bottom",
+    legend.title=element_blank())
 
 Bin2MeanRatings <- merge(allBins[allBins$bin=="Bin2",], scores, by="word")
-FigS3Bin2 <- ggplot(Bin2MeanRatings, aes(x=score, y=meanRating, group=Type, label=word)) + labs(x= "Phonotactic score (Bin 2)", y="Mean rating") + theme_classic()+ theme(legend.title=element_blank()) + geom_point(aes(color=Type,shape=Type),size=2)+ scale_colour_manual(values=c("#F8766D", "#00BFC4")) + theme(legend.position="bottom")
+FigS3Bin2 <- ggplot(Bin2MeanRatings, aes(x=score, y=meanRating, color=type, shape=type, label=word)) + 
+  labs(x= "Phonotactic score (Bin 2)", y="Mean rating") + 
+  theme_classic() + 
+  geom_point(size=2) + 
+  scale_colour_manual(values=c("#F8766D", "#00BFC4")) + 
+  theme(
+    legend.position="bottom",
+    legend.title=element_blank())
 
 Bin3MeanRatings <- merge(allBins[allBins$bin=="Bin3",], scores, by="word")
-FigS3Bin3 <- ggplot(Bin3MeanRatings, aes(x=score, y=meanRating, group=Type, label=word)) + labs(x= "Phonotactic score (Bin 3)", y="Mean rating") + theme_classic()+ theme(legend.title=element_blank()) + geom_point(aes(color=Type,shape=Type),size=2)+ scale_colour_manual(values=c("#F8766D", "#00BFC4")) + theme(legend.position="bottom")
+FigS3Bin3 <- ggplot(Bin3MeanRatings, aes(x=score, y=meanRating, color=type, shape=type, label=word)) + 
+  labs(x= "Phonotactic score (Bin 3)", y="Mean rating") + 
+  theme_classic() + 
+  geom_point(size=2)+ 
+  scale_colour_manual(values=c("#F8766D", "#00BFC4")) + 
+  theme(
+    legend.position="bottom",
+    legend.title=element_blank())
 
 Bin4MeanRatings <- merge(allBins[allBins$bin=="Bin4",], scores, by="word")
-FigS3Bin4 <- ggplot(Bin4MeanRatings, aes(x=score, y=meanRating, group=Type, label=word)) + labs(x= "Phonotactic score (Bin 4)", y="Mean rating") + theme_classic()+ theme(legend.title=element_blank()) + geom_point(aes(color=Type,shape=Type),size=2)+ scale_colour_manual(values=c("#F8766D", "#00BFC4")) + theme(legend.position="bottom")
+FigS3Bin4 <- ggplot(Bin4MeanRatings, aes(x=score, y=meanRating, color=type, shape=type, label=word)) + 
+  labs(x= "Phonotactic score (Bin 4)", y="Mean rating") + 
+  theme_classic() + 
+  geom_point(size=2) + 
+  scale_colour_manual(values=c("#F8766D", "#00BFC4")) + 
+  theme(
+    legend.position="bottom",
+    legend.title=element_blank())
 
 Bin5MeanRatings <- merge(allBins[allBins$bin=="Bin5",], scores, by="word")
-FigS3Bin5 <- ggplot(Bin5MeanRatings, aes(x=score, y=meanRating, group=Type, label=word)) + labs(x= "Phonotactic score (Bin 5)", y="Mean rating") + theme_classic()+ theme(legend.title=element_blank()) + geom_point(aes(color=Type,shape=Type),size=2)+ scale_colour_manual(values=c("#F8766D", "#00BFC4")) + theme(legend.position="bottom")
+FigS3Bin5 <- ggplot(Bin5MeanRatings, aes(x=score, y=meanRating, color=type, shape=type, label=word)) + 
+  labs(x= "Phonotactic score (Bin 5)", y="Mean rating") + 
+  theme_classic() + 
+  geom_point(size=2) + 
+  scale_colour_manual(values=c("#F8766D", "#00BFC4")) + 
+  theme(
+    legend.position="bottom",
+    legend.title=element_blank())
 
 multiplot(FigS3Bin1,FigS3Bin4,FigS3Bin2,FigS3Bin5,FigS3Bin3, cols=3)
 ```
 
 ## Rematching stimuli pairs
 
-During the analysis of Exp1, we found an overall bias towards higher phonotactic scores of Māori words and lower phonotactic score of Māori-like nonwords (see Fig. S3). This pattern is caused by a lack of nonwords which phonotactically matched the randomly selected words from the Māori RS corpora. To solve this problem, nonwords and words are rematched across participants by finding a phonotactically matched word with the lowest absolute difference for each nonword. Among the rematched pairs, only those whose absolute difference is below 0.3 are kept. In the initial dataset, there are 200 pairs in each bin. After rematching stimuli, the number of pairs in each bin is reduced as follows: 71 (Bin1), 52 (Bin2 and Bin3), 53 (Bin4), 56 (Bin5).
+During the analysis of Exp1, we found an overall bias towards higher phonotactic scores of Māori words and lower phonotactic score of Māori-like nonwords (see Fig. S3). This pattern is caused by a lack of nonwords which phonotactically matched the randomly selected words from the Māori RS corpora. To solve this problem, nonwords and words are rematched across participants by finding a phonotactically matched word with the lowest absolute difference for each nonword. Among the rematched pairs, only those whose absolute difference is below 0.1 are kept. In the initial dataset, there are 200 pairs in each bin. After rematching stimuli, the number of pairs in each bin is reduced as follows: 60 (Bin1), 38 (Bin2), 39 (Bin3), 46 (Bin4), 43 (Bin5).
 
 ### Rematched pairs: mean rating and phonotactic score for each stimulus per frequency bin
 ```{r Fig. S4, echo=FALSE, message=FALSE, warning=FALSE, fig.width=11, fig.height=6.5, fig.cap="Fig. S4: Mean rating and phonotactic score for each stimulus per frequency bin (rematched pairs)."}
@@ -316,7 +414,7 @@ During the analysis of Exp1, we found an overall bias towards higher phonotactic
 dataPseudo <- dataExp1[dataExp1$type=="pseudo",]
 listPseudo <- unique(dataPseudo[,c("word","score","length")])
 colnames(listPseudo)[1] <- "pseudo"
-listPseudo <- listPseudo[order(listPseudo$length),] 
+listPseudo <- listPseudo[order(listPseudo$score, decreasing=TRUE),]
 dataReal <- dataExp1[dataExp1$type=="real",]
 listReal <- unique(dataReal[,c("word","score","length","bin")])
 
@@ -334,8 +432,7 @@ ListPseudoPairs <- as.data.frame(unlist(ListPseudoPair))
 listPseudoLength$word <- unlist(ListPseudoPairs)
 listPseudoLength <- merge(listPseudoLength, listReal, by="word")
 listPseudoLength$diff <- round(listPseudoLength$score.x - listPseudoLength$score.y, digits=6)
-listPseudoLength <- listPseudoLength[listPseudoLength$diff < 0.30,]
-listPseudoLength <- listPseudoLength[listPseudoLength$diff > -0.30,]
+listPseudoLength <- listPseudoLength[abs(listPseudoLength$diff) < 0.10,] 
 ListPseudoLength[[j]] <- listPseudoLength
 }
 ListAll <- do.call("rbind", ListPseudoLength)
@@ -350,6 +447,7 @@ ListAllPseudo <- merge(ListAllPseudo, dataPseudo, by="word")
 dataRematched <- rbind(ListAllReal,ListAllPseudo)
 
 scores <- unique(dataExp1[,c("word","score")])
+dataRematched$enteredResponse <- as.numeric(dataRematched$enteredResponse)
 Bin1Re <- dataRematched[dataRematched$bin==1,]
 Bin1ReMeanRatings <- aggregate(Bin1Re$enteredResponse, by=list(Bin1Re$word, Bin1Re$type), mean)
 names(Bin1ReMeanRatings) <- c("word","type","meanRating")
@@ -388,15 +486,21 @@ FigS4Bin5 <- ggplot(Bin5ReMeanRatings, aes(x=score, y=meanRating, group=Type, la
 multiplot(FigS4Bin1,FigS4Bin4,FigS4Bin2,FigS4Bin5,FigS4Bin3, cols=3)
 ```
 
-### NMS confidence ratings with linear mixed-effects model (rematched pairs)
-```{r Table S2, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
+### NMS confidence ratings with ordinal mixed-effects model (rematched pairs)
+```{r Table S2, echo=FALSE, message=FALSE, warning=FALSE, eval=TRUE}
 # Model for Table S2
-# modelTableS2 <- lmer(enteredResponse ~ type + (1 + type|workerId) + (1|word), control=lmerControl(optimizer="bobyqa"), dataRematched) # saveRDS(modelTableS2, file = "modelTableS2.rds")
+dataRematched$enteredResponse <- as.factor(dataRematched$enteredResponse)
+helmert <- matrix(c(c(4,-1,-1,-1,-1)/5, c(0,3,-1,-1,-1)/4, c(0,0,2,-1,-1)/3, c(0,0,0,1,-1)/2), ncol=4)
+colnames(helmert) <- c("1v2+", "2v3+", "3v4+", "4v5")
+dataRematched$bin <- as.factor(dataRematched$bin)
+contrasts(dataRematched$bin) <- helmert
+# modelTableS2 <- clmm(enteredResponse ~ c.(score) + type*bin + (1 + c.(score) + type*bin |workerId) + (1|word), dataRematched) 
+# saveRDS(modelTableS2, file = "modelTableS2.rds")
 modelTableS2 <- readRDS("./modelTableS2.rds")
-kable(xtable(summary(modelTableS2)$coef), digits=3, caption="Table S2: Linear mixed-effects model of NMS confidence ratings (for rematched pairs).")
+kable(clm_table(modelTableS2), digits=3, caption="Table S2: Ordinal mixed-effects model of NMS confidence ratings (for rematched pairs).")
 ```
 
-Within each frequency bin containing the rematched pairs, the distinction between nonwords and words is statistically significant in separate linear mixed-effects models for each bin: NMS give higher ratings to words than nonwords across all the five bins. When the ratings of all the bins are modeled in a single linear mixed-effects model, the distinction between words and nonwords is the only significant predictor; other predictors such as length, phonotactic score, and bin are systematically removed due to a lack of convergence or statistical insignificance. This result demonstrates that NMS' ability to distinguish between words and nonwords is not an artefact of their phonotactic knowledge.
+Within each frequency bin containing the rematched pairs, the distinction between nonwords and words is statistically significant in separate ordinal mixed-effects models for each bin: NMS give higher ratings to words than nonwords across all the bins, except for bin1. When the ratings of all the bins are modeled in a single ordinal mixed-effects model, phonotactic score and the distinction between words and nonwords are significant predictors. This result demonstrates that NMS' ability to distinguish between words and nonwords is not an artefact of their phonotactic knowledge.
 
 # Experiment 2
 ## Stimuli
@@ -413,23 +517,25 @@ After removing unusable participants, there are 40 MS, 113 NMS and 94 US. At the
 
 ```{r loading_data_Exp2, echo=TRUE, message=FALSE, warning=FALSE}
 # Loading the data to filter out participants:
-dataNotFiltered <- read.delim("./dataNotFilteredExp2.txt", sep ="\t", header = TRUE)
+dataNotFiltered <- read.delim("./dataAnonNotFilteredExp2.txt", sep ="\t", header = TRUE)
+dataNotFiltered$word = as.character(dataNotFiltered$word)
+Encoding(dataNotFiltered$word) = "UTF-8"
 
 # Part 1: Removing unusable MS participants
 dataMS <- dataNotFiltered[dataNotFiltered$group=="MS",]
 
 # Remove one participant who did 285 items instead of 320 (length 5)
 nbResponse <- aggregate(dataMS$enteredResponse, by=list(dataMS$workerId),  FUN=length)
-rmParticipant1 <- nbResponse[!nbResponse$x %in% c(320,240),]$Group.1 #634726494EE0F397CE0F525B97FA6B76
+rmParticipant1 <- nbResponse[!nbResponse$x %in% c(320,240),]$Group.1 # b7619945
 dataMS <- dataMS[!dataMS$workerId %in% rmParticipant1,]
 
 # Remove two participants whose speakMaori or compMaori is below 3
 rmParticipant2 <- unique(dataMS[dataMS$speakMaori <3 | dataMS$compMaori < 3,]$workerId) 
-#83D25CDFA45FC1A34F4A4176EC7626B3 B193DE3B787FEC86E6CCB3F82F9812E9
+# 1544dbf9 c4d7bd69
 dataMS <- dataMS[!dataMS$workerId %in% rmParticipant2,]
 
 # Remove one participant with language impairments
-rmParticipant3 <- unique(dataMS[dataMS$impairments=="Yes",]$workerId) #6C7F9A4676E026CD0E3056D8DA19E507
+rmParticipant3 <- unique(dataMS[dataMS$impairments=="Yes",]$workerId) # 7fae7c22
 dataMS <- dataMS[!dataMS$workerId %in% rmParticipant3,]
 
 # Detect participants whose median reactionTime is shorter than 2*SD below the mean of all MS
@@ -441,7 +547,7 @@ cut <- mean(median_RT$median)-2*sd(median_RT$median)
 # Remove one participant whose pattern of responses (SD) is below 2SD of the mean of all MS participants
 SD <- aggregate(dataMS$enteredResponse, by=list(dataMS$workerId), sd)
 cut <- mean(SD$x)-2*sd(SD$x)
-rmParticipant4 <- SD[!SD$x > cut,]$Group.1 #B33F8EB38F232BB78667404E1D96025B
+rmParticipant4 <- SD[!SD$x > cut,]$Group.1 # 379bf450
 dataMS <- dataMS[!dataMS$workerId %in% rmParticipant4,]
 
 # Check the total number of usable MS participants
@@ -452,42 +558,42 @@ dataNMS <- dataNotFiltered[dataNotFiltered$group=="NMS",]
 
 # Remove one participant who did 436 items instead of 240 (length 4)
 nbResponse <- aggregate(dataNMS$enteredResponse, by=list(dataNMS$workerId),  FUN=length)
-rmParticipant5 <- nbResponse[!nbResponse$x %in% c(320,240),]$Group.1 # A7017E9F3DD1CC6778A3BC47958CA9B7
+rmParticipant5 <- nbResponse[!nbResponse$x %in% c(320,240),]$Group.1 # 10c02fd0
 dataNMS <- dataNMS[!dataNMS$workerId %in% rmParticipant5,]
 
 # Remove fourteen participants whose speakMaori or compMaori is at least (equal to or above) 3
-rmParticipant6 <- unique(dataNMS[dataNMS$speakMaori >= 3 | dataNMS$compMaori >= 3,]$workerId)  # 04210C8909800F4041D775C8AE24720D 1E95A51880B3908528596F1CDC142382 1F90388DD2A6052379B3400E7E075B7B 2AABDB6A588C0A38D4D18DCCE2E411E0 3116B3E848662645051AE5AAA5D5E696 349856A9453BF2B1F7A026618E5F43D5 42564FDD3FE2B481B37DE8120E0BBB7C 5DBE9FB11F0E1FF4E5DA1149581576D0 90F93AC5E06AE66B73BFF3B46023FE3C A4B98DB8F5C9298E9FBF865FEB782486 B33F8EB38F232BB78667404E1D96025B C6243B5C4607EF24FD7F4D70B4CD0F41 C6C55B2283D35484E19BE5F4283F64D1 EB57DF86D41FFA1AD74E282B72D82856
+rmParticipant6 <- unique(dataNMS[dataNMS$speakMaori >= 3 | dataNMS$compMaori >= 3,]$workerId)  # 13076185 fa784dba 3cde3d04 dab57fd5 a9695b3e 945a57c8 8c51cdc1 930984af 61dd030b 3efd81e0 8f889ddc 379bf450 91950415 72d13b4e
 dataNMS <- dataNMS[!dataNMS$workerId %in% rmParticipant6,]
 
 # Remove ten participants who did not learn their English in NZ and have been living in their current location in NZ for less than ten years (duration == "short")
 summaryNMSWorkerId <- unique(dataNMS[,c("workerId","firstLangCountry","place","duration")])
 EngNotInNZ <- summaryNMSWorkerId[!summaryNMSWorkerId$firstLangCountry=="NZ",]
-rmParticipant7 <- unique(EngNotInNZ[EngNotInNZ$duration=="short",]$workerId) # 21C1D24B57F6157A628A04DC5A519135 2AB61EA1EEBB7193A3A178D5B819225E 37A91EA9A4A92600B4ECEA239DC5D149 422774F5956A4A43258293A27B497995 4894A6F7674ECBFB304BCA4D9FB11B05 90FBA7311D5EB571D3C88425E4D371C0 E4E762BA8ADADA1CB0D943F8131F09B1 E862C480A8CE650797BE9D7309E52E15 FD2E69EFA7B5138BA6CC0BA31A10BFF0 FFA73BE62F1F21F94F35BC49A9B74838
+rmParticipant7 <- unique(EngNotInNZ[EngNotInNZ$duration=="short",]$workerId) # 8332d72f 70dafe1e 4f8b6f05 d3083fc5 e53ac07a 17f67c54 8277a12b 6a1740c7 29d42922 9a7885b3
 dataNMS <- dataNMS[!dataNMS$workerId %in% rmParticipant7,]
 
 #Remove one participant who has lived in Hawaii
-rmParticipant8 <- unique(dataNMS[dataNMS$hawaii=="Yes",]$workerId) #6C3FBC26E49853CA97CFEB1DC3725C94
+rmParticipant8 <- unique(dataNMS[dataNMS$hawaii=="Yes",]$workerId) # fc35cab1
 dataNMS <- dataNMS[!dataNMS$workerId %in% rmParticipant8,]
 
 # Remove four participants who know any other Polynesian languages
-rmParticipant9 <- unique(dataNMS[dataNMS$anyPolynesian=="Yes",]$workerId) # 84B5591229AA4FDE2C154B7873BCCC1E 905775C26C73AF3648FDAF216C1C836B B64C60A9F8121A22B1431FD012FE1BC1 EA6C551EB61BD1B4A3907ADCA5AC8A8C
+rmParticipant9 <- unique(dataNMS[dataNMS$anyPolynesian=="Yes",]$workerId) # f7466ae0 519ab1a7 a8ef4bcb bdabfcc5
 dataNMS <- dataNMS[!dataNMS$workerId %in% rmParticipant9,]
 
 # Remove three participants with language impairments
-rmParticipant10 <- unique(dataNMS[dataNMS$impairments=="Yes",]$workerId) # 080658104D5BE0B7E5FDEDA8BCE32CED 504C5E7063935EB524BEC50FE180D24A CAA87C53B60F941BE5F4B3F4093B33D6
+rmParticipant10 <- unique(dataNMS[dataNMS$impairments=="Yes",]$workerId) # 8e8c19fe 55d7e82a fc8d6ce1
 dataNMS <- dataNMS[!dataNMS$workerId %in% rmParticipant10,]
 
 #Remove one participant whose median reactionTime is shorter than 2*SD below the mean of all NMS
 median_RT <- aggregate(dataNMS$reactionTime, by=list(dataNMS$workerId), median)
 names(median_RT) <- c("workerId","median");dataNMS <- merge(dataNMS,median_RT,by="workerId")
 cut <- mean(median_RT$median)-2*sd(median_RT$median)
-rmParticipant11 <- median_RT[!median_RT$median > cut,]$workerId # 0CC130754E535B995C330A62C70ABB29
+rmParticipant11 <- median_RT[!median_RT$median > cut,]$workerId # 4b1aac09
 dataNMS <- dataNMS[!dataNMS$workerId %in% rmParticipant11,]
 
 # Remove four participants whose pattern of responses (SD) is below 2SD of the mean of all NMS participants
 SD <- aggregate(dataNMS$enteredResponse, by=list(dataNMS$workerId), sd)
 cut <- mean(SD$x)-2*sd(SD$x)
-rmParticipant12 <- SD[!SD$x > cut,]$Group.1 # 23F8C303E5981DC46B3998C680DF6DFE 3ADCE0E04FE200BA98BC5C3015AF9092 90E5DE278473C80C5C9B1F50642DA2D5 CA1853385689F12642034089CDBFBAE3
+rmParticipant12 <- SD[!SD$x > cut,]$Group.1 # 3bd22196 4f737f51 6889ff72 98590568
 dataNMS <- dataNMS[!dataNMS$workerId %in% rmParticipant12,]
 
 # Check the total number of usable NMS participants
@@ -498,27 +604,27 @@ dataUS <- dataNotFiltered[dataNotFiltered$group=="US",]
 
 # Remove one participant who did 248 items instead of 240 (length 3)
 nbResponse <- aggregate(dataUS$enteredResponse, by=list(dataUS$workerId),  FUN=length)
-rmParticipant13 <- nbResponse[!nbResponse$x %in% c(320,240),]$Group.1 # A9692Y27LBXT9
+rmParticipant13 <- nbResponse[!nbResponse$x %in% c(320,240),]$Group.1 # 9198e3ed
 dataUS <- dataUS[!dataUS$workerId %in% rmParticipant13,]
 
 # Remove fourteen participants whose speakMaori or compMaori is above 0
-rmParticipant14 <- unique(dataUS[dataUS$speakMaori > 0 | dataUS$compMaori > 0,]$workerId)  # A1AWHHBTJF1XCH A1L92Y6VBTRFP5 A1YAVTFZ9BULVV A28AX4H70DPKKK A2AMI7BVALOCJP A2DVRTL0JB0GT0 A2N0C5I6ZHNWV A2O5J0420C1UPC A2O762LZEZN3JC A4T642D9Z2UYC  AGVIHLR1DX7    AMKEGABQMZYIK  AMW2XLD9443OH  AWJUGWPCUGKEG 
+rmParticipant14 <- unique(dataUS[dataUS$speakMaori > 0 | dataUS$compMaori > 0,]$workerId)  # 5621e137 da8aa1c2 76e49a1d 20a0b59d cd213e66 a0d0f317 349460f3 78e9bed5 8fcb2f09 84975d69 73c79807 ec169941 7c487108 89bf37e6
 dataUS <- dataUS[!dataUS$workerId %in% rmParticipant14,]
 
 # Remove six participants whose maoriList is above 0
-rmParticipant15 <- unique(dataUS[dataUS$maoriList > 0,]$workerId) # A19R7FSNDW6WRK A21KGSK2BDVWOA A2XOYCKJJ4PYZA A3ET9X8TXMGXDI A3V8C77FN4FLUA AP4FDDWBJW47O 
+rmParticipant15 <- unique(dataUS[dataUS$maoriList > 0,]$workerId) # 5d404970 b40035cc 7233c727 30f0793a 01446e83 c3d73f11
 dataUS <- dataUS[!dataUS$workerId %in% rmParticipant15,]
 
 # Remove one participant who did not learn English in the US
-rmParticipant16 <- unique(dataUS[!dataUS$firstLangCountry=="US",]$workerId) # A33MBBGYASZPKN
+rmParticipant16 <- unique(dataUS[!dataUS$firstLangCountry=="US",]$workerId) # c7b992cc
 dataUS <- dataUS[!dataUS$workerId %in% rmParticipant16,]
 
 #Remove three participants who have been to Hawaii
-rmParticipant17 <- unique(dataUS[dataUS$hawaii=="Yes",]$workerId) # A1QLYBRMIULAYC A3L0XKGZL9P2ZC ADY44EV3GCW85
+rmParticipant17 <- unique(dataUS[dataUS$hawaii=="Yes",]$workerId) # d7464dfa a507847e 6f8cf2ef
 dataUS <- dataUS[!dataUS$workerId %in% rmParticipant17,]
 
 #Remove one participant with language impairments
-rmParticipant18 <- unique(dataUS[dataUS$impairments=="Yes",]$workerId) # A1NUKP1UCT2R2R
+rmParticipant18 <- unique(dataUS[dataUS$impairments=="Yes",]$workerId) # 328bd924
 dataUS <- dataUS[!dataUS$workerId %in% rmParticipant18,]
 
 # Detect participants whose median reactionTime is shorter than 2*SD below the mean of all US
@@ -530,7 +636,7 @@ cut <- mean(median_RT$median)-2*sd(median_RT$median)
 # Remove one participant whose pattern of responses (SD) is below 2SD of the mean of all US participants
 SD <- aggregate(dataUS$enteredResponse, by=list(dataUS$workerId), sd)
 cut <- mean(SD$x)-2*sd(SD$x)
-rmParticipant19 <- SD[!SD$x > cut,]$Group.1 # A1UHNDB2EQ8TK0
+rmParticipant19 <- SD[!SD$x > cut,]$Group.1 # 7960174b
 dataUS <- dataUS[!dataUS$workerId %in% rmParticipant19,]
 
 # Check the total number of usable US participants
@@ -698,29 +804,27 @@ The data is structured as follows:
   - *maoriExpo* is each participant's level of exposure to Māori (with a scale ranging from 0 to 10).
   - *group* is the classification of participants according to their fluency of Māori and/or exposure to Māori.
   - *nz* is the binary response to the question whether participants have ever lived in New Zealand.
+  - *scoreDictType* is the phonotactic score obtained across word types in the dictionary.
+  - *scoreDictToken* is the phonotactic score obtained across tokens of words from the dictionary in running speech corpora. 
+  - *scoreRsSegmented* is the phonotactic score obtained across tokens of all words in running speech corpora.
+  - *scoreRsUnsegmented* is the phonotactic score obtained across lexically unsegmented stretches of speech in running speech corpora.
+  - *scoreDictLongAType* is the phonotactic score obtained across word types in the dictionary ignoring vowel length distinctions except /a~a:/.
+  - *scoreDictShortVType* is the phonotactic score obtained across word types in the dictionary ignoring all vowel length distinctions.   
+  - *scoreShortVDictNze* is the phonotactic score obtained across words derived from the dictionary of Māori words in New Zealand English.
+  - *scoreNBestFixed* is the phonotactic score from 3470 most frequent word types with the lowest AIC score obtained using cutoffs based on raw frequency.
+  - *scoreMorphShortVType* is the phonotactic score obtained across morph types derived from words in the dictionary ignoring vowel length distinctions, unweighted. 
+  - *scoreMorphShortVToken* is the phonotactic score obtained across tokens of morphs derived from words in the dictionary ignoring vowel length distinctions, based on running speech corpora, weighted by the number of times they occur in corpora.  
   - *median* is the median of each participant's reaction time.
-  - *scoreDic* is the dictionary phonotactic score normalized by the phonemic length of each stimulus.
-  - *scoreRs* is the running speech phonotactic score normalized by the phonemic length of each stimulus.
-  - *scoreUnseg* is the unsegmented running speech phonotactic score normalized by the phonemic length of each stimulus - 2.
-  - *scoreDictNze* is the score of the phonotactics derived from the dictionary of Māori words in New Zealand English.
-  - *scoreSmall* is the score of the phonotactics derived from NMS’ small active lexicon of Māori (comprising of 121 common loanwords that most NMS can identify as Māori words in our previous study plus 55 urban placenames).
-  - *scoreFunc* is the score of the phonotactics generalized over a list of function words.
-  - *scoreEng* is the score of the English phonotactics obtained from the English lexical database CELEX.
-  - *scoreCV* is the word shape score obtained from a trigram language model built by identifying each segment as a consonant, vowel or long vowel and calculating probabilities over sequences of those categories.
-  - *scorePosLength* is the position-length specific probability of phonemes obtained from a unigram language model.
-  - *scoreDictNew* is the variant phonotactic score based on the dictionary training set, divided by item phonemic length; statistics for trigrams, bigrams, and unigrams are jointly included.
-  - *scoreRsNew* is the variant phonotactic score based on the segmented running speech training set, divided by item phonemic length; statistics for trigrams, bigrams, and unigrams are jointly included.
-  - *scoreUnsegNew* is the variant phonotactic score based on the unsegmented running speech training set, divided by item phonemic length; statistics for trigrams, bigrams, and unigrams are jointly included.
-  - *scoreDictNoMacron* is the dictionary phonotactic score without the distinction between short and long vowels marked with macrons.
-  - *scoreRsNoMacron* is the running speech phonotactic score without the distinction between short and long vowels marked with macrons.
-  - *scoreUnsegNoMacron* is the unsegmented running speech phonotactic score without the distinction between short and long vowels marked with macrons.
 
 ## Number of participants per length within each group
 ```{r Table S3,echo=FALSE, message=FALSE, warning=FALSE}
-dataExp2$word1 <- gsub("ā","A",dataExp2$word);dataExp2$word1 <- gsub("ē","E",dataExp2$word1)
-dataExp2$word1 <- gsub("ī","I",dataExp2$word1);dataExp2$word1 <- gsub("ō","O",dataExp2$word1)
-dataExp2$word1 <- gsub("ū","U",dataExp2$word1);dataExp2$word1 <- gsub("wh","f",dataExp2$word1)
-dataExp2$word1 <- gsub("ng","N",dataExp2$word1)
+dataExp2$word1 <- gsub("\u0101", "A", dataExp2$word, fixed=TRUE)
+dataExp2$word1 <- gsub("\u0113", "E", dataExp2$word1, fixed=TRUE)
+dataExp2$word1 <- gsub("\u012B", "I", dataExp2$word1, fixed=TRUE)
+dataExp2$word1 <- gsub("\u014D", "O", dataExp2$word1, fixed=TRUE)
+dataExp2$word1 <- gsub("\u016B", "U", dataExp2$word1, fixed=TRUE)
+dataExp2$word1 <- gsub("wh", "f", dataExp2$word1, fixed=TRUE)
+dataExp2$word1 <- gsub("ng", "N", dataExp2$word1, fixed=TRUE)
 dataExp2$length <- nchar(dataExp2$word1)
 dataMS <- dataExp2[dataExp2$group=="MS",]
 dataMSlength <- unique(dataMS[,c("length","workerId")])
@@ -742,205 +846,1272 @@ lengthT <- merge(lengthT, dataUSlengthT, by="length")
 kable(lengthT, align="c", caption="Table S3: Number of participants per length within each group")
 ```
 
-## Well-formedness ratings by participant group (linear mixed-effects model)
-```{r Table S4, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
-# Model for Table S4
+## Comparing AIC scores according to resources
+```{r Table S4, echo=FALSE, message=FALSE, warning=FALSE, eval=TRUE}
 dataExp2$group <- relevel(dataExp2$group, ref="NMS")
-# modelTableS4 <- lmer(enteredResponse ~ c.(scoreDict)*group + c.(scoreRs)*group + c.(scoreUnseg)*group + (1 + c.(scoreDict) + c.(scoreRs) + c.(scoreUnseg)|workerId) + (1 + group|word), control=lmerControl(optimizer="bobyqa"), dataExp2)
-# saveRDS(modelTableS4, file = "modelTableS4.rds")
-modelTableS4 <- readRDS("./modelTableS4.rds")
-kable(xtable(summary(modelTableS4)$coef), digits=3, caption="Table S4: Mixed effects model summary for well-formedness ratings by participant group. All numeric variables in this model are centered.")
+dataExp2$enteredResponse <- as.factor(dataExp2$enteredResponse)
+dataExp2$macron <- FALSE
+dataExp2[grepl("[\\u0101\\u0113\\u012B\\u014D\\u016B]",dataExp2$word),]$macron <- TRUE
+dataExp2$macron <- as.factor(dataExp2$macron)
+
+# modelDictType <- clmm(enteredResponse ~ c.(scoreDictType) * group + (1 + c.(scoreDictType) | workerId) + (1 + group | word), dataExp2)
+# saveRDS(modelDictType, file = "modelDictType.rds")
+modelDictType <- readRDS("./modelDictType.rds")
+
+# modelDictToken <- clmm(enteredResponse ~ c.(scoreDictToken) * group + (1 + c.(scoreDictToken) | workerId) + (1 + group | word), dataExp2)
+# saveRDS(modelDictToken, file = "modelDictToken.rds")
+modelDictToken <- readRDS("./modelDictToken.rds")
+
+# modelRsSegmented <-  clmm(enteredResponse ~ c.(scoreRsSegmented) * group + (1 + c.(scoreRsSegmented) | workerId) + (1 + group | word), dataExp2)
+# saveRDS(modelRsSegmented, file = "modelRsSegmented.rds")
+modelRsSegmented <- readRDS("./modelRsSegmented.rds")
+
+# modelRsUnsegmented <-  clmm(enteredResponse ~ c.(scoreRsUnsegmented) * group + (1 + c.(scoreRsUnsegmented) | workerId) + (1 + group | word), dataExp2)
+# saveRDS(modelRsUnsegmented, file = "modelRsUnsegmented.rds")
+modelRsUnsegmented <- readRDS("./modelRsUnsegmented.rds")
+
+Score <- c("scoreDictType","scoreDictToken","scoreRsSegmented","scoreRsUnsegmented")
+AIC <- c(AIC(modelDictType),AIC(modelDictToken),AIC(modelRsSegmented),AIC(modelRsUnsegmented))
+aicT <- data.frame(Score,AIC)
+kable(aicT, align="c", caption="Table S4: Comparing AIC scores according to resources")
+```
+
+## Comparing AIC scores according to vowel length distinction
+```{r Table S5, echo=FALSE, message=FALSE, warning=FALSE, eval=TRUE}
+dataExp2$group <- relevel(dataExp2$group, ref="NMS")
+dataExp2$enteredResponse <- as.factor(dataExp2$enteredResponse)
+dataExp2$macron <- FALSE
+dataExp2[grepl("[\\u0101\\u0113\\u012B\\u014D\\u016B]",dataExp2$word),]$macron <- TRUE
+dataExp2$macron <- as.factor(dataExp2$macron)
+
+# modelDictLongAType <- clmm(enteredResponse ~ (c.(scoreDictLongAType) + macron) * group + (1 + c.(scoreDictLongAType) + macron | workerId) + (1 + group | word), data=dataExp2)
+# saveRDS(modelDictLongAType, file = "modelDictLongAType.rds")
+modelDictLongAType <- readRDS("./modelDictLongAType.rds")
+
+# modelDictShortVType <- clmm(enteredResponse ~ (c.(scoreDictShortVType) + macron) * group + (1 + c.(scoreDictShortVType) + macron | workerId) + (1 + group | word), dataExp2)
+# saveRDS(modelDictShortVType, file = "modelDictShortVType.rds")
+modelDictShortVType <- readRDS("./modelDictShortVType.rds")
+
+Score <- c("scoreDictType","scoreDictLongAType","scoreDictShortVType")
+AIC <- c(AIC(modelDictType),AIC(modelDictLongAType),AIC(modelDictShortVType) )
+aicVT <- data.frame(Score,AIC)
+kable(aicVT, align="c", caption="Table S5: Comparing AIC scores according to vowel length distinction")
+```
+
+##  Well-formedness ratings by participant group (Summary of the best model with the lowest AIC)
+```{r Table S6, echo=FALSE, message=FALSE, warning=FALSE, eval=TRUE}
+kable(clm_table(modelDictShortVType), digits=3, caption="Table S6: Ordinal mixed-effects model summary for well-formedness ratings by participant group. All numeric variables in this model are centered.")
 ```
 
 ## Code for plotting Fig. 2
-```{r Fig. 2, echo=FALSE, message=FALSE, warning=FALSE, fig.width=11, fig.height=5, fig.align='center', fig.cap="Fig. 2: Interaction between phonotactic scores and participant groups. The range of phonotactic score is represented on the x-axis and the range of predicted rating is represented on the y-axis."}
+```{r Fig. 2, echo=FALSE, message=FALSE, warning=FALSE, fig.width=4, fig.height=4, fig.align='center', fig.cap="Fig. 2: Interaction between phonotactic scores and participant groups. The range of phonotactic score is represented on the x-axis and the range of predicted rating is represented on the y-axis."}
+thresholds.2a <- data.frame(label=names(modelDictShortVType$alpha), threshold=modelDictShortVType$alpha, row.names=NULL)
 
-fig2a <- as.data.frame(effect(term="c.(scoreDict):group", mod=modelTableS4));fig2a$Group <- fig2a$group
-F2a <- ggplot(fig2a, aes(x=scoreDict, y=fit, group=Group)) + geom_point(aes(color=Group, shape=Group), size=3) + 
-  geom_line(aes(color=Group,linetype=Group), size=1)  + 
-  labs( x= "Dictionary phonotactic score (Type)", y="Predicted rating") + 
-  theme_classic() + theme(legend.position="bottom") + 
-  coord_cartesian(ylim = c(1.8, 3.7)) + scale_color_manual(values = c("black", "red", "orange")) + 
+fig2a <- as.data.frame(Effect(c("scoreDictShortVType", "group"), mod=modelDictShortVType, latent=TRUE))
+names(fig2a)[names(fig2a)=="group"] <- "Group"
+fig2a <- add_predicted_ratings(fig2a, thresholds.2a)
+
+ggplot(fig2a, aes(x=scoreDictShortVType, y=predicted.mean, fill=Group, color=Group, shape=Group, linetype=Group)) +
+  geom_ribbon(aes(ymin=predicted.lower, ymax=predicted.upper), alpha=0.1, color=NA) + 
+  geom_line(size=1) +
+  scale_color_manual(values = c("black", "red", "orange")) + 
   scale_fill_manual(values = c("black", "red", "orange")) +
-  geom_ribbon(aes(ymin=fit-se, ymax=fit+se, fill=Group),alpha=0.2)
-fig2b <- as.data.frame(effect(term="group:c.(scoreRs)", mod=modelTableS4));fig2b$Group <- fig2b$group
-F2b <- ggplot(fig2b, aes(x=scoreRs, y=fit, group=Group)) + geom_point(aes(color=Group, shape=Group), size=3) +
-  geom_line(aes(color=Group, linetype=Group), size=1) + 
-  labs(x= "Segmented RS phonotactic score (Token)", y="Predicted rating") + 
-  theme_classic() + theme(legend.position="bottom") + 
-  coord_cartesian(ylim = c(1.8, 3.7)) + scale_color_manual(values = c("black", "red", "orange")) + 
-  scale_fill_manual(values = c("black", "red", "orange")) +
-  geom_ribbon(aes(ymin=fit-se, ymax=fit+se, fill=Group),alpha=0.2)
-multiplot(F2a,F2b, cols=2)
+  xlab("Dictionary phonotactic score (Type)") +
+  ylab("Predicted Mean Rating") + 
+  theme_classic() + 
+  theme(legend.position="bottom")
+```
+
+### Phonotactics derived from the dictionary of Māori words in New Zealand English
+Phonotactics from Māori borrowings in New Zealand English is added as an additional predictor to the best ordinal mixed-effects model presented in Table S6.
+
+```{r AddStats1, echo=FALSE, message=FALSE, warning=FALSE, eval=TRUE}
+# Phonotactics derived from the dictionary of Māori words in New Zealand English (Macalister, 2005)
+# modelMāoriBorrowings <- clmm(enteredResponse ~ ( c.(scoreDictShortVType) + c.(scoreDictNzeShortV) * macron) * group + (1 + c.(scoreDictShortVType) + c.(scoreDictNzeShortV) | workerId) + (0 + macron | workerId) + (1 + group | word), dataExp2)
+# saveRDS(modelMāoriBorrowings, file = "modelMāoriBorrowings.rds")
+modelMāoriBorrowings <- readRDS("./modelMāoriBorrowings.rds")
+kable(clm_table(modelMāoriBorrowings), digits=3, caption="Table S7: Ordinal mixed-effects model of well-formedness ratings including the phonotactics derived from the dictionary of Māori words in New Zealand English")
 ```
 
 ## Post hoc exploration
 ### Monte Carlo analyses
 ```{r MC, echo=TRUE, message=FALSE, warning=FALSE, eval=FALSE}
-# Example of R code to randomly sample 1000 words from the Māori dictionary
- N <- 1000; m <- 1000
- set.seed(1234)
- for(i in 1:N){
- randomWords <- sample(maoriDictionary, m)
- randomWordsTri <- orthoCoding(randomWords,g=c(3)) 
- randomWordsTri <- gsub("_"," ",randomWordsTri)
- outputFile <- paste0("randomization_", i, ".txt")
- write.table(randomWordsTri, outputFile, row.names = FALSE, col.names=FALSE, quote=FALSE)
- }  
-
-# Example of R code to run linear mixed-effects models with 1000 samples
-listLmerfit <- list()
-for(i in 1:1000){
-  lmerfit<- lmer(enteredResponse ~ c.(score) + (1 + c.(score)|workerId) + (1|word), data=files[[i]])
-  listLmerfit[[i]] <- coef(summary(lmerfit))[2,4];message('Regression model of', i,'\n')
+# (1) Monte Carlo analysis with NMS participants for lexicon sizes N ranging from 1k to 18k, drawing 1000 random samples of N types from the lexicon
+dir.create("./MC");dir.create("./MC/dictTypeSample");dir.create("./MC/dictTypePM");dir.create("./MC/dictTypePM/aux");dir.create("./MC/dictTypeScore");dir.create("./MC/dictTypeResult")
+for(i in 1:18){
+  directoryName <- paste0("./MC/dictTypeSample/size",i,"k");dir.create(directoryName)
 }
-listLmerfitFinal <- unlist(listLmerfit)
+for(i in 1:18){
+  directoryName <- paste0("./MC/dictTypePM/size",i,"k");dir.create(directoryName)
+}
+for(i in 1:18){
+  directoryName <- paste0("./MC/dictTypePM/aux/size",i,"k");dir.create(directoryName)
+}
+for(i in 1:18){
+  directoryName <- paste0("./MC/dictTypeScore/size",i,"k");dir.create(directoryName)
+}
+dictShortVType <- read.delim("./dict-shortvowels_types.txt", sep="\t", header= FALSE)
+for(i in 1:18){
+wdSample <- paste0("./MC/dictTypeSample/size",i,"k");m <- i*1000;set.seed(1234);setwd(wdSample)
+for(j in 1:1000){
+randomWords <- sample(dictShortVType$V1, m, replace = FALSE);outputFile <- paste0("randomization_", j, ".txt")
+write.table(randomWords, outputFile, row.names = FALSE, col.names=FALSE, quote=FALSE)
+# Generate phonotactic scores for each sample using "score-nofreq.sh"
+shellCommand <- paste0("./score-nofreq.sh ./MC/dictTypeSample/size",i,"k/randomization_",j,".txt ./stimuli-shortvowels.txt ./MC/dictTypePM/size",i,"k ./MC/dictTypePM/aux/size",i,"k ./MC/dictTypeScore/size",i,"k")
+system(shellCommand, intern = TRUE)
+}
+setwd("./../../..");wdScore <- paste0("./MC/dictTypeScore/size",i,"k");setwd(wdScore)
+dataNMS <- dataExp2[dataExp2$group=="NMS",]
+dataNMS <- dataNMS[c("enteredResponse","word","word1","length","macron","scoreDictShortVType","workerId")]
+randomScore <- function(list){
+  list <- read.csv(list);list <- list[,c("item","logprob")]
+  dataNMS$item <- dataNMS$word1;dataNew <- merge(dataNMS, list, by="item")
+  dataNew$length <- nchar(dataNew$item);dataNew$scoreNor <- dataNew$logprob/(dataNew$length + 1)
+  return(dataNew)
+}
+filenames <- list.files(pattern="*.csv");files <- lapply(filenames, randomScore);listAIC <- list()
+# Run ordinal regression models with 1000 samples
+for(k in 1:1000){
+  files[[k]]$enteredResponse <- as.factor(files[[k]]$enteredResponse)
+  clmfit <- clm(enteredResponse ~ scoreNor + macron, data=files[[k]])
+  listAIC[[k]] <- AIC(clmfit);message('Regression model of', k,'\n')
+}
+setwd("./../../..");wdResult <- paste0("./MC/dictTypeResult");setwd(wdResult);outputAIC <- paste0("dictTypeSize",i,"kListAIC.txt")
+write.table(unlist(listAIC), outputAIC,row.names = FALSE, col.names=FALSE, quote=FALSE)
+setwd("./../..")
+}
+
+# (2) Repeating the same Monte Carlo analysis with MS participants for lexicon sizes N ranging from 1k to 18k, drawing 1000 random samples of N types from the lexicon
+dir.create("./MC/msDictTypeResult")
+for(i in 1:18){
+wdScore <- paste0("./MC/dictTypeScore/size",i,"k");setwd(wdScore)
+dataMS <- dataExp2[dataExp2$group=="MS",]
+dataMS <- dataMS[c("enteredResponse","word","word1","length","macron","scoreDictShortVType","workerId")]
+randomScore <- function(list){
+  list <- read.csv(list);list <- list[,c("item","logprob")]
+  dataMS$item <- dataMS$word1;dataNew <- merge(dataMS, list, by="item")
+  dataNew$length <- nchar(dataNew$item);dataNew$scoreNor <- dataNew$logprob/(dataNew$length + 1)
+  return(dataNew)
+}
+filenames <- list.files(pattern="*.csv");files <- lapply(filenames, randomScore);listAIC <- list()
+for(k in 1:1000){
+  files[[k]]$enteredResponse <- as.factor(files[[k]]$enteredResponse)
+  clmfit <- clm(enteredResponse ~ scoreNor + macron, data=files[[k]])
+  listAIC[[k]] <- AIC(clmfit);message('Regression model of', k,'\n')
+}
+setwd("./../../..");wdResult <- paste0("./MC/msDictTypeResult");setwd(wdResult);outputAIC <- paste0("msDictTypeSize",i,"kListAIC.txt")
+write.table(unlist(listAIC), outputAIC, row.names = FALSE, col.names=FALSE, quote=FALSE)
+setwd("./../..")
+}
+
+# (3) Monte Carlo analysis with NMS participants for lexicon sizes N ranging from 1k to 18k, drawing 1000 random samples of N types from the lexicon, weighted by token frequency
+dir.create("./MC/dictTokenSample");dir.create("./MC/dictTokenPM");dir.create("./MC/dictTokenPM/aux");dir.create("./MC/dictTokenScore");dir.create("./MC/dictTokenResult")
+for(i in 1:18){
+  directoryName <- paste0("./MC/dictTokenSample/size",i,"k");dir.create(directoryName)
+}
+for(i in 1:18){
+  directoryName <- paste0("./MC/dictTokenPM/size",i,"k");dir.create(directoryName)
+}
+for(i in 1:18){
+  directoryName <- paste0("./MC/dictTokenPM/aux/size",i,"k");dir.create(directoryName)
+}
+for(i in 1:18){
+  directoryName <- paste0("./MC/dictTokenScore/size",i,"k");dir.create(directoryName)
+}
+dictShortVFreq <- read.delim("./dict-shortvowels_freq.txt", sep="\t", header= TRUE)
+for(i in 1:18){
+wdSample <- paste0("./MC/dictTokenSample/size",i,"k");m <- i*1000;set.seed(1234);setwd(wdSample)
+for(j in 1:1000){randomWords <- sample(dictShortVFreq$word, m, replace = FALSE, prob = dictShortVFreq$tokens);randomWords <- gsub(""," ",randomWords);randomWords <- gsub("^ ","",randomWords);randomWords <- gsub(" $","",randomWords);outputFile <- paste0("randomization_", j, ".txt")
+write.table(randomWords, outputFile, row.names = FALSE, col.names=FALSE, quote=FALSE)
+shellCommand <- paste0("./score-nofreq.sh ./MC/dictTokenSample/size",i,"k/randomization_",j,".txt ./stimuli-shortvowels.txt ./MC/dictTokenPM/size",i,"k ./MC/dictTokenPM/aux/size",i,"k ./MC/dictTokenScore/size",i,"k")
+system(shellCommand, intern = TRUE)
+}
+setwd("./../../..");wdScore <- paste0("./MC/dictTokenScore/size",i,"k");setwd(wdScore)
+dataNMS <- dataExp2[dataExp2$group=="NMS",]
+dataNMS <- dataNMS[c("enteredResponse","word","word1","length","macron","scoreDictShortVType","workerId")]
+randomScore <- function(list){
+  list <- read.csv(list);list <- list[,c("item","logprob")]
+  dataNMS$item <- dataNMS$word1;dataNew <- merge(dataNMS, list, by="item")
+  dataNew$length <- nchar(dataNew$item);dataNew$scoreNor <- dataNew$logprob/(dataNew$length + 1)
+  return(dataNew)
+}
+filenames <- list.files(pattern="*.csv");files <- lapply(filenames, randomScore);listAIC <- list()
+for(k in 1:1000){
+  files[[k]]$enteredResponse <- as.factor(files[[k]]$enteredResponse)
+  clmfit <- clm(enteredResponse ~ scoreNor + macron, data=files[[k]])
+  listAIC[[k]] <- AIC(clmfit);message('Regression model of', k,'\n')
+}
+setwd("./../../..");wdResult <- paste0("./MC/dictTokenResult");setwd(wdResult);outputAIC <- paste0("dictTokenSize",i,"kListAIC.txt")
+write.table(unlist(listAIC), outputAIC,row.names = FALSE, col.names=FALSE, quote=FALSE)
+setwd("./../..")
+}
+
+# (4) Repeating the same Monte Carlo analysis with MS participants for lexicon sizes N ranging from 1k to 18k, drawing 1000 random samples of N types from the lexicon, weighted by token frequency
+dir.create("./MC/msDictTokenResult")
+for(i in 1:18){
+wdScore <- paste0("./MC/dictTokenScore/size",i,"k");setwd(wdScore)
+dataMS <- dataExp2[dataExp2$group=="MS",]
+dataMS <- dataMS[c("enteredResponse","word","word1","length","macron","scoreDictShortVType","workerId")]
+randomScore <- function(list){
+  list <- read.csv(list);list <- list[,c("item","logprob")]
+  dataMS$item <- dataMS$word1;dataNew <- merge(dataMS, list, by="item")
+  dataNew$length <- nchar(dataNew$item);dataNew$scoreNor <- dataNew$logprob/(dataNew$length + 1)
+  return(dataNew)
+}
+filenames <- list.files(pattern="*.csv");files <- lapply(filenames, randomScore);listAIC <- list()
+for(k in 1:1000){
+  files[[k]]$enteredResponse <- as.factor(files[[k]]$enteredResponse)
+  clmfit <- clm(enteredResponse ~ scoreNor + macron, data=files[[k]])
+  listAIC[[k]] <- AIC(clmfit);message('Regression model of', k,'\n')
+}
+setwd("./../../..");wdResult <- paste0("./MC/msDictTokenResult");setwd(wdResult);outputAIC <- paste0("msDictTokenSize",i,"kListAIC.txt")
+write.table(unlist(listAIC), outputAIC, row.names = FALSE, col.names=FALSE, quote=FALSE)
+setwd("./../..")
+}
+
+# (5) Monte Carlo analysis with NMS participants for lexicon sizes N ranging from 1k to 18k, consisting of the randomly sampled N highest-frequency types in the lexicon 
+dir.create("./MC/NBestSample");dir.create("./MC/NBestPM");dir.create("./MC/NBestPM/aux");dir.create("./MC/NBestScore");dir.create("./MC/NBestResult")
+for(i in 1:18){
+  directoryName <- paste0("./MC/NBestSample/size",i,"k");dir.create(directoryName)
+}
+for(i in 1:18){
+  directoryName <- paste0("./MC/NBestPM/size",i,"k");dir.create(directoryName)
+}
+for(i in 1:18){
+  directoryName <- paste0("./MC/NBestPM/aux/size",i,"k");dir.create(directoryName)
+}
+for(i in 1:18){
+  directoryName <- paste0("./MC/NBestScore/size",i,"k");dir.create(directoryName)
+}
+dictShortVFreq <- read.delim("./dict-shortvowels_freq.txt", sep="\t", header= TRUE)
+for(i in 1:18){
+wdSample <- paste0("./MC/NBestSample/size",i,"k");m <- i*1000;setwd(wdSample)
+for(j in 1:1000){
+dictShortVFreq <- dictShortVFreq[order(runif(nrow(dictShortVFreq))),]
+dictShortVFreq <- dictShortVFreq[order(dictShortVFreq$tokens, decreasing=TRUE),]  
+randomWords <- dictShortVFreq$word[1:m]
+randomWords <- gsub(""," ",randomWords);randomWords <- gsub("^ ","",randomWords);randomWords <- gsub(" $","",randomWords);outputFile <- paste0("randomization_", j, ".txt")
+write.table(randomWords, outputFile, row.names = FALSE, col.names=FALSE, quote=FALSE)
+shellCommand <- paste0("./score-nofreq.sh ./MC/NBestSample/size",i,"k/randomization_",j,".txt ./stimuli-shortvowels.txt ./MC/NBestPM/size",i,"k ./MC/NBestPM/aux/size",i,"k /MC/NBestScore/size",i,"k")
+system(shellCommand, intern = TRUE)
+}
+setwd("./../../..");wdScore <- paste0("./MC/NBestScore/size",i,"k");setwd(wdScore)
+dataNMS <- dataExp2[dataExp2$group=="NMS",]
+dataNMS <- dataNMS[c("enteredResponse","word","word1","length","macron","scoreDictShortVType","workerId")]
+randomScore <- function(list){
+  list <- read.csv(list);list <- list[,c("item","logprob")]
+  dataNMS$item <- dataNMS$word1;dataNew <- merge(dataNMS, list, by="item")
+  dataNew$length <- nchar(dataNew$item);dataNew$scoreNor <- dataNew$logprob/(dataNew$length + 1)
+  return(dataNew)
+}
+filenames <- list.files(pattern="*.csv");files <- lapply(filenames, randomScore);listAIC <- list()
+for(k in 1:1000){
+  files[[k]]$enteredResponse <- as.factor(files[[k]]$enteredResponse)
+  clmfit <- clm(enteredResponse ~ scoreNor + macron, data=files[[k]])
+  listAIC[[k]] <- AIC(clmfit);message('Regression model of', k,'\n')
+}
+setwd("./../../..");wdResult <- paste0("./MC/NBestResult");setwd(wdResult);outputAIC <- paste0("NBestSize",i,"kListAIC.txt")
+write.table(unlist(listAIC), outputAIC,row.names = FALSE, col.names=FALSE, quote=FALSE)
+setwd("./../..")
+}
+
+# (6) Repeating the same Monte Carlo analysis with MS participants for lexicon sizes N ranging from 1k to 18k, consisting of the randomly sampled N highest-frequency types in the lexicon
+dir.create("./MC/msNBestResult")
+for(i in 1:18){
+wdScore <- paste0("./MC/NBestScore/size",i,"k");setwd(wdScore)
+dataMS <- dataExp2[dataExp2$group=="MS",]
+dataMS <- dataMS[c("enteredResponse","word","word1","length","macron","scoreDictShortVType","workerId")]
+randomScore <- function(list){
+  list <- read.csv(list);list <- list[,c("item","logprob")]
+  dataMS$item <- dataMS$word1;dataNew <- merge(dataMS, list, by="item")
+  dataNew$length <- nchar(dataNew$item);dataNew$scoreNor <- dataNew$logprob/(dataNew$length + 1)
+  return(dataNew)
+}
+filenames <- list.files(pattern="*.csv");files <- lapply(filenames, randomScore);listAIC <- list()
+for(k in 1:1000){
+  files[[k]]$enteredResponse <- as.factor(files[[k]]$enteredResponse)
+  clmfit <- clm(enteredResponse ~ scoreNor + macron, data=files[[k]])
+  listAIC[[k]] <- AIC(clmfit);message('Regression model of', k,'\n')
+}
+setwd("./../../..");wdResult <- paste0("./MC/msNBestResult");setwd(wdResult);outputAIC <- paste0("msNBestSize",i,"kListAIC.txt")
+write.table(unlist(listAIC), outputAIC, row.names = FALSE, col.names=FALSE, quote=FALSE)
+setwd("./../..")
+}
+
+# (7) Monte Carlo analysis with NMS participants for lexicon sizes N ranging from 3k to 18k (using cutoffs based on raw frequency), consisting of the fixed N-most-frequent types appearing at least five times in running speech
+dir.create("./MC/NBestFixedSample");dir.create("./MC/NBestFixedPM");dir.create("./MC/NBestFixedPM/aux");dir.create("./MC/NBestFixedScore");dir.create("./MC/NBestFixedResult")
+dictShortVFreqCutOffs <- read.delim("./dict-shortvowels_freq_cutoffs.txt", sep="\t", header= TRUE)
+listCutOffs <- dictShortVFreqCutOffs[dictShortVFreqCutOffs$N > 3000,]$N
+for(i in listCutOffs){
+wdSample <- paste0("./MC/NBestFixedSample");setwd(wdSample)
+dictShortVFreq <- dictShortVFreq[order(dictShortVFreq$tokens.raw, decreasing=TRUE),]
+randomWords <- dictShortVFreq$word[1:i];randomWords <- gsub(""," ",randomWords);randomWords <- gsub("^ ","",randomWords);randomWords <- gsub(" $","",randomWords)
+outputFile <- paste0("NBestFixedSample",i,".txt")
+write.table(randomWords, outputFile, row.names = FALSE, col.names=FALSE, quote=FALSE)
+shellCommand <- paste0("./score-nofreq.sh ./MC/NBestFixedSample/NBestFixedSample",i,".txt ./stimuli-shortvowels.txt ./MC/NBestFixedPM ./MC/NBestFixedPM/aux ./MC/NBestFixedScore")
+system(shellCommand, intern = TRUE)
+setwd("./../..")
+}
+dataNMS <- dataExp2[dataExp2$group=="NMS",]
+dataNMS <- dataNMS[c("enteredResponse","word","word1","length","macron","scoreDictShortVType","workerId")]
+randomScore <- function(list){
+  list <- read.csv(list);list <- list[,c("item","logprob")]
+  dataNMS$item <- dataNMS$word1;dataNew <- merge(dataNMS, list, by="item")
+  dataNew$length <- nchar(dataNew$item);dataNew$scoreNor <- dataNew$logprob/(dataNew$length + 1)
+  return(dataNew)
+}
+wdScore <- paste0("./MC/NBestFixedScore");setwd(wdScore)
+filenames <- list.files(pattern="*.csv");files <- lapply(filenames, randomScore);listAIC <- list()
+for(k in 1:6){
+  files[[k]]$enteredResponse <- as.factor(files[[k]]$enteredResponse)
+  clmfit <- clm(enteredResponse ~ scoreNor + macron, data=files[[k]])
+  listAIC[[k]] <- AIC(clmfit);message('Regression model of', k,'\n')
+}
+setwd("./../..");wdResult <- paste0("./MC/NBestFixedResult");setwd(wdResult);outputAIC <- paste0("NBestFixedListAIC.txt")
+write.table(unlist(listAIC), outputAIC,row.names = FALSE, col.names=FALSE, quote=FALSE)
+setwd("./../..")
+
+listAIC <- as.data.frame(unlist(listAIC));list <- data.frame(cbind(unlist(listCutOffs)))
+listAIC <- cbind(listAIC, list);colnames(listAIC) <- c("AICscore","size")
+listAIC$size[(which(listAIC==min(listAIC$AICscore)))] # 3470
+min(listAIC$AICscore) # 103767.4
+listAIC <- listAIC[,c("size", "AICscore")];colnames(listAIC) <- c("Cutoff","AIC")
+# write.table(listAIC,"dataTableS7.txt",sep ="\t", quote=FALSE, row.names=FALSE, col.names=TRUE)
+
+# (8) Repeating the same Monte Carlo analysis with MS participants for lexicon sizes N ranging from 3k to 18k (using cutoffs based on raw frequency), consisting of the fixed N-most-frequent types appearing at least five times in running speech
+dir.create("./MC/msNBestFixedResult")
+dataMS <- dataExp2[dataExp2$group=="MS",]
+dataMS <- dataMS[c("enteredResponse","word","word1","length","macron","scoreDictShortVType","workerId")]
+randomScore <- function(list){
+  list <- read.csv(list);list <- list[,c("item","logprob")]
+  dataMS$item <- dataMS$word1;dataNew <- merge(dataMS, list, by="item")
+  dataNew$length <- nchar(dataNew$item);dataNew$scoreNor <- dataNew$logprob/(dataNew$length + 1)
+  return(dataNew)
+}
+wdScore <- paste0("./MC/NBestFixedScore");setwd(wdScore)
+filenames <- list.files(pattern="*.csv");files <- lapply(filenames, randomScore);listAIC <- list()
+for(k in 1:6){
+  files[[k]]$enteredResponse <- as.factor(files[[k]]$enteredResponse)
+  clmfit <- clm(enteredResponse ~ scoreNor + macron, data=files[[k]])
+  listAIC[[k]] <- AIC(clmfit);message('Regression model of', k,'\n')
+}
+setwd("./../..");wdResult <- paste0("./MC/msNBestFixedResult");setwd(wdResult);outputAIC <- paste0("msNBestFixedListAIC.txt")
+write.table(unlist(listAIC), outputAIC,row.names = FALSE, col.names=FALSE, quote=FALSE)
+setwd("./../..")
+
+listAIC <- as.data.frame(unlist(listAIC));list <- data.frame(cbind(unlist(listCutOffs)))
+listAIC <- cbind(listAIC, list);colnames(listAIC) <- c("AICscore","size")
+listAIC$size[(which(listAIC==min(listAIC$AICscore)))] # 3879
+min(listAIC$AICscore) # 36657.44
+listAIC <- listAIC[,c("size", "AICscore")];colnames(listAIC) <- c("Cutoff","AIC")
+# write.table(listAIC,"dataTableS8.txt",sep ="\t", quote=FALSE, row.names=FALSE, col.names=TRUE)
+
+for(i in 1:18){
+  assign(paste0("size",i,"k"),read.delim(paste0("./MC/dictTypeResult/dictTypeSize",i,"kListAIC.txt"), sep ="\t", header = FALSE))
+}
+size1k$size <- "1k";size2k$size <- "2k";size3k$size <- "3k";size4k$size <- "4k";size5k$size <- "5k";size6k$size <- "6k";size7k$size <- "7k";size8k$size <- "8k";size9k$size <- "9k";size10k$size <- "10k";size11k$size <- "11k";size12k$size <- "12k";size13k$size <- "13k";size14k$size <- "14k";size15k$size <- "15k";size16k$size <- "16k";size17k$size <- "17k";size18k$size <- "18k"
+dictTypeAIC <- rbind(size1k, size2k, size3k, size4k, size5k, size6k, size7k, size8k, size9k, size10k, size11k, size12k, size13k, size14k, size15k, size16k, size17k, size18k)
+dictTypeAIC$type <- "unweighted"
+
+for(i in 1:18){
+  assign(paste0("size",i,"k"),read.delim(paste0("./MC/dictTokenResult/dictTokenSize",i,"kListAIC.txt"), sep ="\t", header = FALSE))
+}
+size1k$size <- "1k";size2k$size <- "2k";size3k$size <- "3k";size4k$size <- "4k";size5k$size <- "5k";size6k$size <- "6k";size7k$size <- "7k";size8k$size <- "8k";size9k$size <- "9k";size10k$size <- "10k";size11k$size <- "11k";size12k$size <- "12k";size13k$size <- "13k";size14k$size <- "14k";size15k$size <- "15k";size16k$size <- "16k";size17k$size <- "17k";size18k$size <- "18k"
+dictTokenAIC <- rbind(size1k, size2k, size3k, size4k, size5k, size6k, size7k, size8k, size9k, size10k, size11k, size12k, size13k, size14k, size15k, size16k, size17k, size18k)
+dictTokenAIC$type <- "frequency-weighted"
+
+for(i in 1:18){
+  assign(paste0("size",i,"k"),read.delim(paste0("./MC/NBestResult/NBestSize",i,"kListAIC.txt"), sep ="\t", header = FALSE))
+}
+size1k$size <- "1k";size2k$size <- "2k";size3k$size <- "3k";size4k$size <- "4k";size5k$size <- "5k";size6k$size <- "6k";size7k$size <- "7k";size8k$size <- "8k";size9k$size <- "9k";size10k$size <- "10k";size11k$size <- "11k";size12k$size <- "12k";size13k$size <- "13k";size14k$size <- "14k";size15k$size <- "15k";size16k$size <- "16k";size17k$size <- "17k";size18k$size <- "18k"
+NBestAIC <- rbind(size1k, size2k, size3k, size4k, size5k, size6k, size7k, size8k, size9k, size10k, size11k, size12k, size13k, size14k, size15k, size16k, size17k, size18k)
+NBestAIC$type <- "N highest-frequency" 
+
+nmsAIC <- rbind(dictTypeAIC, dictTokenAIC, NBestAIC)
+
+for(i in 1:18){
+  assign(paste0("size",i,"k"),read.delim(paste0("./MC/msDictTypeResult/msDictTypeSize",i,"kListAIC.txt"), sep ="\t", header = FALSE))
+}
+size1k$size <- "1k";size2k$size <- "2k";size3k$size <- "3k";size4k$size <- "4k";size5k$size <- "5k";size6k$size <- "6k";size7k$size <- "7k";size8k$size <- "8k";size9k$size <- "9k";size10k$size <- "10k";size11k$size <- "11k";size12k$size <- "12k";size13k$size <- "13k";size14k$size <- "14k";size15k$size <- "15k";size16k$size <- "16k";size17k$size <- "17k";size18k$size <- "18k"
+msDictTypeAIC <- rbind(size1k, size2k, size3k, size4k, size5k, size6k, size7k, size8k, size9k, size10k, size11k, size12k, size13k, size14k, size15k, size16k, size17k, size18k)
+msDictTypeAIC$type <- "unweighted"
+
+for(i in 1:18){
+  assign(paste0("size",i,"k"),read.delim(paste0("./MC/msDictTokenResult/msDictTokenSize",i,"kListAIC.txt"), sep ="\t", header = FALSE))
+}
+size1k$size <- "1k";size2k$size <- "2k";size3k$size <- "3k";size4k$size <- "4k";size5k$size <- "5k";size6k$size <- "6k";size7k$size <- "7k";size8k$size <- "8k";size9k$size <- "9k";size10k$size <- "10k";size11k$size <- "11k";size12k$size <- "12k";size13k$size <- "13k";size14k$size <- "14k";size15k$size <- "15k";size16k$size <- "16k";size17k$size <- "17k";size18k$size <- "18k"
+msDictTokenAIC <- rbind(size1k, size2k, size3k, size4k, size5k, size6k, size7k, size8k, size9k, size10k, size11k, size12k, size13k, size14k, size15k, size16k, size17k, size18k)
+msDictTokenAIC$type <- "frequency-weighted"
+
+for(i in 1:18){
+  assign(paste0("size",i,"k"),read.delim(paste0("./MC/msNBestResult/msNBestSize",i,"kListAIC.txt"), sep ="\t", header = FALSE))
+}
+size1k$size <- "1k";size2k$size <- "2k";size3k$size <- "3k";size4k$size <- "4k";size5k$size <- "5k";size6k$size <- "6k";size7k$size <- "7k";size8k$size <- "8k";size9k$size <- "9k";size10k$size <- "10k";size11k$size <- "11k";size12k$size <- "12k";size13k$size <- "13k";size14k$size <- "14k";size15k$size <- "15k";size16k$size <- "16k";size17k$size <- "17k";size18k$size <- "18k"
+msNBestAIC <- rbind(size1k, size2k, size3k, size4k, size5k, size6k, size7k, size8k, size9k, size10k, size11k, size12k, size13k, size14k, size15k, size16k, size17k, size18k)
+msNBestAIC$type <- "N highest-frequency"
+
+msAIC <- rbind(msDictTypeAIC, msDictTokenAIC, msNBestAIC)
+# write.table(nmsAIC,"dataFig3NMS.txt",sep ="\t", quote=FALSE, row.names=FALSE, col.names=TRUE)
+# write.table(msAIC,"dataFig3MS.txt",sep ="\t", quote=FALSE, row.names=FALSE, col.names=TRUE)
+
+# Run ordinal regression models with full lexicon
+clmfitFullDictNMS <- clm(enteredResponse ~ scoreDictShortVType + macron, data=dataNMS)
+clmfitFullDictMS <- clm(enteredResponse ~ scoreDictShortVType + macron, data=dataMS)
+# saveRDS(clmfitFullDictNMS, file = "fullDictNMS.rds")
+# saveRDS(clmfitFullDictMS, file = "fullDictMS.rds")
+```
+
+### Comparing AIC scores using cutoffs based on raw frequency
+```{r Table S7-8, echo=FALSE, message=FALSE, warning=FALSE, eval=TRUE}
+TableS7 <- read.delim("./dataTableS7.txt", sep ="\t", header = TRUE)
+kable(TableS7, align="c", caption="Table S8: Comparing AIC scores with NMS participants, using cutoffs based on raw frequency")
+
+TableS8 <- read.delim("./dataTableS8.txt", sep ="\t", header = TRUE)
+kable(TableS8, align="c", caption="Table S9: Comparing AIC scores with MS participants, using cutoffs based on raw frequency")
 ```
 
 ### Code for plotting Fig. 3
-```{r Fig. 3, echo=FALSE, message=FALSE, warning=FALSE, fig.width=11, fig.height=5, fig.cap="Fig. 3: Monte Carlo simulations with 1,000 random samples over 15 dictionary sizes."}
-fig3 <- read.delim("./dataFig3.txt", sep =" ", header = TRUE)
-fullDictT <- readRDS("./fullDictT.rds")
-fig3$Size <- ordered(fig3$Size,levels=c("15k","14k","13k","12k","11k","10k","9k","8k","7k","6k","5k","4k","3k","2k","1k"))
-ggplot(fig3, aes(x=V1,colour=Size,fill=Size)) + geom_density(alpha=0.3) + labs(x="t-value", y="Density") + theme_classic() + geom_vline(aes(xintercept=fullDictT, linetype="Full dictionary (20k)"), color="red", size=1) + scale_linetype_manual(name="", values=c("Full dictionary (20k)"="solid")) + theme(legend.text=element_text(size=12))
+```{r Fig. 3, echo=FALSE, message=FALSE, warning=FALSE, fig.width=11, fig.height=7.5, fig.cap="Fig. 3: Monte Carlo simulations with 1,000 random samples over 18 dictionary sizes. The bars represent bootstrap 95% confidence intervals."}
+fig3NMS <- read.delim("./dataFig3NMS.txt", sep ="\t", header = TRUE)
+fig3NMS$size <- ordered(fig3NMS$size, levels = c("1k","2k","3k","4k","5k","6k","7k","8k","9k","10k","11k","12k","13k","14k","15k","16k","17k","18k"))
+fullDictNMS <- readRDS("./fullDictNMS.rds");fullDictAICNMS <- AIC(fullDictNMS)
+levels(fig3NMS$type) <- c("frequency-weighted", "N highest-frequency", "unweighted")
+
+fig3NMS.summary <- fig3NMS %>%
+  group_by(size, type) %>%
+  summarise(
+    mean.AIC = mean(V1),
+    lower.AIC = quantile(V1, probs=c(0.025)),
+    upper.AIC = quantile(V1, probs=c(0.975))
+  )
+
+fig3A <- ggplot(fig3NMS.summary, aes(x=as.numeric(size), y=mean.AIC, ymin=lower.AIC, ymax=upper.AIC)) +
+  geom_errorbar(aes(color=type), position=position_dodge(width=0.2), size=1) +
+  geom_line(aes(color=type), position=position_dodge(width=0.2), size=1, alpha=0.5) +
+  geom_hline(aes(yintercept=fullDictAICNMS, linetype="Full dictionary (18k)"), color="black", size=1) +   
+  geom_point(aes(fill=type), shape=21, position=position_dodge(width=0.2), size=3) +
+  labs(title="Monte carlo simulations with NMS participants",x="Lexicon size", y="AIC score") + 
+  theme_classic() + 
+  scale_linetype_manual(values=c("Full dictionary (18k)"="dashed")) +  
+  scale_x_continuous(breaks=1:18, labels=levels(fig3NMS.summary$size)) +
+  theme(
+    plot.title=element_text(hjust=0.5, size=15),
+    legend.text=element_text(size=10),
+    legend.title = element_blank())
+
+fig3MS <- read.delim("./dataFig3MS.txt", sep ="\t", header = TRUE)
+fig3MS$size <- ordered(fig3MS$size, levels = c("1k","2k","3k","4k","5k","6k","7k","8k","9k","10k","11k","12k","13k","14k","15k","16k","17k","18k"))
+fullDictMS <- readRDS("./fullDictMS.rds");fullDictAICMS <- AIC(fullDictMS)
+levels(fig3MS$type) <- c("frequency-weighted", "N highest-frequency", "unweighted")
+
+fig3MS.summary <- fig3MS %>%
+  group_by(size, type) %>%
+  summarise(
+    mean.AIC = mean(V1),
+    lower.AIC = quantile(V1, probs=c(0.025)),
+    upper.AIC = quantile(V1, probs=c(0.975))
+  )
+
+fig3B <- ggplot(fig3MS.summary, aes(x=as.numeric(size), y=mean.AIC, ymin=lower.AIC, ymax=upper.AIC)) +
+  geom_errorbar(aes(color=type), position=position_dodge(width=0.2), size=1) +
+  geom_line(aes(color=type), position=position_dodge(width=0.2), size=1, alpha=0.5) +
+  geom_hline(aes(yintercept=fullDictAICMS, linetype="Full dictionary (18k)"), color="black", size=1) +   
+  geom_point(aes(fill=type), shape=21, position=position_dodge(width=0.2), size=3) +
+  labs(title="Monte carlo simulations with MS participants",x="Lexicon size", y="AIC score") + 
+  theme_classic() + 
+  scale_linetype_manual(values=c("Full dictionary (18k)"="dashed")) +  
+  scale_x_continuous(breaks=1:18, labels=levels(fig3MS.summary$size)) +
+  theme(
+    plot.title=element_text(hjust=0.5, size=15),
+    legend.text=element_text(size=10),
+    legend.title = element_blank())
+
+multiplot(fig3A,fig3B, cols=1)
 ```
 
-### Code for plotting Fig. 6
-```{r Fig. S8, echo=FALSE, message=FALSE, warning=FALSE, fig.width=11, fig.height=5, fig.cap="Figure 6: Density plot of t-values for frequency-weighted random samples"}
-figS8 <- read.delim("./dataFigS8.txt", sep =" ", header = TRUE)
-figS8$Size <- ordered(figS8$Size,levels=c("15k","14k","13k","12k","11k","10k","9k","8k","7k","6k","5k","4k","3k","2k","1k"))
-ggplot(figS8, aes(x=V1, colour = Size, fill=Size)) + geom_density(alpha = 0.3) + labs(title = "",x = "t-value", y = "Density") + theme_classic() + geom_vline(aes(xintercept = fullDictT, linetype = "Full dictionary (20k)"), color="red", size=1) + theme(plot.title = element_text(hjust = 0.5, size=15)) + scale_linetype_manual(name = "", values=c("Full dictionary (20k)"="solid"))
+## Comparing AIC scores for model selection for sub-word units (morphs)
+```{r Morph, echo=FALSE, message=FALSE, warning=FALSE, eval=TRUE}
+# modelMorphShortVType <- clmm(enteredResponse ~ (c.(scoreMorphShortVType) + macron) * group + (1 + c.(scoreMorphShortVType) + macron | workerId) + (1 + group | word), dataExp2)
+# saveRDS(modelMorphShortVType, file = "modelMorphShortVType.rds")
+modelMorphShortVType <- readRDS("./modelMorphShortVType.rds")
+
+# modelMorphShortVToken <- clmm(enteredResponse ~ (c.(scoreMorphShortVToken) + macron) * group + (1 + c.(scoreMorphShortVToken) + macron | workerId) + (1 + group | word), dataExp2)
+# saveRDS(modelMorphShortVToken, file = "modelMorphShortVToken.rds")
+modelMorphShortVToken <- readRDS("./modelMorphShortVToken.rds")
+modelNBestFixedNMS <- readRDS("./modelBestFixedNMS.rds")
+
+Score <- c("scoreDictShortVType","scoreMorphShortVType","scoreMorphShortVToken")
+AIC <- c(AIC(modelDictShortVType),AIC(modelMorphShortVType),AIC(modelMorphShortVToken))
+aicMorphT <- data.frame(Score,AIC)
+kable(aicMorphT, align="c", caption="Table S10: Comparing AIC score for model selection for sub-word units (morphs)")
 ```
 
-### Additional post hoc statistical analyses
-
-The following predictors are added individually to the linear mixed-effects model presented in Table S4 and Fig. 2.
-
-#### Phonotactics derived from the dictionary of Māori words in New Zealand English (Macalister, 2005)
-```{r AddStats1, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
-
-# (a) Phonotactics derived from the dictionary of Māori words in New Zealand English (Macalister, 2005)
-# modelMāoriBorrowings <- lmer(enteredResponse ~ c.(scoreDictNze)*group + c.(scoreDict)*group + c.(scoreRs)*group + c.(scoreUnseg)*group + (1 + c.(scoreDictNze) + c.(scoreDict) + c.(scoreRs) + c.(scoreUnseg)|workerId) + (1+group|word), control=lmerControl(optimizer="bobyqa"), dataExp2)
-# saveRDS(modelMāoriBorrowings, file = "modelMāoriBorrowings.rds")
-modelMāoriBorrowings <- readRDS("./modelMāoriBorrowings.rds")
-kable(xtable(summary(modelMāoriBorrowings)$coef), digits=3, caption="Table S5: Linear mixed-effects model of well-formedness ratings including the phonotactics derived from the dictionary of Māori words in New Zealand English")
+## Phonotactic knowledge from morphs (Summary of the best model with the lowest AIC)
+```{r Table S11, echo=FALSE, message=FALSE, warning=FALSE, eval=TRUE}
+kable(clm_table(modelMorphShortVType), digits=3, caption="Table S11: Ordinal mixed-effects model summary for well-formedness ratings by participant group for sub-word units (morphs). All numeric variables in this model are centered.")
 ```
 
-#### Phonotactics derived from NMS’ small active lexicon of Māori
-```{r AddStats2, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
-# (b) Phonotactics derived from NMS’ small active lexicon of Māori (comprising of 121 common loanwords that most NMS can identify as Māori words in our previous study plus 55 urban placenames)
-# modelNMSLexicon <- lmer(enteredResponse ~ c.(scoreSmall)*group + c.(scoreDict)*group + c.(scoreRs)*group + c.(scoreUnseg)*group + (1 + c.(scoreSmall) + c.(scoreDict) + c.(scoreRs) + c.(scoreUnseg)|workerId) + (1+group|word), control=lmerControl(optimizer="bobyqa"), dataExp2)
-# saveRDS(modelNMSLexicon, file = "modelNMSLexicon.rds")
-modelNMSLexicon <- readRDS("./modelNMSLexicon.rds")
-kable(xtable(summary(modelNMSLexicon)$coef), digits=3, caption="Table S6: Linear mixed-effects model of well-formedness ratings including the phonotactics derived from NMS’ small active lexicon of Māori")
+### Monte Carlo analyses with the phonotactics derived from morphs
+```{r MC_morphs, echo=TRUE, message=FALSE, warning=FALSE, eval=FALSE}
+# (1) Monte Carlo analysis with NMS participants for morph set sizes N ranging from 0.5k to 3.5k, drawing 1000 random samples of N types from the morph set
+dir.create("./MC/morphTypeSample");dir.create("./MC/morphTypePM");dir.create("./MC/morphTypePM/aux");dir.create("./MC/morphTypeScore");dir.create("./MC/morphTypeResult")
+for(i in 1:7){
+  directoryName <- paste0("./MC/morphTypeSample/size",i*0.5,"k");dir.create(directoryName)
+}
+for(i in 1:7){
+  directoryName <- paste0("./MC/morphTypePM/size",i*0.5,"k");dir.create(directoryName)
+}
+for(i in 1:7){
+  directoryName <- paste0("./MC/morphTypePM/aux/size",i*0.5,"k");dir.create(directoryName)
+}
+for(i in 1:7){
+  directoryName <- paste0("./MC/morphTypeScore/size",i*0.5,"k");dir.create(directoryName)
+}
+morphShortVFreq <- read.delim("./morphs-shortvowels_freq.txt", sep="\t", header= TRUE)
+for(i in 1:7){
+wdSample <- paste0("./MC/morphTypeSample/size",i*0.5,"k");m <- i*500;set.seed(1234);setwd(wdSample)
+for(j in 1:1000){
+randomMorphs <- sample(morphShortVFreq$morph, m, replace = FALSE)
+randomMorphs <- gsub(""," ",randomMorphs);randomMorphs <- gsub("^ ","",randomMorphs);randomMorphs <- gsub(" $","",randomMorphs);outputFile <- paste0("randomization_", j, ".txt")
+write.table(randomMorphs, outputFile, row.names = FALSE, col.names=FALSE, quote=FALSE)
+shellCommand <- paste0("./score-nofreq_morphs.sh ./MC/morphTypeSample/size",i*0.5,"k/randomization_",j,".txt ./stimuli-shortvowels_morphs.txt ./MC/morphTypePM/size",i*0.5,"k ./MC/morphTypePM/aux/size",i*0.5,"k ./MC/morphTypeScore/size",i*0.5,"k")
+system(shellCommand, intern = TRUE)
+}
+setwd("./../../..");wdScore <- paste0("./MC/morphTypeScore/size",i*0.5,"k");setwd(wdScore)
+dataNMS <- dataExp2[dataExp2$group=="NMS",]
+dataNMS <- dataNMS[c("enteredResponse","word","word1","length","macron","scoreMorphShortVType","workerId")]
+randomScore <- function(list){
+  list <- read.csv(list);list <- list[,c("item","logprob")]
+  dataNMS$item <- dataNMS$word1;dataNew <- merge(dataNMS, list, by="item")
+  dataNew$length <- nchar(dataNew$item);dataNew$scoreNor <- dataNew$logprob/(dataNew$length + 1)
+  return(dataNew)
+}
+filenames <- list.files(pattern="*.csv");files <- lapply(filenames, randomScore);listAIC <- list()
+for(k in 1:1000){
+    files[[k]]$enteredResponse <- as.factor(files[[k]]$enteredResponse)
+    clmfit <- clm(enteredResponse ~ scoreNor + macron, data=files[[k]])
+    listAIC[[k]] <- AIC(clmfit);message('Regression model of', k,'\n')
+  }
+setwd("./../../..");wdResult <- paste0("./MC/morphTypeResult");setwd(wdResult)
+outputAIC <- paste0("morphTypeSize",i*0.5,"kListAIC.txt")
+write.table(unlist(listAIC), outputAIC,row.names = FALSE, col.names=FALSE, quote=FALSE)
+setwd("./../..")
+}
+
+# (2) Repeating the same Monte Carlo analysis with MS participants for morph set sizes N ranging from 0.5k to 3.5k, drawing 1000 random samples of N types from the morph set
+dir.create("./MC/msMorphTypeResult")
+for(i in 1:7){
+wdScore <- paste0("./MC/morphTypeScore/size",i*0.5,"k");setwd(wdScore)
+dataMS <- dataExp2[dataExp2$group=="MS",]
+dataMS <- dataMS[c("enteredResponse","word","word1","length","macron","scoreMorphShortVType","workerId")]
+randomScore <- function(list){
+  list <- read.csv(list);list <- list[,c("item","logprob")]
+  dataMS$item <- dataMS$word1;dataNew <- merge(dataMS, list, by="item")
+  dataNew$length <- nchar(dataNew$item);dataNew$scoreNor <- dataNew$logprob/(dataNew$length + 1)
+  return(dataNew)
+}
+filenames <- list.files(pattern="*.csv");files <- lapply(filenames, randomScore);listAIC <- list()
+for(k in 1:1000){
+    files[[k]]$enteredResponse <- as.factor(files[[k]]$enteredResponse)
+    clmfit <- clm(enteredResponse ~ scoreNor + macron, data=files[[k]])
+    listAIC[[k]] <- AIC(clmfit);message('Regression model of', k,'\n')
+  }
+setwd("./../../..");wdResult <- paste0("./MC/msMorphTypeResult");setwd(wdResult)
+outputAIC <- paste0("msMorphTypeSize",i*0.5,"kListAIC.txt")
+write.table(unlist(listAIC), outputAIC,row.names = FALSE, col.names=FALSE, quote=FALSE)
+setwd("./../..")
+}
+
+# (3) Monte Carlo analysis with NMS participants for morph set sizes N ranging from 0.5k to 3.5k, drawing 1000 random samples of N types from the morph set, weighted by their token frequency in running speech 
+dir.create("./MC/morphTokenSample");dir.create("./MC/morphTokenPM");dir.create("./MC/morphTokenPM/aux");dir.create("./MC/morphTokenScore");dir.create("./MC/morphTokenResult")
+for(i in 1:7){
+  directoryName <- paste0("./MC/morphTokenSample/size",i*0.5,"k");dir.create(directoryName)
+}
+for(i in 1:7){
+  directoryName <- paste0("./MC/morphTokenPM/size",i*0.5,"k");dir.create(directoryName)
+}
+for(i in 1:7){
+  directoryName <- paste0("./MC/morphTokenPM/aux/size",i*0.5,"k");dir.create(directoryName)
+}
+for(i in 1:7){
+  directoryName <- paste0("./MC/morphTokenScore/size",i*0.5,"k");dir.create(directoryName)
+}
+for(i in 1:7){
+wdSample <- paste0("./MC/morphTokenSample/size",i*0.5,"k");m <- i*500;set.seed(1234);setwd(wdSample)
+for(j in 1:1000){randomMorphs <- sample(morphShortVFreq$morph, m, replace = FALSE, prob=morphShortVFreq$tokens)
+randomMorphs <- gsub(""," ",randomMorphs);randomMorphs <- gsub("^ ","",randomMorphs);randomMorphs <- gsub(" $","",randomMorphs);outputFile <- paste0("randomization_", j, ".txt")  
+write.table(randomMorphs, outputFile, row.names = FALSE, col.names=FALSE, quote=FALSE)
+shellCommand <- paste0("./score-nofreq_morphs.sh ./MC/morphTokenSample/size",i*0.5,"k/randomization_",j,".txt ./stimuli-shortvowels_morphs.txt ./MC/morphTokenPM/size",i*0.5,"k ./MC/morphTokenPM/aux/size",i*0.5,"k ./MC/morphTokenScore/size",i*0.5,"k")
+system(shellCommand, intern = TRUE)
+} 
+setwd("./../../..");wdScore <- paste0("./MC/morphTokenScore/size",i*0.5,"k");setwd(wdScore)
+dataNMS <- dataExp2[dataExp2$group=="NMS",]
+dataNMS <- dataNMS[c("enteredResponse","word","word1","macron","scoreMorphShortVType","workerId")]
+randomScore <- function(list){
+  list <- read.csv(list); list <- list[,c("item","logprob")]
+  dataNMS$item <- dataNMS$word1;dataNew <- merge(dataNMS, list, by="item")
+  dataNew$length <- nchar(dataNew$item);dataNew$scoreNor <- dataNew$logprob/(dataNew$length + 1)
+  return(dataNew)
+  }  
+filenames <- list.files(pattern="*.csv");files <- lapply(filenames, randomScore);listAIC <- list()
+for(k in 1:1000){
+    files[[k]]$enteredResponse <- as.factor(files[[k]]$enteredResponse)
+    clmfit <- clm(enteredResponse ~ scoreNor + macron, data=files[[k]])
+    listAIC[[k]] <- AIC(clmfit);message('Regression model of', k,'\n')
+  }
+setwd("./../../..");wdResult <- paste0("./MC/morphTokenResult");setwd(wdResult)
+outputAIC <- paste0("morphTokenSize",i*0.5,"kListAIC.txt")
+write.table(unlist(listAIC), outputAIC,row.names = FALSE, col.names=FALSE, quote=FALSE)
+setwd("./../..")
+}
+
+# (4) Repeating the same Monte Carlo analysis with MS participants for morph set sizes N ranging from 0.5k to 3.5k, drawing 1000 random samples of N types from the morph set, weighted by their token frequency in running speech 
+dir.create("./MC/msMorphTokenResult")
+for(i in 1:7){
+wdScore <- paste0("./MC/morphTokenScore/size",i*0.5,"k");setwd(wdScore)
+dataMS <- dataExp2[dataExp2$group=="MS",]
+dataMS <- dataMS[c("enteredResponse","word","word1","length","macron","scoreMorphShortVType","workerId")]
+randomScore <- function(list){
+  list <- read.csv(list);list <- list[,c("item","logprob")]
+  dataMS$item <- dataMS$word1;dataNew <- merge(dataMS, list, by="item")
+  dataNew$length <- nchar(dataNew$item);dataNew$scoreNor <- dataNew$logprob/(dataNew$length + 1)
+  return(dataNew)
+}
+filenames <- list.files(pattern="*.csv");files <- lapply(filenames, randomScore);listAIC <- list()
+for(k in 1:1000){
+    files[[k]]$enteredResponse <- as.factor(files[[k]]$enteredResponse)
+    clmfit <- clm(enteredResponse ~ scoreNor + macron, data=files[[k]])
+    listAIC[[k]] <- AIC(clmfit);message('Regression model of', k,'\n')
+  }
+setwd("./../../..");wdResult <- paste0("./MC/msMorphTokenResult");setwd(wdResult)
+outputAIC <- paste0("msMorphTokenSize",i*0.5,"kListAIC.txt")
+write.table(unlist(listAIC), outputAIC,row.names = FALSE, col.names=FALSE, quote=FALSE)
+setwd("./../..")
+}
+
+# (5) Monte Carlo analysis with NMS participants for morph set sizes N ranging from 0.5k to 3.5k, drawing 1000 random samples of N-best morph types from the morph set, weighted by their token frequency in running speech
+dir.create("./MC/morphTokenNBestSample");dir.create("./MC/morphTokenNBestPM");dir.create("./MC/morphTokenNBestPM/aux");dir.create("./MC/morphTokenNBestScore");dir.create("./MC/morphTokenNBestResult")
+for(i in 1:7){
+  directoryName <- paste0("./MC/morphTokenNBestSample/size",i*0.5,"k");dir.create(directoryName)
+}
+for(i in 1:7){
+  directoryName <- paste0("./MC/morphTokenNBestPM/size",i*0.5,"k");dir.create(directoryName)
+}
+for(i in 1:7){
+  directoryName <- paste0("./MC/morphTokenNBestPM/aux/size",i*0.5,"k");dir.create(directoryName)
+}
+for(i in 1:7){
+  directoryName <- paste0("./MC/morphTokenNBestScore/size",i*0.5,"k");dir.create(directoryName)
+}
+for(i in 1:7){
+wdSample <- paste0("./MC/morphTokenNBestSample/size",i*0.5,"k");m <- i*500;setwd(wdSample)
+for(j in 1:1000){
+morphShortVFreq <- morphShortVFreq[order(runif(nrow(morphShortVFreq))),]
+morphShortVFreq <- morphShortVFreq[order(morphShortVFreq$tokens.raw, decreasing=TRUE),]
+randomMorphs <- morphShortVFreq$morph[1:m]  
+randomMorphs <- gsub(""," ",randomMorphs);randomMorphs <- gsub("^ ","",randomMorphs);randomMorphs <- gsub(" $","",randomMorphs);outputFile <- paste0("randomization_", j, ".txt")
+write.table(randomMorphs, outputFile, row.names = FALSE, col.names=FALSE, quote=FALSE)
+shellCommand <- paste0("./score-nofreq_morphs.sh ./MC/morphTokenNBestSample/size",i*0.5,"k/randomization_",j,".txt ./stimuli-shortvowels_morphs.txt ./MC/morphTokenNBestPM/size",i*0.5,"k ./MC/morphTokenNBestPM/aux/size",i*0.5,"k ./MC/morphTokenNBestScore/size",i*0.5,"k")
+system(shellCommand, intern = TRUE)
+}
+setwd("./../../..");wdScore <- paste0("./MC/morphTokenNBestScore/size",i*0.5,"k");setwd(wdScore)
+dataNMS <- dataExp2[dataExp2$group=="NMS",]
+dataNMS <- dataNMS[c("enteredResponse","word","word1","macron","scoreMorphShortVType","workerId")]
+randomScore <- function(list){
+  list <- read.csv(list);list <- list[,c("item","logprob")]
+  dataNMS$item <- dataNMS$word1;dataNew <- merge(dataNMS, list, by="item")
+  dataNew$length <- nchar(dataNew$item);dataNew$scoreNor <- dataNew$logprob/(dataNew$length + 1)
+  return(dataNew)
+  }
+filenames <- list.files(pattern="*.csv");files <- lapply(filenames, randomScore);listAIC <- list()
+for(k in 1:1000){
+    files[[k]]$enteredResponse <- as.factor(files[[k]]$enteredResponse)
+    clmfit <- clm(enteredResponse ~ scoreNor + macron, data=files[[k]])
+    listAIC[[k]] <- AIC(clmfit);message('Regression model of', k,'\n')
+  }
+setwd("./../../..");wdResult <- paste0("./MC/morphTokenNBestResult");setwd(wdResult)
+outputAIC <- paste0("morphTokenNBestSize",i*0.5,"kListAIC.txt")
+write.table(unlist(listAIC), outputAIC,row.names = FALSE, col.names=FALSE, quote=FALSE)
+setwd("./../..")
+}
+
+# (6) Repeating the same Monte Carlo analysis with MS participants for morph set sizes N ranging from 0.5k to 3.5k, drawing 1000 random samples of N-best morph types from the morph set, weighted by their token frequency in running speech
+dir.create("./MC/msMorphTokenNBestResult")
+for(i in 1:7){
+wdScore <- paste0("./MC/morphTokenNBestScore/size",i*0.5,"k");setwd(wdScore)
+dataMS <- dataExp2[dataExp2$group=="MS",]
+dataMS <- dataMS[c("enteredResponse","word","word1","length","macron","scoreMorphShortVType","workerId")]
+randomScore <- function(list){
+  list <- read.csv(list);list <- list[,c("item","logprob")]
+  dataMS$item <- dataMS$word1;dataNew <- merge(dataMS, list, by="item")
+  dataNew$length <- nchar(dataNew$item);dataNew$scoreNor <- dataNew$logprob/(dataNew$length + 1)
+  return(dataNew)
+}
+filenames <- list.files(pattern="*.csv");files <- lapply(filenames, randomScore);listAIC <- list()
+for(k in 1:1000){
+    files[[k]]$enteredResponse <- as.factor(files[[k]]$enteredResponse)
+    clmfit <- clm(enteredResponse ~ scoreNor + macron, data=files[[k]])
+    listAIC[[k]] <- AIC(clmfit);message('Regression model of', k,'\n')
+  }
+setwd("./../../..");wdResult <- paste0("./MC/msMorphTokenNBestResult");setwd(wdResult)
+outputAIC <- paste0("msMorphTokenNBestSize",i*0.5,"kListAIC.txt")
+write.table(unlist(listAIC), outputAIC,row.names = FALSE, col.names=FALSE, quote=FALSE)
+setwd("./../..")
+}
+
+# (7) Monte Carlo analysis with NMS participants for morph set sizes N ranging from 0.5k to 3.5k (using cutoffs based on raw frequency of the words they appear in), consisting of the fixed N-best morph types appearing at least 15 times in running speech
+dir.create("./MC/morphNBestFixedSample");dir.create("./MC/morphNBestFixedPM");dir.create("./MC/morphNBestFixedPM/aux");dir.create("./MC/morphNBestFixedScore");dir.create("./MC/morphNBestFixedResult")
+morphShortVFreqCutOffs <- read.delim("./morphs-shortvowels_freq_cutoffs.txt", sep="\t", header= TRUE)
+listCutOffs <- morphShortVFreqCutOffs[morphShortVFreqCutOffs$N > 1000,]$N
+for(i in listCutOffs){
+wdSample <- paste0("./MC/morphNBestFixedSample");setwd(wdSample)
+morphShortVFreq <- morphShortVFreq[order(morphShortVFreq$tokens.raw, decreasing=TRUE),]
+randomMorphs <- morphShortVFreq$morph[1:i];randomMorphs <- gsub(""," ",randomMorphs);randomMorphs <- gsub("^ ","",randomMorphs);randomMorphs <- gsub(" $","",randomMorphs)
+outputFile <- paste0("morphNBestFixedSample",i,".txt")
+write.table(randomMorphs, outputFile, row.names = FALSE, col.names=FALSE, quote=FALSE)
+shellCommand <- paste0("./score-nofreq_morphs.sh ./MC/morphNBestFixedSample/morphNBestFixedSample",i,".txt ./stimuli-shortvowels_morphs.txt ./MC/morphNBestFixedPM ./MC/morphNBestFixedPM/aux ./MC/morphNBestFixedScore")
+system(shellCommand, intern = TRUE)
+setwd("./../..")
+}
+dataNMS <- dataExp2[dataExp2$group=="NMS",]
+dataNMS <- dataNMS[c("enteredResponse","word","word1","macron","scoreMorphShortVType","workerId")]
+randomScore <- function(list){
+list <- read.csv(list);list <- list[,c("item","logprob")]
+dataNMS$item <- dataNMS$word1;dataNew <- merge(dataNMS, list, by="item")
+dataNew$length <- nchar(dataNew$item);dataNew$scoreNor <- dataNew$logprob/(dataNew$length + 1)
+return(dataNew)
+}
+wdScore <- paste0("./MC/morphNBestFixedScore");setwd(wdScore)
+filenames <- list.files(pattern="*.csv");files <- lapply(filenames, randomScore);listAIC <- list()
+for(k in 1:16){
+  files[[k]]$enteredResponse <- as.factor(files[[k]]$enteredResponse)
+  clmfit <- clm(enteredResponse ~ scoreNor + macron, data=files[[k]])
+  listAIC[[k]] <- AIC(clmfit);message('Regression model of', k,'\n')
+}
+setwd("./../..");wdResult <- paste0("./MC/morphNBestFixedResult");setwd(wdResult);outputAIC <- paste0("NBestFixedListAIC.txt")
+write.table(unlist(listAIC), outputAIC,row.names = FALSE, col.names=FALSE, quote=FALSE)
+setwd("./../..")
+
+listAIC <- as.data.frame(unlist(listAIC));list <- data.frame(cbind(unlist(listCutOffs)))
+listAIC <- cbind(listAIC, list);colnames(listAIC) <- c("AICscore","size")
+listAIC$size[(which(listAIC==min(listAIC$AICscore)))] # 1629
+min(listAIC$AICscore) # 103363.2
+listAIC <- listAIC[,c("size", "AICscore")];colnames(listAIC) <- c("Cutoff","AIC")
+# write.table(listAIC,"dataTableS11.txt",sep ="\t", quote=FALSE, row.names=FALSE, col.names=TRUE)
+
+# (8) Repeating the same Monte Carlo analysis with MS participants for morph set sizes N ranging from 0.5k to 3.5k (using cutoffs based on raw frequency of the words they appear in), consisting of the fixed N-best morph types appearing at least 15 times in running speech
+dir.create("./MC/msMorphNBestFixedResult")
+dataMS <- dataExp2[dataExp2$group=="MS",]
+dataMS <- dataMS[c("enteredResponse","word","word1","length","macron","scoreDictShortVType","workerId")]
+randomScore <- function(list){
+  list <- read.csv(list);list <- list[,c("item","logprob")]
+  dataMS$item <- dataMS$word1;dataNew <- merge(dataMS, list, by="item")
+  dataNew$length <- nchar(dataNew$item);dataNew$scoreNor <- dataNew$logprob/(dataNew$length + 1)
+  return(dataNew)
+}
+wdScore <- paste0("./MC/morphNBestFixedScore");setwd(wdScore)
+filenames <- list.files(pattern="*.csv");files <- lapply(filenames, randomScore);listAIC <- list()
+for(k in 1:16){
+  files[[k]]$enteredResponse <- as.factor(files[[k]]$enteredResponse)
+  clmfit <- clm(enteredResponse ~ scoreNor + macron, data=files[[k]])
+  listAIC[[k]] <- AIC(clmfit);message('Regression model of', k,'\n')
+}
+setwd("./../..");wdResult <- paste0("./MC/msMorphNBestFixedResult");setwd(wdResult);outputAIC <- paste0("msMorphNBestFixedListAIC.txt")
+write.table(unlist(listAIC), outputAIC,row.names = FALSE, col.names=FALSE, quote=FALSE)
+setwd("./../..")
+
+listAIC <- as.data.frame(unlist(listAIC));list <- data.frame(cbind(unlist(listCutOffs)))
+listAIC <- cbind(listAIC, list);colnames(listAIC) <- c("AICscore","size")
+listAIC$size[(which(listAIC==min(listAIC$AICscore)))] # 3636
+min(listAIC$AICscore) # 36718.47
+listAIC <- listAIC[,c("size", "AICscore")];colnames(listAIC) <- c("Cutoff","AIC")
+# write.table(listAIC,"dataTableS12.txt",sep ="\t", quote=FALSE, row.names=FALSE, col.names=TRUE)
+
+# (9) Monte Carlo analysis with NMS participants for morph set sizes N ranging from 0.5k to 3.5k, considering stimuli as unparsed items, unweighted
+dir.create("./MC/morphShortVUnsegSample");dir.create("./MC/morphShortVUnsegPM");dir.create("./MC/morphShortVUnsegPM/aux");dir.create("./MC/morphShortVUnsegScore");dir.create("./MC/morphShortVUnsegResult")
+for(i in 1:7){
+  directoryName <- paste0("./MC/morphShortVUnsegSample/size",i*0.5,"k");dir.create(directoryName)
+}
+for(i in 1:7){
+  directoryName <- paste0("./MC/morphShortVUnsegPM/size",i*0.5,"k");dir.create(directoryName)
+}
+for(i in 1:7){
+  directoryName <- paste0("./MC/morphShortVUnsegPM/aux/size",i*0.5,"k");dir.create(directoryName)
+}
+for(i in 1:7){
+  directoryName <- paste0("./MC/morphShortVUnsegScore/size",i*0.5,"k");dir.create(directoryName)
+}
+for(i in 1:7){
+wdSample <- paste0("./MC/morphShortVUnsegSample/size",i*0.5,"k");m <- i*500;setwd(wdSample)
+for(j in 1:1000){
+randomMorphs <- sample(morphShortVFreq$morph, m, replace = FALSE)
+randomMorphs <- gsub(""," ",randomMorphs);randomMorphs <- gsub("^ ","",randomMorphs);randomMorphs <- gsub(" $","",randomMorphs);outputFile <- paste0("randomization_", j, ".txt")
+write.table(randomMorphs, outputFile, row.names = FALSE, col.names=FALSE, quote=FALSE)
+shellCommand <- paste0("./score-nofreq.sh ./MC/morphShortVUnsegSample/size",i*0.5,"k/randomization_",j,".txt ./stimuli-shortvowels.txt ./MC/morphShortVUnsegPM/size",i*0.5,"k  ./MC/morphShortVUnsegPM/aux/size",i*0.5,"k ./MC/morphShortVUnsegScore/size",i*0.5,"k")
+system(shellCommand, intern = TRUE)
+}
+setwd("./../../..");wdScore <- paste0("./MC/morphShortVUnsegScore/size",i*0.5,"k");setwd(wdScore)
+dataNMS <- dataExp2[dataExp2$group=="NMS",]
+dataNMS <- dataNMS[c("enteredResponse","word","word1","macron","scoreMorphShortVType","workerId")]
+randomScore <- function(list){
+  list <- read.csv(list);list <- list[,c("item","logprob")]
+  dataNMS$item <- dataNMS$word1;dataNew <- merge(dataNMS, list, by="item")
+  dataNew$length <- nchar(dataNew$item);dataNew$scoreNor <- dataNew$logprob/(dataNew$length + 1)
+  return(dataNew)
+}
+filenames <- list.files(pattern="*.csv");files <- lapply(filenames, randomScore);listAIC <- list()
+for(k in 1:1000){
+    files[[k]]$enteredResponse <- as.factor(files[[k]]$enteredResponse)
+    clmfit <- clm(enteredResponse ~ scoreNor + macron, data=files[[k]])
+    listAIC[[k]] <- AIC(clmfit);message('Regression model of', k,'\n')
+  }
+setwd("./../../..");wdResult <- paste0("./MC/morphShortVUnsegResult");setwd(wdResult)
+outputAIC <- paste0("morphShortVUnsegSize",i*0.5,"kListAIC.txt")
+write.table(unlist(listAIC), outputAIC,row.names = FALSE, col.names=FALSE, quote=FALSE)
+setwd("./../..")
+}
+
+# (10) Repeating the same Monte Carlo analysis with MS participants for morph set sizes N ranging from 0.5k to 3.5k, considering stimuli as unparsed items, unweighted
+dir.create("./MC/msMorphShortVUnsegResult")
+for(i in 1:7){
+wdScore <- paste0("./MC/morphShortVUnsegScore/size",i*0.5,"k");setwd(wdScore)
+dataMS <- dataExp2[dataExp2$group=="MS",]
+dataMS <- dataMS[c("enteredResponse","word","word1","length","macron","scoreMorphShortVType","workerId")]
+randomScore <- function(list){
+  list <- read.csv(list);list <- list[,c("item","logprob")]
+  dataMS$item <- dataMS$word1;dataNew <- merge(dataMS, list, by="item")
+  dataNew$length <- nchar(dataNew$item);dataNew$scoreNor <- dataNew$logprob/(dataNew$length + 1)
+  return(dataNew)
+}
+filenames <- list.files(pattern="*.csv");files <- lapply(filenames, randomScore);listAIC <- list()
+for(k in 1:1000){
+    files[[k]]$enteredResponse <- as.factor(files[[k]]$enteredResponse)
+    clmfit <- clm(enteredResponse ~ scoreNor + macron, data=files[[k]])
+    listAIC[[k]] <- AIC(clmfit);message('Regression model of', k,'\n')
+  }
+setwd("./../../..");wdResult <- paste0("./MC/msMorphShortVUnsegResult");setwd(wdResult)
+outputAIC <- paste0("msMorphShortVUnsegSize",i*0.5,"kListAIC.txt")
+write.table(unlist(listAIC), outputAIC,row.names = FALSE, col.names=FALSE, quote=FALSE)
+setwd("./../..")
+}
+
+# (11) Monte Carlo analysis with NMS participants for morph set sizes N ranging from 0.5k to 3.5k, considering stimuli as unparsed items, weighted by their token frequency in running speech
+dir.create("./MC/morphShortVUnsegTokenSample");dir.create("./MC/morphShortVUnsegTokenPM");dir.create("./MC/morphShortVUnsegTokenPM/aux");dir.create("./MC/morphShortVUnsegTokenScore");dir.create("./MC/morphShortVUnsegTokenResult")
+for(i in 1:7){
+  directoryName <- paste0("./MC/morphShortVUnsegTokenSample/size",i*0.5,"k");dir.create(directoryName)
+}
+for(i in 1:7){
+  directoryName <- paste0("./MC/morphShortVUnsegTokenPM/size",i*0.5,"k");dir.create(directoryName)
+}
+for(i in 1:7){
+  directoryName <- paste0("./MC/morphShortVUnsegTokenPM/aux/size",i*0.5,"k");dir.create(directoryName)
+}
+for(i in 1:7){
+  directoryName <- paste0("./MC/morphShortVUnsegTokenScore/size",i*0.5,"k");dir.create(directoryName)
+}
+for(i in 1:7){
+wdSample <- paste0("./MC/morphShortVUnsegTokenSample/size",i*0.5,"k");m <- i*500;setwd(wdSample)
+for(j in 1:1000){
+randomMorphs <- sample(morphShortVFreq$morph, m, replace = FALSE, prob=morphShortVFreq$tokens)
+randomMorphs <- gsub(""," ",randomMorphs);randomMorphs <- gsub("^ ","",randomMorphs);randomMorphs <- gsub(" $","",randomMorphs);outputFile <- paste0("randomization_", j, ".txt")
+write.table(randomMorphs, outputFile, row.names = FALSE, col.names=FALSE, quote=FALSE)
+shellCommand <- paste0("./score-nofreq.sh ./MC/morphShortVUnsegTokenSample/size",i*0.5,"k/randomization_",j,".txt ./stimuli-shortvowels.txt ./MC/morphShortVUnsegTokenPM/size",i*0.5,"k ./MC/morphShortVUnsegTokenPM/aux/size",i*0.5,"k ./MC/morphShortVUnsegTokenScore/size",i*0.5,"k")
+system(shellCommand, intern = TRUE)
+}
+setwd("./../../..");wdScore <- paste0("./MC/morphShortVUnsegTokenScore/size",i*0.5,"k");setwd(wdScore)
+dataNMS <- dataExp2[dataExp2$group=="NMS",]
+dataNMS <- dataNMS[c("enteredResponse","word","word1","macron","scoreMorphShortVType","workerId")]
+randomScore <- function(list){
+  list <- read.csv(list);list <- list[,c("item","logprob")]
+  dataNMS$item <- dataNMS$word1;dataNew <- merge(dataNMS, list, by="item")
+  dataNew$length <- nchar(dataNew$item);dataNew$scoreNor <- dataNew$logprob/(dataNew$length + 1)
+  return(dataNew)
+}
+filenames <- list.files(pattern="*.csv");files <- lapply(filenames, randomScore);listAIC <- list()
+for(k in 1:1000){
+    files[[k]]$enteredResponse <- as.factor(files[[k]]$enteredResponse)
+    clmfit <- clm(enteredResponse ~ scoreNor + macron, data=files[[k]])
+    listAIC[[k]] <- AIC(clmfit);message('Regression model of', k,'\n')
+  }
+setwd("./../../..");wdResult <- paste0("./MC/morphShortVUnsegTokenResult");setwd(wdResult)
+outputAIC <- paste0("morphShortVUnsegTokenSize",i*0.5,"kListAIC.txt")
+write.table(unlist(listAIC), outputAIC,row.names = FALSE, col.names=FALSE, quote=FALSE)
+setwd("./../..")
+}
+
+# (12) Repeating the same Monte Carlo analysis with MS participants for morph set sizes N ranging from 0.5k to 3.5k, considering stimuli as unparsed items, weighted by their token frequency in running speech
+dir.create("./MC/msMorphShortVUnsegTokenResult")
+for(i in 1:7){
+wdScore <- paste0("./MC/morphShortVUnsegTokenScore/size",i*0.5,"k");setwd(wdScore)
+dataMS <- dataExp2[dataExp2$group=="MS",]
+dataMS <- dataMS[c("enteredResponse","word","word1","length","macron","scoreMorphShortVType","workerId")]
+randomScore <- function(list){
+  list <- read.csv(list);list <- list[,c("item","logprob")]
+  dataMS$item <- dataMS$word1;dataNew <- merge(dataMS, list, by="item")
+  dataNew$length <- nchar(dataNew$item);dataNew$scoreNor <- dataNew$logprob/(dataNew$length + 1)
+  return(dataNew)
+}
+filenames <- list.files(pattern="*.csv");files <- lapply(filenames, randomScore);listAIC <- list()
+for(k in 1:1000){
+    files[[k]]$enteredResponse <- as.factor(files[[k]]$enteredResponse)
+    clmfit <- clm(enteredResponse ~ scoreNor + macron, data=files[[k]])
+    listAIC[[k]] <- AIC(clmfit);message('Regression model of', k,'\n')
+  }
+setwd("./../../..");wdResult <- paste0("./MC/msMorphShortVUnsegTokenResult");setwd(wdResult)
+outputAIC <- paste0("msMorphShortVUnsegTokenSize",i*0.5,"kListAIC.txt")
+write.table(unlist(listAIC), outputAIC,row.names = FALSE, col.names=FALSE, quote=FALSE)
+setwd("./../..")
+}
+
+# (13) Monte Carlo analysis with NMS participants for morph set sizes N ranging from 0.5k to 3.5k, considering stimuli as unparsed items, drawing 1000 random samples of N-best morph types from the morph set weighted by their token frequency in running speech
+dir.create("./MC/morphShortVUnsegTokenNBestSample");dir.create("./MC/morphShortVUnsegTokenNBestPM");dir.create("./MC/morphShortVUnsegTokenNBestPM/aux");dir.create("./MC/morphShortVUnsegTokenNBestScore");dir.create("./MC/morphShortVUnsegTokenNBestResult")
+for(i in 1:7){
+  directoryName <- paste0("./MC/morphShortVUnsegTokenNBestSample/size",i*0.5,"k");dir.create(directoryName)
+}
+for(i in 1:7){
+  directoryName <- paste0("./MC/morphShortVUnsegTokenNBestPM/size",i*0.5,"k");dir.create(directoryName)
+}
+for(i in 1:7){
+  directoryName <- paste0("./MC/morphShortVUnsegTokenNBestPM/aux/size",i*0.5,"k");dir.create(directoryName)
+}
+for(i in 1:7){
+  directoryName <- paste0("./MC/morphShortVUnsegTokenNBestScore/size",i*0.5,"k");dir.create(directoryName)
+}
+for(i in 1:7){
+wdSample <- paste0("./MC/morphShortVUnsegTokenNBestSample/size",i*0.5,"k");m <- i*500;setwd(wdSample)
+for(j in 1:1000){
+morphShortVFreq <- morphShortVFreq[order(runif(nrow(morphShortVFreq))),]
+morphShortVFreq <- morphShortVFreq[order(morphShortVFreq$tokens.raw, decreasing=TRUE),]
+randomMorphs <- morphShortVFreq$morph[1:m]
+randomMorphs <- gsub(""," ",randomMorphs);randomMorphs <- gsub("^ ","",randomMorphs);randomMorphs <- gsub(" $","",randomMorphs);outputFile <- paste0("randomization_", j, ".txt")
+write.table(randomMorphs, outputFile, row.names = FALSE, col.names=FALSE, quote=FALSE)
+shellCommand <- paste0("./score-nofreq.sh ./MC/morphShortVUnsegTokenNBestSample/size",i*0.5,"k/randomization_",j,".txt ./stimuli-shortvowels.txt ./MC/morphShortVUnsegTokenNBestPM/size",i*0.5,"k ./MC/morphShortVUnsegTokenNBestPM/aux/size",i*0.5,"k ./MC/morphShortVUnsegTokenNBestScore/size",i*0.5,"k")
+system(shellCommand, intern = TRUE)
+}
+setwd("./../../..");wdScore <- paste0("./MC/morphShortVUnsegTokenNBestScore/size",i*0.5,"k");setwd(wdScore)
+dataNMS <- dataExp2[dataExp2$group=="NMS",]
+dataNMS <- dataNMS[c("enteredResponse","word","word1","macron","scoreMorphShortVType","workerId")]
+randomScore <- function(list){
+  list <- read.csv(list);list <- list[,c("item","logprob")]
+  dataNMS$item <- dataNMS$word1;dataNew <- merge(dataNMS, list, by="item")
+  dataNew$length <- nchar(dataNew$item);dataNew$scoreNor <- dataNew$logprob/(dataNew$length + 1)
+  return(dataNew)
+}
+filenames <- list.files(pattern="*.csv");files <- lapply(filenames, randomScore);listAIC <- list()
+for(k in 1:1000){
+    files[[k]]$enteredResponse <- as.factor(files[[k]]$enteredResponse)
+    clmfit <- clm(enteredResponse ~ scoreNor + macron, data=files[[k]])
+    listAIC[[k]] <- AIC(clmfit);message('Regression model of', k,'\n')
+  }
+setwd("./../../..");wdResult <- paste0("./MC/morphShortVUnsegTokenNBestResult");setwd(wdResult)
+outputAIC <- paste0("morphShortVUnsegTokenNBestSize",i*0.5,"kListAIC.txt")
+write.table(unlist(listAIC), outputAIC,row.names = FALSE, col.names=FALSE, quote=FALSE)
+setwd("./../..")
+}
+
+# (14) Repeating the same Monte Carlo analysis with MS participants for morph set sizes N ranging from 0.5k to 3.5k, considering stimuli as unparsed items, drawing 1000 random samples of N-best morph types from the morph set weighted by their token frequency in running speech
+dir.create("./MC/msMorphShortVUnsegTokenNBestResult")
+for(i in 1:7){
+wdScore <- paste0("./MC/morphShortVUnsegTokenNBestScore/size",i*0.5,"k");setwd(wdScore)
+dataMS <- dataExp2[dataExp2$group=="MS",]
+dataMS <- dataMS[c("enteredResponse","word","word1","length","macron","scoreMorphShortVType","workerId")]
+randomScore <- function(list){
+  list <- read.csv(list);list <- list[,c("item","logprob")]
+  dataMS$item <- dataMS$word1;dataNew <- merge(dataMS, list, by="item")
+  dataNew$length <- nchar(dataNew$item);dataNew$scoreNor <- dataNew$logprob/(dataNew$length + 1)
+  return(dataNew)
+}
+filenames <- list.files(pattern="*.csv");files <- lapply(filenames, randomScore);listAIC <- list()
+for(k in 1:1000){
+    files[[k]]$enteredResponse <- as.factor(files[[k]]$enteredResponse)
+    clmfit <- clm(enteredResponse ~ scoreNor + macron, data=files[[k]])
+    listAIC[[k]] <- AIC(clmfit);message('Regression model of', k,'\n')
+  }
+setwd("./../../..");wdResult <- paste0("./MC/msMorphShortVUnsegTokenNBestResult");setwd(wdResult)
+outputAIC <- paste0("msMorphShortVUnsegTokenNBestSize",i*0.5,"kListAIC.txt")
+write.table(unlist(listAIC), outputAIC,row.names = FALSE, col.names=FALSE, quote=FALSE)
+setwd("./../..")
+}
+
+for(i in 1:7){
+  assign(paste0("size",i*0.5,"k"),read.delim(paste0("./MC/morphTypeResult/morphTypeSize",i*0.5,"kListAIC.txt"), sep ="\t", header = FALSE))
+}
+size0.5k$size <- "0.5k";size1k$size <- "1k";size1.5k$size <- "1.5k";size2k$size <- "2k";size2.5k$size <- "2.5k";size3k$size <- "3k";size3.5k$size <- "3.5k"
+morphTypeAIC <- rbind(size0.5k, size1k, size1.5k, size2k, size2.5k, size3k, size3.5k)
+morphTypeAIC$type <- "unweighted parsed"
+
+for(i in 1:7){
+  assign(paste0("size",i*0.5,"k"),read.delim(paste0("./MC/morphTokenResult/morphTokenSize",i*0.5,"kListAIC.txt"), sep ="\t", header = FALSE))
+}
+size0.5k$size <- "0.5k";size1k$size <- "1k";size1.5k$size <- "1.5k";size2k$size <- "2k";size2.5k$size <- "2.5k";size3k$size <- "3k";size3.5k$size <- "3.5k"
+morphTokenAIC <- rbind(size0.5k, size1k, size1.5k, size2k, size2.5k, size3k, size3.5k)
+morphTokenAIC$type <- "frequency-weighted parsed"
+
+for(i in 1:7){
+  assign(paste0("size",i*0.5,"k"),read.delim(paste0("./MC/morphTokenNBestResult/morphTokenNBestSize",i*0.5,"kListAIC.txt"), sep ="\t", header = FALSE))
+}
+size0.5k$size <- "0.5k";size1k$size <- "1k";size1.5k$size <- "1.5k";size2k$size <- "2k";size2.5k$size <- "2.5k";size3k$size <- "3k";size3.5k$size <- "3.5k"
+morphTokenNBestAIC <- rbind(size0.5k, size1k, size1.5k, size2k, size2.5k, size3k, size3.5k)
+morphTokenNBestAIC$type <- "N highest-frequency parsed"
+
+for(i in 1:7){
+  assign(paste0("size",i*0.5,"k"),read.delim(paste0("./MC/morphShortVUnsegResult/morphShortVUnsegSize",i*0.5,"kListAIC.txt"), sep ="\t", header = FALSE))
+}
+size0.5k$size <- "0.5k";size1k$size <- "1k";size1.5k$size <- "1.5k";size2k$size <- "2k";size2.5k$size <- "2.5k";size3k$size <- "3k";size3.5k$size <- "3.5k"
+morphShortVUnsegAIC <- rbind(size0.5k, size1k, size1.5k, size2k, size2.5k, size3k, size3.5k)
+morphShortVUnsegAIC$type <- "unweighted unparsed"
+
+for(i in 1:7){
+  assign(paste0("size",i*0.5,"k"),read.delim(paste0("./MC/morphShortVUnsegTokenResult/morphShortVUnsegTokenSize",i*0.5,"kListAIC.txt"), sep ="\t", header = FALSE))
+}
+size0.5k$size <- "0.5k";size1k$size <- "1k";size1.5k$size <- "1.5k";size2k$size <- "2k";size2.5k$size <- "2.5k";size3k$size <- "3k";size3.5k$size <- "3.5k"
+morphShortVUnsegTokenAIC <- rbind(size0.5k, size1k, size1.5k, size2k, size2.5k, size3k, size3.5k)
+morphShortVUnsegTokenAIC$type <- "frequency-weighted unparsed"
+
+for(i in 1:7){
+  assign(paste0("size",i*0.5,"k"),read.delim(paste0("./MC/morphShortVUnsegTokenNBestResult/morphShortVUnsegTokenNBestSize",i*0.5,"kListAIC.txt"), sep ="\t", header = FALSE))
+}
+size0.5k$size <- "0.5k";size1k$size <- "1k";size1.5k$size <- "1.5k";size2k$size <- "2k";size2.5k$size <- "2.5k";size3k$size <- "3k";size3.5k$size <- "3.5k"
+morphShortVUnsegTokenNBestAIC <- rbind(size0.5k, size1k, size1.5k, size2k, size2.5k, size3k, size3.5k)
+morphShortVUnsegTokenNBestAIC$type <- "N highest-frequency unparsed"
+
+nmsMorphAIC <- rbind(morphTypeAIC, morphTokenAIC, morphTokenNBestAIC, morphShortVUnsegAIC, morphShortVUnsegTokenAIC, morphShortVUnsegTokenNBestAIC)
+
+for(i in 1:7){
+  assign(paste0("size",i*0.5,"k"),read.delim(paste0("./MC/msMorphTypeResult/msMorphTypeSize",i*0.5,"kListAIC.txt"), sep ="\t", header = FALSE))
+}
+size0.5k$size <- "0.5k";size1k$size <- "1k";size1.5k$size <- "1.5k";size2k$size <- "2k";size2.5k$size <- "2.5k";size3k$size <- "3k";size3.5k$size <- "3.5k"
+msMorphTypeAIC <- rbind(size0.5k, size1k, size1.5k, size2k, size2.5k, size3k, size3.5k)
+msMorphTypeAIC$type <- "unweighted parsed"
+
+for(i in 1:7){
+  assign(paste0("size",i*0.5,"k"),read.delim(paste0("./MC/msMorphTokenResult/msMorphTokenSize",i*0.5,"kListAIC.txt"), sep ="\t", header = FALSE))
+}
+size0.5k$size <- "0.5k";size1k$size <- "1k";size1.5k$size <- "1.5k";size2k$size <- "2k";size2.5k$size <- "2.5k";size3k$size <- "3k";size3.5k$size <- "3.5k"
+msMorphTokenAIC <- rbind(size0.5k, size1k, size1.5k, size2k, size2.5k, size3k, size3.5k)
+msMorphTokenAIC$type <- "frequency-weighted parsed"
+
+for(i in 1:7){
+  assign(paste0("size",i*0.5,"k"),read.delim(paste0("./MC/msMorphTokenNBestResult/msMorphTokenNBestSize",i*0.5,"kListAIC.txt"), sep ="\t", header = FALSE))
+}
+size0.5k$size <- "0.5k";size1k$size <- "1k";size1.5k$size <- "1.5k";size2k$size <- "2k";size2.5k$size <- "2.5k";size3k$size <- "3k";size3.5k$size <- "3.5k"
+msMorphTokenNBestAIC <- rbind(size0.5k, size1k, size1.5k, size2k, size2.5k, size3k, size3.5k)
+msMorphTokenNBestAIC$type <- "N highest-frequency parsed"
+
+for(i in 1:7){
+  assign(paste0("size",i*0.5,"k"),read.delim(paste0("./MC/msMorphShortVUnsegResult/msMorphShortVUnsegSize",i*0.5,"kListAIC.txt"), sep ="\t", header = FALSE))
+}
+size0.5k$size <- "0.5k";size1k$size <- "1k";size1.5k$size <- "1.5k";size2k$size <- "2k";size2.5k$size <- "2.5k";size3k$size <- "3k";size3.5k$size <- "3.5k"
+msMorphShortVUnsegAIC <- rbind(size0.5k, size1k, size1.5k, size2k, size2.5k, size3k, size3.5k)
+msMorphShortVUnsegAIC$type <- "unweighted unparsed"
+
+for(i in 1:7){
+  assign(paste0("size",i*0.5,"k"),read.delim(paste0("./MC/msMorphShortVUnsegTokenResult/msMorphShortVUnsegTokenSize",i*0.5,"kListAIC.txt"), sep ="\t", header = FALSE))
+}
+size0.5k$size <- "0.5k";size1k$size <- "1k";size1.5k$size <- "1.5k";size2k$size <- "2k";size2.5k$size <- "2.5k";size3k$size <- "3k";size3.5k$size <- "3.5k"
+msMorphShortVUnsegTokenAIC <- rbind(size0.5k, size1k, size1.5k, size2k, size2.5k, size3k, size3.5k)
+msMorphShortVUnsegTokenAIC$type <- "frequency-weighted unparsed"
+
+for(i in 1:7){
+  assign(paste0("size",i*0.5,"k"),read.delim(paste0("./MC/msMorphShortVUnsegTokenNBestResult/msMorphShortVUnsegTokenNBestSize",i*0.5,"kListAIC.txt"), sep ="\t", header = FALSE))
+}
+size0.5k$size <- "0.5k";size1k$size <- "1k";size1.5k$size <- "1.5k";size2k$size <- "2k";size2.5k$size <- "2.5k";size3k$size <- "3k";size3.5k$size <- "3.5k"
+msMorphShortVUnsegTokenNBestAIC <- rbind(size0.5k, size1k, size1.5k, size2k, size2.5k, size3k, size3.5k)
+msMorphShortVUnsegTokenNBestAIC$type <- "N highest-frequency unparsed"
+
+msMorphAIC <- rbind(msMorphTypeAIC, msMorphTokenAIC, msMorphTokenNBestAIC, msMorphShortVUnsegAIC,msMorphShortVUnsegTokenAIC, msMorphShortVUnsegTokenNBestAIC)
+
+# write.table(nmsMorphAIC,"dataFigS8NMS.txt",sep ="\t", quote=FALSE, row.names=FALSE, col.names=TRUE)
+# write.table(msMorphAIC,"dataFigS8MS.txt",sep ="\t", quote=FALSE, row.names=FALSE, col.names=TRUE)
+
+# Run ordinal regression models with all morphs
+clmfitMorphNMS <- clm(enteredResponse ~ scoreMorphShortVType + macron, data=dataNMS)
+clmfitMorphMS <- clm(enteredResponse ~ scoreMorphShortVType + macron, data=dataMS)
+# saveRDS(clmfitMorphNMS, file = "morphNMS.rds")
+# saveRDS(clmfitMorphMS, file = "morphMS.rds")
 ```
 
-#### Phonotactics generalized over a list of function words
-```{r AddStats3, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
-# (c) Phonotactics generalized over a list of function words
-# modelFunction <- lmer(enteredResponse ~ c.(scoreFunc)*group + c.(scoreDict)*group + c.(scoreRs)*group + c.(scoreUnseg)*group + (1 + c.(scoreFunc) + c.(scoreDict) + c.(scoreRs) + c.(scoreUnseg)|workerId) + (1+group|word), control=lmerControl(optimizer="bobyqa"), dataExp2)
-# saveRDS(modelFunction, file = "modelFunction.rds")
-modelFunction <- readRDS("./modelFunction.rds")
-kable(xtable(summary(modelFunction)$coef), digits=3, caption="Table S7: Linear mixed-effects model of well-formedness ratings including the phonotactics generalized over a list of function words")
+### Comparing AIC scores using cutoffs based on raw frequency of the words morphs appear in
+```{r Table S11-12, echo=FALSE, message=FALSE, warning=FALSE, eval=TRUE}
+TableS11 <- read.delim("./dataTableS11.txt", sep ="\t", header = TRUE)
+kable(TableS11, align="c", caption="Table S12: Comparing AIC scores with NMS participants, using cutoffs based on raw frequency of the words morphs appear in")
+
+TableS12 <- read.delim("./dataTableS12.txt", sep ="\t", header = TRUE)
+kable(TableS12, align="c", caption="Table S13: Comparing AIC scores with MS participants, using cutoffs based on raw frequency of the words morphs appear in")
 ```
 
-#### English phonotactics obtained from the English lexical database CELEX (Baayen, Piepen-brock & van H, 1993)
-```{r AddStats4, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
-# (d) English phonotactics obtained from the English lexical database CELEX (Baayen, Piepen-brock & van H, 1993)
-# modelEng <- lmer(enteredResponse ~ c.(scoreEng)*group + c.(scoreDict)*group + c.(scoreRs)*group + c.(scoreUnseg)*group + (1 + c.(scoreEng) + c.(scoreDict) + c.(scoreRs) + c.(scoreUnseg)|workerId) + (1+group|word), control=lmerControl(optimizer="bobyqa"), dataExp2)
-# saveRDS(modelEng, file = "modelEng.rds")
-modelEng <- readRDS("./modelEng.rds")
-kable(xtable(summary(modelEng)$coef), digits=3, caption="Table S8: Linear mixed-effects model of well-formedness ratings including the English phonotactics obtained from the English lexical database CELEX")
+### Code for plotting Fig. 4
+```{r Fig. 4, echo=FALSE, message=FALSE, warning=FALSE, eval=TRUE, fig.width=13, fig.height=7.5, fig.cap="Figure 4: Density plot of AIC scores for morph random samples"}
+figS8NMS <- read.delim("./dataFigS8NMS.txt", sep ="\t", header = TRUE)
+figS8NMS$size <- ordered(figS8NMS$size, levels = c("0.5k","1k","1.5k","2k","2.5k","3k","3.5k"))
+fullMorphsNMS <- readRDS("./morphNMS.rds");fullMorphsAICNMS <- AIC(fullMorphsNMS)
+fullDictNMS <- readRDS("./fullDictNMS.rds");fullDictAICNMS <- AIC(fullDictNMS)
+levels(figS8NMS$type) <- c("frequency-weighted parsed", "frequency-weighted unparsed", "N highest-frequency parsed", "N highest-frequency unparsed", "unweighted parsed", "unweighted unparsed")
+
+figS8NMS.summary <- figS8NMS %>%
+  group_by(size, type) %>%
+  summarise(
+    mean.AIC = mean(V1),
+    lower.AIC = quantile(V1, probs=c(0.025)),
+    upper.AIC = quantile(V1, probs=c(0.975))
+  )
+
+fig6A <- ggplot(subset(figS8NMS.summary, type %in% c("frequency-weighted parsed", "N highest-frequency parsed", "unweighted parsed")), aes(x=as.numeric(size) * 0.5, y=mean.AIC, ymin=lower.AIC, ymax=upper.AIC)) +
+  geom_errorbar(aes(color=type), position=position_dodge(width=0.2), size=1) +
+  geom_line(aes(color=type), position=position_dodge(width=0.2), size=1, alpha=0.5) +
+  geom_hline(aes(yintercept=fullDictAICNMS, linetype="Full dictionary (18k)"), color="gray30", size=1) +   
+  geom_hline(aes(yintercept=fullMorphsAICNMS, linetype="Full morph set (3.6k)"), color="black", size=1) +
+  geom_point(aes(fill=type), shape=21, position=position_dodge(width=0.2), size=3) +
+  labs(title="NMS participants (parsed)",x="Morph size", y="AIC score") + 
+  theme_classic() + 
+  scale_linetype_manual(values=c("Full morph set (3.6k)"="dotted",
+                                 "Full dictionary (18k)"="dashed")) +  
+  scale_x_continuous(breaks=seq(from=0.5, to=3.5, by=0.5), labels=levels(figS8NMS.summary$size)) +
+  theme(
+    plot.title=element_text(hjust=0.5, size=15),
+    legend.text=element_text(size=10),
+    legend.title = element_blank()) + coord_cartesian(ylim=c(103200, 105200))
+
+fig6B <- ggplot(subset(figS8NMS.summary, type %in% c("frequency-weighted unparsed", "N highest-frequency unparsed", "unweighted unparsed")), aes(x=as.numeric(size) * 0.5, y=mean.AIC, ymin=lower.AIC, ymax=upper.AIC)) +
+  geom_errorbar(aes(color=type), position=position_dodge(width=0.2), size=1) +
+  geom_line(aes(color=type), position=position_dodge(width=0.2), size=1, alpha=0.5) +
+  geom_hline(aes(yintercept=fullDictAICNMS, linetype="Full dictionary (18k)"), color="gray30", size=1) +   
+  geom_hline(aes(yintercept=fullMorphsAICNMS, linetype="Full morph set (3.6k)"), color="black", size=1) +
+  geom_point(aes(fill=type), shape=21, position=position_dodge(width=0.2), size=3) +
+  labs(title="NMS participants (unparsed)",x="Morph size", y="AIC score") + 
+  theme_classic() + 
+  scale_linetype_manual(values=c("Full morph set (3.6k)"="dotted",
+                                 "Full dictionary (18k)"="dashed")) +  
+  scale_x_continuous(breaks=seq(from=0.5, to=3.5, by=0.5), labels=levels(figS8NMS.summary$size)) +
+  theme(
+    plot.title=element_text(hjust=0.5, size=15),
+    legend.text=element_text(size=10),
+    legend.title = element_blank()) + coord_cartesian(ylim=c(103200, 105200))
+
+figS8MS <- read.delim("./dataFigS8MS.txt", sep ="\t", header = TRUE)
+figS8MS$size <- ordered(figS8MS$size, levels = c("0.5k","1k","1.5k","2k","2.5k","3k","3.5k"))
+fullMorphsMS <- readRDS("./morphMS.rds");fullMorphsAICMS <- AIC(fullMorphsMS)
+fullDictMS <- readRDS("./fullDictMS.rds");fullDictAICMS <- AIC(fullDictMS)
+levels(figS8MS$type) <- c("frequency-weighted parsed", "frequency-weighted unparsed", "N highest-frequency parsed", "N highest-frequency unparsed", "unweighted parsed", "unweighted unparsed")
+
+figS8MS.summary <- figS8MS %>%
+  group_by(size, type) %>%
+  summarise(
+    mean.AIC = mean(V1),
+    lower.AIC = quantile(V1, probs=c(0.025)),
+    upper.AIC = quantile(V1, probs=c(0.975))
+  )
+
+fig6C <- ggplot(subset(figS8MS.summary, type %in% c("frequency-weighted parsed", "N highest-frequency parsed", "unweighted parsed")), aes(x=as.numeric(size) * 0.5, y=mean.AIC, ymin=lower.AIC, ymax=upper.AIC)) +
+  geom_errorbar(aes(color=type), position=position_dodge(width=0.2), size=1) +
+  geom_line(aes(color=type), position=position_dodge(width=0.2), size=1, alpha=0.5) +
+  geom_hline(aes(yintercept=fullDictAICMS, linetype="Full dictionary (18k)"), color="gray30", size=1) +   
+  geom_hline(aes(yintercept=fullMorphsAICMS, linetype="Full morph set (3.6k)"), color="black", size=1) +
+  geom_point(aes(fill=type), shape=21, position=position_dodge(width=0.2), size=3) +
+  labs(title="MS participants (parsed)",x="Morph size", y="AIC score") + 
+  theme_classic() + 
+  scale_linetype_manual(values=c("Full morph set (3.6k)"="dotted",
+                                 "Full dictionary (18k)"="dashed")) +  
+  scale_x_continuous(breaks=seq(from=0.5, to=3.5, by=0.5), labels=levels(figS8MS.summary$size)) +
+  theme(
+    plot.title=element_text(hjust=0.5, size=15),
+    legend.text=element_text(size=10),
+    legend.title = element_blank()) + coord_cartesian(ylim=c(36450, 37100))
+
+fig6D <- ggplot(subset(figS8MS.summary, type %in% c("frequency-weighted unparsed", "N highest-frequency unparsed", "unweighted unparsed")), aes(x=as.numeric(size) * 0.5, y=mean.AIC, ymin=lower.AIC, ymax=upper.AIC)) +
+  geom_errorbar(aes(color=type), position=position_dodge(width=0.2), size=1) +
+  geom_line(aes(color=type), position=position_dodge(width=0.2), size=1, alpha=0.5) +
+  geom_hline(aes(yintercept=fullDictAICMS, linetype="Full dictionary (18k)"), color="gray30", size=1) +   
+  geom_hline(aes(yintercept=fullMorphsAICMS, linetype="Full morph set (3.6k)"), color="black", size=1) +
+  geom_point(aes(fill=type), shape=21, position=position_dodge(width=0.2), size=3) +
+  labs(title="MS participants (unparsed)",x="Morph size", y="AIC score") + 
+  theme_classic() + 
+  scale_linetype_manual(values=c("Full morph set (3.6k)"="dotted",
+                                 "Full dictionary (18k)"="dashed")) +  
+  scale_x_continuous(breaks=seq(from=0.5, to=3.5, by=0.5), labels=levels(figS8MS.summary$size)) +
+  theme(
+    plot.title=element_text(hjust=0.5, size=15),
+    legend.text=element_text(size=10),
+    legend.title = element_blank()) + coord_cartesian(ylim=c(36450, 37100))
+
+multiplot(fig6A, fig6C, fig6B,fig6D, cols=2)
 ```
 
-#### Word shape score
-```{r AddStats5, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
-# (e) Word shape score obtained from a trigram language model built by identifying each segment as a consonant, vowel or long vowel and calculating probabilities over sequences of those categories
-# modelWordshape <- lmer(enteredResponse ~ c.(scoreCV)*group + c.(scoreDict)*group + c.(scoreRs)*group + c.(scoreUnseg)*group + (1 + c.(scoreCV) + c.(scoreDict) + c.(scoreRs) + c.(scoreUnseg)|workerId) + (1+group|word), control=lmerControl(optimizer="bobyqa"), dataExp2)
-# saveRDS(modelWordshape, file = "modelWordshape.rds")
-modelWordshape <- readRDS("./modelWordshape.rds")
-kable(xtable(summary(modelWordshape)$coef), digits=3, caption="Table S9: Linear mixed-effects model of well-formedness ratings including word shape scores")
+## Comparing AIC scores with NMS participants for model selection 
+
+  - *scoreDictShortVType* is the phonotactic score across word types in the dictionary ignoring vowel length distinction.
+  - *scoreNBestFixed* is the phonotactic score from 3470 most frequent word types with the lowest AIC score obtained using cutoffs based on raw frequency.
+  - *scoreMorphShortVType* is the phonotactic score across morph types derived from words in the dictionary ignoring vowel length distinctions.
+  - *scoreMorphNBestFixed* is the phonotactic score from 1629 morph types with the highest token frequency in running speech with the lowest AIC, obtained using cutoffs based on raw frequency.
+  - *scoreMorphNBestWord* is the phonotactic score derived from 1409 morphs which occur within 3470 words in the corpora.
+  - *scoreMorphShortVWord* is the phonotactic score from 1303 morphs weighted by 3470 most frequent word types in the dictionary they appear in.
+
+```{r Best Model For NMS, echo=FALSE, message=FALSE, warning=FALSE, eval=TRUE}
+# Ordinal mixed-effects model with the phonotactics from the phonotactic score obtained across word types in the dictionary ignoring all vowel length distinctions.   
+# modelDictShortVTypeNMS <- clmm(enteredResponse ~ c.(scoreDictShortVType) + macron + (1 + c.(scoreDictShortVType) + macron | workerId) + (1 | word), dataNMS)
+# saveRDS(modelDictShortVTypeNMS, file = "modelDictShortVTypeNMS.rds")
+modelDictShortVTypeNMS <- readRDS("./modelDictShortVTypeNMS.rds")
+
+# Ordinal mixed-effects model with the phonotactics from the 3470 most frequent types (with the lowest AIC using cutoffs based on raw frequency)
+# scoreWordNMS <- read_csv("./MC/NBestFixedScore/NBestFixedSample3470.csv")
+# scoreWordNMS$scoreWordNMS <- scoreWordNMS$logprob/(scoreWordNMS$length + 1);scoreWordNMS <- scoreWordNMS[,c("item","scoreWordNMS")]
+# dataNMS$item <- dataNMS$word1;dataNew <- merge(dataNMS, scoreWordNMS, by="item")
+# modelBestFixedNMS <- clmm(enteredResponse ~ c.(scoreWordNMS) + macron + (1 + c.(scoreWordNMS) + macron | workerId) + (1 | word), dataNew)
+# setwd("/Users/yoonmi/Documents/GitHub/SuppInfoProtoLexiconNew")
+# saveRDS(modelBestFixedNMS, file = "modelBestFixedNMS.rds")
+modelBestFixedNMS <- readRDS("./modelBestFixedNMS.rds")
+
+# Ordinal mixed-effects model with the phonotactics from the phonotactic score obtained across morph types derived from words in the dictionary ignoring vowel length distinctions, unweighted
+# modelMorphShortVTypeNMS <- clmm(enteredResponse ~ c.(scoreMorphShortVType) + macron + (1 + c.(scoreMorphShortVType) + macron | workerId) + (1 | word), dataNMS)
+# saveRDS(modelMorphShortVTypeNMS, file = "modelMorphShortVTypeNMS.rds")
+modelMorphShortVTypeNMS <- readRDS("./modelMorphShortVTypeNMS.rds")
+
+# Ordinal mixed-effects model with the phonotactics from the 1629 morph types which have highest token frequency in running speech  (with the lowest AIC using cutoffs based on raw frequency)
+# scoreMorphNBestFixedNMS <- read_csv("./MC/morphNBestFixedScore/morphNBestFixedSample1629.csv")
+# scoreMorphNBestFixedNMS$scoreMorphNBestFixedNMS <- scoreMorphNBestFixedNMS$logprob/(scoreMorphNBestFixedNMS$length + 1)
+# scoreMorphNBestFixedNMS <- scoreMorphNBestFixedNMS[,c("item","scoreMorphNBestFixedNMS")]
+# dataNMS$item <- dataNMS$word1;dataNew <- merge(dataNMS, scoreMorphNBestFixedNMS, by="item")
+# modelMorphNBestFixedNMS <- clmm(enteredResponse ~ c.(scoreMorphNBestFixedNMS) + macron + (1 + c.(scoreMorphNBestFixedNMS) + macron | workerId) + (1 | word), dataNew)
+# saveRDS(modelMorphNBestFixedNMS, file = "modelMorphNBestFixedNMS.rds")
+modelMorphNBestFixedNMS <- readRDS("./modelMorphNBestFixedNMS.rds")
+
+# Phonotactics derived from the 1409 morphs that occur within the 3470 words appearing 4+times in the corpora 
+# scoreMorphNBestWordNMS <- read_csv("./MC/morphNBestWordScore/NBestWordMorphSample.csv")
+# scoreMorphNBestWordNMS$scoreMorphNBestWordNMS <- scoreMorphNBestWordNMS$logprob/(scoreMorphNBestWordNMS$length + 1)
+# scoreMorphNBestWordNMS <- scoreMorphNBestWordNMS[,c("item","scoreMorphNBestWordNMS")]
+# dataNMS$item <- dataNMS$word1;dataNew <- merge(dataNMS, scoreMorphNBestWordNMS, by="item")
+# modelMorphNBestWordNMS <- clmm(enteredResponse ~ c.(scoreMorphNBestWordNMS) + macron + (1 + c.(scoreMorphNBestWordNMS) + macron | workerId) + (1 | word), dataNew)
+# saveRDS(modelMorphNBestWordNMS, file = "modelMorphNBestWordNMS.rds")
+modelMorphNBestWordNMS <- readRDS("./modelMorphNBestWordNMS.rds")
+
+# Phonotactics derived from 1303 morphs weighted by 3470 words in the dictionary they appear in, considering stimuli as parsed items
+# scoreMorphShortVWordNMS <- read_csv("./MC/morphShortVWords/scores/morphs_3470.csv")
+# scoreMorphShortVWordNMS$scoreMorphShortVWordNMS <- scoreMorphShortVWordNMS$logprob/(scoreMorphShortVWordNMS$length + 1)
+# scoreMorphShortVWordNMS <- scoreMorphShortVWordNMS[,c("item","scoreMorphShortVWordNMS")]
+# dataNMS$item <- dataNMS$word1;dataNew <- merge(dataNMS, scoreMorphShortVWordNMS, by="item")
+# modelMorphShortVWordNMS <- clmm(enteredResponse ~ c.(scoreMorphShortVWordNMS) + macron + (1 + c.(scoreMorphShortVWordNMS) + macron | workerId) + (1 | word), dataNew)
+# saveRDS(modelMorphShortVWordNMS, file = "modelMorphShortVWordNMS.rds")
+modelMorphShortVWordNMS <- readRDS("./modelMorphShortVWordNMS.rds")
+
+Score <- c("scoreDictShortVType","scoreNBestFixed","scoreMorphShortVType","scoreMorphNBestFixed","scoreMorphNBestWord","scoreMorphShortVWord")
+AIC <- c(AIC(modelDictShortVTypeNMS),AIC(modelBestFixedNMS),AIC(modelMorphShortVTypeNMS),AIC(modelMorphNBestFixedNMS),AIC(modelMorphNBestWordNMS),AIC(modelMorphShortVWordNMS))
+aicNMST <- data.frame(Score,AIC)
+kable(aicNMST, align="c", caption="Table S14: Comparing AIC scores with NMS participants for model selection.")
 ```
 
-#### Position-length specific probabilities of phonemes
-```{r AddStats6, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
-# (f) Position-length specific probabilities of phonemes obtained from a unigram language model
-# modelPosLength <- lmer(enteredResponse ~ c.(scorePosLength)*group + c.(scoreDict)*group + c.(scoreRs)*group + c.(scoreUnseg)*group + (1 + c.(scorePosLength) + c.(scoreDict) + c.(scoreRs) + c.(scoreUnseg)|workerId) + (1+group|word), control=lmerControl(optimizer="bobyqa"), dataExp2)
-# saveRDS(modelPosLength, file = "modelPosLength.rds")
-modelPosLength <- readRDS("./modelPosLength.rds")
-kable(xtable(summary(modelPosLength)$coef), digits=3, caption="Table S10: Linear mixed-effects model of well-formedness ratings including position-length specific probabilities of phonemes")
-```
+### Self-reported exposure to Māori 
+NMS' self-reported exposure to Māori is added as an additional predictor to the best ordinal mixed-effects model presented in Table S14.
 
-#### Presence of macrons
-```{r AddStats7, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
-# (g) Presence of 1 or more macrons
-# dataExp2$macron <- FALSE
-# dataExp2[grepl("ā|ē|ī|ō|ū",dataExp2$word),]$macron <- TRUE
-# modelMacron <- lmer(enteredResponse ~ c.(scoreDict)*group + c.(scoreRs)*group + c.(scoreUnseg)*group + macron*group + (1 + c.(scoreDict) + c.(scoreRs) + c.(scoreUnseg) + macron|workerId) + (1+group|word), control=lmerControl(optimizer="bobyqa"), dataExp2)
-# saveRDS(modelMacron, file = "modelMacron.rds")
-modelMacron <- readRDS("./modelMacron.rds")
-kable(xtable(summary(modelMacron)$coef), digits=3, caption="Table S11: Linear mixed-effects model of well-formedness ratings including the presence of macron(s)")
-```
-
-#### Presence of digraphs
-```{r AddStats8, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
-# (h) Presence of 1 or more digraph(s) such as 'wh' and 'ng'
-dataExp2$digraph <- FALSE
-dataExp2[grepl("wh|ng",dataExp2$word),]$digraph <- TRUE
-# modelDigraph <- lmer(enteredResponse ~ c.(scoreDict)*group + c.(scoreRs)*group + c.(scoreUnseg)*group + digraph*group + (1 + c.(scoreDict) + c.(scoreRs) + c.(scoreUnseg) + digraph|workerId) + (1+group|word), control=lmerControl(optimizer="bobyqa"), dataExp2)
-# saveRDS(modelDigraph, file = "modelDigraph.rds")
-modelDigraph <- readRDS("./modelDigraph.rds")
-kable(xtable(summary(modelDigraph)$coef), digits=3, caption="Table S12: Linear mixed-effects model of well-formedness ratings including the presence of digraph(s)")
-```
-
-#### Maximum length of vowel sequence
-```{r AddStats9, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
-# (i) Maximum length of vowel sequence
-# Add the maximum length of vowel sequence
-dataExp2$vSeq <- gsub("[aeiouāēīōū][aeiouāēīōū][aeiouāēīōū][aeiouāēīōū][aeiouāēīōū]","5", dataExp2$word)
-dataExp2$vSeq <- gsub("[aeiouāēīōū][aeiouāēīōū][aeiouāēīōū][aeiouāēīōū]","4", dataExp2$vSeq)
-dataExp2$vSeq <- gsub("[aeiouāēīōū][aeiouāēīōū][aeiouāēīōū]","3", dataExp2$vSeq)
-dataExp2$vSeq <- gsub("[aeiouāēīōū][aeiouāēīōū]","2", dataExp2$vSeq)
-dataExp2$vSeq <- gsub("[aeiouāēīōū]","1", dataExp2$vSeq)
-dataExp2$vSeq <- gsub("[whkmrngpt]","", dataExp2$vSeq)
-dataExp2$vSeq <- gsub(""," ",dataExp2$vSeq)
-vSeqList <- strsplit(dataExp2$vSeq,split=" ");vSeqList1 <- sapply(vSeqList,max)
-dataExp2$vSeq <- vSeqList1;dataExp2$vSeq <- as.numeric(dataExp2$vSeq)
-# modelVSeq <- lmer(enteredResponse ~ c.(scoreDict)*group + c.(scoreRs)*group + c.(scoreUnseg)*group + c.(vSeq)*group + (1 + c.(scoreDict) + c.(scoreRs) + c.(scoreUnseg) + c.(vSeq)|workerId) + (1+group|word), control=lmerControl(optimizer="bobyqa"), dataExp2)
-# saveRDS(modelVSeq, file = "modelVSeq.rds")
-modelVSeq <- readRDS("./modelVSeq.rds")
-kable(xtable(summary(modelVSeq)$coef), digits=3, caption="Table S13: Linear mixed-effects model of well-formedness ratings including the maximum length of vowel sequence")
-```
-
-#### Type of first segment (consonant or vowel)
-```{r AddStats10, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
-# (j) Type of first segment (consonant or vowel)
-dataExp2$first <- gsub("[aeiouāēīōū]","v",dataExp2$word)
-dataExp2$first <- gsub("[whkmrngpt]","c",dataExp2$first)
-dataExp2$first <- substr(dataExp2$first,1,1)
-dataExp2$first <- as.factor(dataExp2$first)
-# modelFirst <- lmer(enteredResponse ~ c.(scoreDict)*group + c.(scoreRs)*group + c.(scoreUnseg)*group + first*group + (1 + c.(scoreDict) + c.(scoreRs) + c.(scoreUnseg) + first|workerId) + (1+group|word), control=lmerControl(optimizer="bobyqa"), dataExp2)
-# saveRDS(modelFirst, file = "modelFirst.rds")
-modelFirst <- readRDS("./modelFirst.rds")
-kable(xtable(summary(modelFirst)$coef), digits=3, caption="Table S14: Linear mixed-effects model of well-formedness ratings including the type of first segment")
-```
-
-#### Variant phonotactic scores including trigrams, bigrams, and unigrams
-```{r AddStats11, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
-# (k) Variant phonotactic scores including trigrams, bigrams, and unigrams
-# modelNewScores <- lmer(enteredResponse ~ c.(scoreDictNew)*group + c.(scoreRsNew)*group + c.(scoreUnsegNew)*group + (1 + c.(scoreDictNew) + c.(scoreRsNew) + c.(scoreUnsegNew)|workerId) + (1+group|word), control=lmerControl(optimizer="bobyqa"), dataExp2)
-# saveRDS(modelNewScores, file = "modelNewScores.rds")
-modelNewScores <- readRDS("./modelNewScores.rds")
-kable(xtable(summary(modelNewScores)$coef), digits=3, caption="Table S15: Linear mixed-effects model of well-formedness ratings including variant phonotactic scores with trigrams, bigrams, and unigrams.")
-```
-
-#### Phonotactic scores without the distinction between short and long vowels marked with macrons
-```{r AddStats12, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
-# (l) Phonotactic scores without the distinction between short and long vowels marked with macrons
-# modelNoMacron <- lmer(enteredResponse ~ c.(scoreDictNoMacron)*group + c.(scoreRsNoMacron)*group + c.(scoreUnsegNoMacron)*group + (1 + c.(scoreDictNoMacron) + c.(scoreRsNoMacron) + c.(scoreUnsegNoMacron)|workerId) + (1+group|word), control=lmerControl(optimizer="bobyqa"), dataExp2)
-# saveRDS(modelNoMacron, file = "modelNoMacron.rds")
-modelNoMacron <- readRDS("./modelNoMacron.rds")
-kable(xtable(summary(modelNoMacron)$coef), digits=3, caption="Table S16: Linear mixed-effects model of well-formedness ratings including phonotactic scores without the distinction between short and long vowels marked with macrons")
+```{r MaoriExpo, echo=FALSE, message=FALSE, warning=FALSE, eval=TRUE}
+# Self-reported exposure to Māori (NMS participants only) 
+# scoreMorphNBestFixedNMS <- read_csv("./MC/morphNBestFixedScore/morphNBestFixedSample1629.csv")
+#scoreMorphNBestFixedNMS$scoreMorphNBestFixedNMS <- scoreMorphNBestFixedNMS$logprob/(scoreMorphNBestFixedNMS$length + 1)
+# scoreMorphNBestFixedNMS <- scoreMorphNBestFixedNMS[,c("item","scoreMorphNBestFixedNMS")]
+# dataNMS$item <- dataNMS$word1;dataNew <- merge(dataNMS, scoreMorphNBestFixedNMS, by="item")
+# modelExpoNMS <- clmm(enteredResponse ~ (c.(scoreMorphNBestFixedNMS) + macron) * c.(maoriExpo) + (1 + c.(scoreMorphNBestFixedNMS) + macron | workerId) + (1 + c.(maoriExpo) | word), dataNew)
+# saveRDS(modelExpoNMS, file = "modelExpoNMS.rds")
+modelExpoNMS <- readRDS("./modelExpoNMS.rds")
+kable(clm_table(modelExpoNMS), digits=3, caption="Table S15: Ordinal mixed-effects model of well-formedness ratings including NMS' self-reported exposure to Māori")
 ```
 
 # Post-questionnaire
@@ -1051,4 +2222,3 @@ kable(xtable(summary(modelNoMacron)$coef), digits=3, caption="Table S16: Linear 
 20. Do you have a history of any speech or language impairments that you are aware of?<br /> 
 ☐ Yes<br />
 ☐ No
-
