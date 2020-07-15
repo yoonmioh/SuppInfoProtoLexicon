@@ -1,0 +1,3636 @@
+150372.855359	t e
+87521.375992	i
+60575.789474	a
+51954.150057	k i
+50609.904185	N a
+44673.238867	e
+42793.802536	o
+38283.08465	k o
+37464.723481	n e i
+31221.959008	k a
+22415.888322	r a
+22575.810753	f a k a
+21568.537774	n a
+20609.983282	h e
+20662.264365	m a
+18973.729376	m a i
+18095.081946	t a
+17416.714578	a n a
+16837.710894	t o u
+14539.544079	m o
+13779.643708	a t u
+13055.043517	k e i
+12816.145689	w a
+12618.50401	t a h i
+12487.678528	m e
+12058.223735	a u
+11419.465878	k u a
+11307.48918	r a t o u
+11097.923489	m e a
+11006.574603	k i a
+10190.08205	t a u
+9921.566148	h a e r e
+9858.574792	r e r o
+9681.417913	a n o
+9437.214247	m a h i
+9401.819446	k a u
+9041.73921	r o t o
+8912.898576	h o k i
+8914.802738	t u
+6687.537876	n u i
+6659.489201	r e i r a
+6566.654114	a e
+6468.736402	m a o r i
+6500.413913	h i a
+6410.510033	h e i
+6324.137995	i a
+6183.265792	a i
+6111.151636	e N a r i
+5799.36551	t o n u
+5801.548842	t o
+5823.033594	p a
+5575.269913	n o
+5485.900212	a k e
+5508.268176	w a i
+5450.760765	t a N a
+5293.170951	k o e
+5254.825332	r a N a
+5162.737113	i w i
+5057.338006	k a i
+4870.025751	r e o
+4857.395247	r u a
+4809.489224	k a t o a
+4803.392058	p a p a
+4673.934928	k e
+4662.836168	t a k u
+4636.034714	r u N a
+4633.434845	k o i
+4622.988051	a h a
+4529.489229	k o u t o u
+4489.879334	a h u a
+4426.190792	p a i
+4333.534195	t i
+4033.261436	t a u a
+3997.371962	h i o
+3984.34784	t a e
+3918.094446	n o h o
+3842.282647	a r o
+3697.190288	f a r e
+3672.782476	t u a
+3730.917952	p u
+3531.489253	k a o r e
+3450.834904	p e
+3428.163065	t i n o
+3338.621104	t a m a
+3285.007856	k u r a
+3245.040368	n o a
+3234.016812	k o r e
+3174.529185	r o N o
+3116.641838	n e
+2961.014851	m a t a
+2865.979984	k i t e
+2852.809467	f e n u a
+2828.647278	o r a
+3317.852422	t i a
+2793.475285	f a i
+2781.917444	f a
+2756.958486	r a N i
+2729.055504	t a n a
+2728.834272	t a i
+2662.207312	h i
+2643.150748	r e
+2633.510716	p e a
+2566.043185	t a N a t a
+2571.602013	r i k i
+2544.59762	h a N a
+2489.240324	h i n e
+2444.31733	p u t a
+2478.124479	r a u
+2431.619359	m a u
+2409.495113	a k o
+2396.35793	m a t u a
+2376.522029	h u i
+2360.890857	h a r a
+2351.316521	r e r e
+2244.929549	e r a
+2220.8774	h e a
+2215.467408	a t a
+2211.39501	f a n a u
+2202.126585	m a n a
+2206.229997	a r a
+2171.963095	t i k a
+2090.521467	i h o
+2054.49355	h u a
+2008.489338	a h a u
+1995.393415	k a i N a
+1945.115574	k o a
+1987.246608	h a u
+1928.901687	p u n a
+1858.827683	r o
+1835.542151	m u t u
+1833.036126	t a h a
+1823.163166	m a r a e
+1843.306664	p o
+1781.889919	r a m a
+1757.911948	t o n a
+1757.703091	r a w a
+1739.489368	h e o i
+1741.302911	m u a
+1736.23173	a o
+1676.165727	t a k e
+1662.780914	t o h u
+1642.296467	m u r i
+1641.602767	t o r u
+1639.913892	t i r a
+1627.169112	w a k a
+1583.068407	o t i
+1591.992669	h u r i
+1575.10691	k a h a
+1542.849143	t o k o
+1537.336338	m a t e
+1463.438735	m i h i
+1460.885895	t u k u
+1434.032573	t a k i
+1425.157119	r o a
+1407.541328	p e r a
+1398.059995	t i t i r o
+1389.16597	n a i a
+1386.658562	N a t a
+1418.200104	h a
+1353.599114	k o t a h i
+1354.173953	t a o N a
+1340.82634	t i k a N a
+1329.642582	t i r o
+1325.082122	p u k a
+1296.316575	k a w a n a
+1283.117624	t a e a
+1274.726881	r a r o
+1266.489453	t o k u
+1267.688121	h o a
+1261.039564	m a u a
+1260.855711	k u p u
+1253.126626	N a i
+1246.74201	i N o a
+1219.362159	r a h i
+1190.260285	n a N a
+1164.578361	t e a
+1152.723787	m o t u
+1209.982502	N i a
+1128.278126	u r u
+1099.825738	a u a
+1098.208252	a k u
+1087.836446	r i t e
+1080.639552	t a N i
+1065.714018	r o h e
+1058.325757	f i r i
+1038.081166	m a h a
+1041.030777	r a u a
+1034.317699	w i k i
+992.950924	t o n o
+989.227577	h u N a
+973.095138	r i m a
+976.185615	t a r i
+959.489552	a n e i
+954.260732	r a r u
+949.682071	a f i
+944.900505	i t i
+906.048076	w a e N a
+902.821358	m o a n a
+900.199019	u t u
+895.206737	h e k e
+895.970725	m o e
+892.384936	h o u
+881.780888	t u h i
+880.018339	o n a
+878.481811	h e r e
+868.366398	k u i a
+875.337773	h o
+883.155625	k u
+854.851954	k a r a
+831.897661	f i
+848.617576	r i a
+822.533734	m o k o
+818.352359	m o m o
+812.536975	t a n e
+833.068064	p i
+790.42859	t u r e
+801.729034	t a k a
+780.489646	o k u
+783.061152	m a n u
+763.435486	a k i
+770.54188	h o r e
+756.264049	h o k o
+761.887635	t o a
+766.770187	p o u
+753.909434	N a r o
+754.459584	w a r u
+746.859736	t a p u
+774.663792	t a r a
+743.547635	h o e
+738.825913	k o i a
+747.381362	f i t i
+735.174198	m o n i
+730.578072	a w a
+719.729252	t a k o t o
+719.698463	o n o
+717.163499	k o r o u a
+716.924242	p i k i
+712.826598	k a u a
+707.697446	m a h a r a
+707.672524	i w a
+704.512045	r i r o
+692.048121	w e r a
+696.411491	p a e
+689.772997	w a e
+679.243515	k a o
+676.918069	w a r e
+683.014179	u a
+674.401606	t i a k i
+669.156142	e k e
+668.121547	t e r e
+662.587428	w a h o
+658.930191	a r o h a
+656.320886	i k a
+656.020814	r i N a
+649.113454	k e k e
+647.143489	t a t a
+622.615414	m a n o
+613.599948	m a k i
+609.238843	i r a
+603.763536	f i t u
+602.698941	p a t u
+601.964239	k a r o
+607.022812	i n a
+592.590792	a h i
+586.964911	t i p u
+586.098242	u r i
+569.489832	p o a r i
+572.1141	n e k e
+566.640508	t i k i
+551.489855	a n a k e
+549.667853	o n e
+546.532248	p a n u i
+543.489865	e n a
+543.880722	p o n o
+537.560039	h a n a
+532.979906	w a N a
+531.454299	f a e a
+529.418619	m a u N a
+525.76147	w e
+524.428716	k a w e
+520.936237	a h u
+524.436588	t u r u
+514.157901	p a k u
+510.02897	m i n i
+507.615552	t e h i
+506.489918	h a p u
+505.728925	m o u
+507.062012	h a k a
+507.134145	r i
+505.152867	t i n i
+504.413543	f a N a
+514.543025	k i r i
+492.222031	r u
+479.342413	w e h e
+475.691228	t u k i
+465.587487	N a k a u
+462.487069	w a i h o
+470.329326	p a k a
+460.42655	h e r a
+457.054737	o h o
+463.764416	i r i
+446.870607	m a n a k o
+486.032149	k o r o
+432.78066	k i i a
+427.6176	h a e
+421.490074	p o r o u
+419.826982	k a u n i
+420.275135	k a p a
+417.707278	t e i
+417.490083	i m a
+417.152515	t i r i t i
+422.04254	k i n a
+416.490085	h a h i
+413.382809	r i r i
+411.927824	t i n a n a
+415.593666	k a h u
+410.023829	h o i h o
+411.342907	r a p u
+401.683761	k i m i
+387.977825	p a u
+388.237046	w i
+399.587749	p i r i
+391.447115	m i
+377.490182	a r a w a
+388.737384	p o r o
+372.533689	k i n o
+369.044606	k o t i
+360.339607	w a h i
+357.465378	w a e a
+356.285823	h a i
+357.191664	h a r i
+353.191272	t o h e
+353.0198	r a u n a
+353.047516	p u h i
+344.680925	h o m a i
+349.446167	u
+347.22333	h i r i
+343.827189	m a k a u
+343.306833	m a r i e
+341.717656	h i t a
+340.666028	k o h i
+337.841986	p e n e
+337.185547	m a k u
+329.16795	p a k a r i
+326.490344	h a o r a
+328.728369	m a r a
+331.378163	r e i
+325.486716	n o h i
+320.193308	p e p a
+326.512404	p a r e
+318.689463	t o k e
+307.185663	a t u a
+306.683706	p i t o
+305.41238	r e k a
+302.576003	a r i k i
+308.625166	k a r e
+299.697708	h i N a
+315.642665	h u
+294.573562	t a h u
+292.490483	w e n e i
+288.476867	h i r a
+287.490506	e t e h i
+284.827425	t a a
+285.089363	i r o
+283.455331	n u k u
+282.139488	u p o k o
+278.767101	k a t o
+278.236886	k a w a
+277.170515	k e t e
+274.490571	t u p u n a
+275.241634	p o i
+271.659816	h a t u
+279.381398	p a k i
+263.399464	r e w a
+280.514925	t o i
+265.174814	h o a t u
+264.073948	p o t i
+261.782993	t u p u
+260.216223	m a n a w a
+260.2127	t a N o
+260.590925	p u k e
+257.056244	r e N a
+255.145475	h o n o
+256.139777	w a h a
+253.827593	m e m a
+252.501413	k o m i t i
+248.010627	p i r i h i
+247.005155	f e r a
+244.718689	p a o r o
+248.537999	n a k i
+241.338362	p u p u r i
+241.428655	n u
+238.459256	f i u
+229.189724	u i
+233.771048	f e a
+239.800622	h u r u
+231.490835	p o u a k a
+227.638701	m a h u e
+228.442323	t u m u
+223.914039	w a w a t a
+222.395181	h u i a
+219.967941	k a n a
+223.788907	n a m u
+216.222576	k u h u
+218.744205	r e a
+214.182314	n a u
+219.016809	m a r u
+210.793003	k a r a k a
+210.337093	t o r i a
+208.687335	k o r e r o
+206.761296	n e k i
+220.335619	p u k u
+209.595348	p o t o
+207.2442	p u r e i
+206.035146	h o p u
+205.137558	p o u r i
+204.491057	t a f i t o
+202.987866	f u t u
+220.531036	t o r o
+218.63643	f e
+200.294092	k a m u
+231.310537	p a r a
+199.538661	r a k u
+192.380258	k a r a N a
+203.860342	p e k a
+193.061418	k i h i
+190.869207	w a r i
+188.491218	r a t a u
+189.849557	r a w e
+189.528762	r a t a
+189.523376	k i w a
+188.186483	f a i a
+190.394796	h i k a
+185.63739	m o n a
+191.593127	a N a
+190.967314	p e k e
+187.215733	r a k i
+184.681051	h a k e
+187.470045	r o r i
+176.868294	m a m a e
+176.421123	w e r o
+183.386268	r e h u
+180.789153	k u r i
+177.67791	h o h i
+176.551733	t a t u
+174.513105	u t a
+174.491383	k e m u
+172.278667	n a n a
+172.839038	t a r i N a
+171.839052	t a t a r i
+175.238964	p o p o
+170.53696	k a n i
+171.92744	k a t i
+171.604493	t a p a
+169.674057	k u i
+166.101337	t a r a i
+165.980147	r a i
+167.357599	e a
+166.494808	a r e
+161.828466	i n a n a h i
+168.388815	t u r i
+160.562333	n o r e
+160.491577	p e p i
+159.794739	t e r a
+163.709641	t o N a
+161.011016	h a r o
+167.749545	k a r i
+160.429017	k a t a
+159.000902	k i N i
+158.828512	p a m u
+158.839239	t a f i t i
+155.74596	h o h o n u
+155.21992	N a h a u
+155.636912	p a t o
+159.556611	a p a
+152.662149	h i p i
+152.144959	k u t a
+159.605881	p u r u
+152.501784	n a m a
+147.992712	t e i n a
+151.356789	r e t i
+146.856228	n a r a
+147.185163	p u n i
+145.582232	N e
+157.586461	h i k o
+143.888342	h a p a i
+144.939478	w e h i
+142.671883	r i p o a t a
+146.18265	k o r i
+145.479111	m a k a
+145.681954	h a k i
+140.562223	w a n a
+140.491274	m u r u
+140.457039	i n o i
+143.513304	m a N a
+141.722017	r o r o
+134.305258	h i k i
+133.718142	p i u
+130.976367	h a i n a
+133.513533	k i o r e
+128.829081	m o k u
+129.685816	m i r a
+131.355828	m a r o
+125.939871	r e n a
+125.829153	p o a k a
+124.032438	t a k a h i
+129.295246	t o t o
+123.712347	t o h a
+123.707124	i h u
+126.269768	h i k u
+122.028329	k o m i
+136.077212	k e r e
+120.105	t o e
+119.166239	r o i a
+125.058742	r u r u
+118.502533	t u n a
+115.224164	k u m e
+116.492487	m i r i o n a
+119.220953	o m a
+116.037522	m e r e
+120.487096	t o k i
+114.154368	k u i n i
+125.739277	h o r o
+115.296558	N o i
+112.680954	o h u
+112.349744	m i h i n i
+112.032227	a i t u a
+117.504308	e r e
+113.687399	p i h a
+112.102367	h o r a
+109.04948	h a w a i
+109.022629	o k i
+108.49273	t i k i n a
+109.587231	k o h a
+105.492831	a k a n a
+105.492831	t u N a n e
+108.26279	k a N a
+107.20675	r i h i
+105.177421	m a i h i
+102.139378	r i k a
+104.851265	h i p a
+104.03723	k o k a
+103.166116	m o e a
+102.166782	m i r a k a
+101.063075	t u a r a
+102.763521	k i k o
+109.740333	r a p a
+99.49305	n o k u
+103.970785	t u i
+101.711911	a r i
+99.607672	m o k e
+98.829994	k a r a e h e
+97.74751	k e r e m e
+103.888506	r e h e
+103.246022	p a r u
+102.879428	f a r a
+97.026811	f a i N a
+95.783903	m a t a u
+99.20574	m i t i
+98.18782	N e r e
+95.830116	p a r a i r e
+95.398018	t u n u
+96.408423	m i t a
+95.387273	r u m a
+94.493254	m e n e t i
+97.660645	t i t o
+102.961324	h u k a
+92.342461	w a r i u
+92.155817	n a r e
+98.241219	r u k u
+91.794846	k a u t e
+95.000408	t o k a
+92.917739	N o
+90.830337	p a r a o a
+90.493433	p u e a
+89.678576	p e f e a
+94.548629	p a n a
+92.98836	f a t i
+92.193093	p a r i
+90.504193	p a k a r u
+90.167289	p i r e
+89.830385	k o u r a
+87.815157	m e i
+91.403012	a t i
+89.899887	h u h u
+89.03093	r u h i
+93.074471	f a t u
+91.210285	u m u
+86.91479	h o p a
+84.93082	m e n e
+93.7404	N u
+93.60752	a h o
+89.666552	r a k a
+88.822135	p i p i
+87.1782	t a n i f a
+85.611206	N i
+90.50891	p e r e
+84.165768	k a k e
+82.399925	n e t i
+89.178857	p u a
+84.222106	p a h i
+87.740219	p i r o
+87.598342	k a p o
+84.600321	k e n e
+82.302926	h u n a
+80.830862	k e N a
+86.321278	t a o
+85.150303	o p e
+81.9639	m a h a n a
+80.682104	p u t i
+79.830921	h o r o i
+79.494017	m a t e N a
+79.360714	k a p u a
+80.360319	N a u
+79.091961	m u r a
+78.167949	h a f e
+83.125523	p a t a
+82.796775	t u t u
+76.156701	p a h u r e
+78.670137	h e u
+76.82676	h i w i
+85.529016	t i t i
+77.386679	r a N o
+75.16755	p a o a
+74.459558	a i a
+76.525949	n a w e
+76.157879	p a N a
+74.00984	r e r i
+73.831312	t e p u
+73.831312	t e r e i n a
+79.114074	k o h u
+77.414295	h a o
+74.507216	f a o
+74.253995	e m i
+73.674949	i n u
+72.168361	t i f i
+71.761929	h e r i
+71.493962	t a h u n a
+73.526764	e k a
+77.854944	a k a
+73.521099	m i a
+71.175269	p e i
+69.350471	m a h a u
+75.504055	w i r i
+73.815176	r o i
+72.46604	t i h i
+68.682376	p i k o
+68.494785	k a r a p u
+67.589446	t a m e
+68.505579	p u r u a
+67.001598	k a u t a
+70.222302	u n u
+67.168759	r e t a
+66.025022	p a u a
+64.410894	k u t i
+72.463189	i h i
+67.853366	p o u n a m u
+67.516462	n a t a
+67.022998	a m u
+66.750386	a r u
+66.403247	p u r a
+65.831366	n o n a
+68.87488	p e t a
+67.600264	p u r i
+67.282026	n i
+66.587663	p i t i
+66.049451	u r a
+64.732767	f e r o
+63.066191	h e n e t i
+61.728454	p u a r e
+67.47791	k a n o
+67.456763	k o r a
+65.064936	t o r i
+61.958254	k i w i
+60.996525	n u k a
+62.380178	m a t i
+61.350898	r a k a u
+60.831858	t i n a
+60.495515	m a i a
+62.608278	w i n i
+62.527756	w a k u
+60.506332	p u e h u
+60.470773	r i N i
+60.375346	t i h e
+57.614923	k a p i
+59.864996	k a p u
+57.351805	o r i
+57.261443	m a N u
+56.495956	p u i h i
+55.83298	k a p e n e
+55.15863	h e k e r e
+54.131291	p i h i
+58.319409	h u r a
+56.908451	p a t i
+54.4962	r o a N a
+54.010518	t a p a h i
+64.185192	k o k o
+57.664835	f i f i
+53.705075	t a r a i w a
+56.052304	f e k e
+55.903982	k e r i
+55.721512	u h i
+54.845705	a m o
+53.710554	t a r u
+53.17027	o u
+52.833366	a u a u
+52.496462	k u k i
+52.311482	t o m o
+52.098756	h a u a
+54.507483	p u t u
+54.190794	m o t o
+53.376948	n i u
+53.058085	h u e
+52.50679	r a k a i
+51.4966	w o
+54.20066	h i n u
+50.496744	r a i n e i
+50.496744	r a r a N a
+50.010844	m i n e N a
+49.997232	f o a t u
+55.95405	m i r i
+53.26051	N u r u
+52.725061	n e h e
+50.617322	w a i a
+50.391277	p a n i
+49.125386	m a t e a
+48.09708	r a p o
+50.914406	f a t a
+50.854873	m a n i
+49.277567	h o t u
+52.267762	k i k i
+47.497211	m a h u t a
+47.369407	t a n u
+59.522074	k a k a
+50.912945	w e t e
+50.256564	p a o
+47.739475	k a k i
+47.703637	r i m u
+46.648572	m a r o k e
+52.402336	k a r u
+49.805711	m o k a
+48.330366	r e k e
+47.602639	h u t u
+45.497556	r a n o
+43.843357	m a t o
+49.043095	f i o
+44.176738	m a o
+59.898896	k u r u
+44.126724	m e k e
+43.01279	N e u
+45.705084	p a r a u
+44.182651	w i r a
+43.558151	n e h u
+43.557424	p o k o
+43.113967	N a r u
+47.783586	r a r a
+41.846177	k a u r i
+40.835465	t i a t i
+40.498561	t a r a k a
+40.464113	t a i m a h a
+40.391114	t a i a
+40.323035	N a n a
+57.483673	o r o
+46.665006	n a k o
+44.679182	p o k a
+44.121817	N u t u
+41.833082	t e n e
+40.508669	p e r e h i
+39.498792	t a h i t i
+39.498792	t a h i t o
+39.057043	k o t i t i
+38.416824	k o r o r i a
+41.857718	r a e
+40.861163	o t a
+40.181643	w a o
+39.686768	t o p e
+38.499034	r a h a k i
+38.161719	m u i a
+37.559236	t e k o
+42.682085	p u N a
+41.290473	t i o
+40.977066	n i h o
+39.342268	t e k a
+37.173365	r e t u
+38.868512	r i r e
+38.064615	p u p u
+37.858167	N a k o
+37.184359	f i r i a
+37.184359	f e u
+36.034753	p a t a i
+35.836743	r e N i
+35.836743	r u m a k i
+35.606363	w e r i
+35.361236	o r u
+34.615679	p u a k i
+34.300086	h a w e a
+41.227497	h i n a
+40.000337	h o i
+38.209866	w a t a
+37.276372	w a u
+35.173946	k a r a i h e
+35.086553	k e n a
+43.784724	k u k u
+35.858781	u r e
+34.848069	a m a
+34.848069	t a i n a
+33.3617	k i r i m i
+32.923669	h i n i
+38.3158	o r e
+37.366413	p i a
+35.441959	r i n o
+35.393114	t o h i
+33.174595	p i p i r i
+33.140406	f a r a u
+32.969738	h a m u
+32.837691	a u t e
+32.837691	k a w i t i
+32.767554	t a r a u
+32.578135	p a n e
+32.500787	k u a k a
+32.500787	k u p e
+37.474553	n i k o
+34.918043	k o u
+34.35939	p o h o
+32.477711	N a r e
+31.838046	m a t a a r a
+31.501142	m u r u a
+32.418668	h a p a
+32.269252	k a m o
+31.849135	m u k a
+31.175327	m a r a r a
+30.76844	t i p u a
+30.501519	k a r a i
+30.501519	p i t u r e
+35.90265	m i r o
+35.004477	p o k i
+32.232628	w e t i
+31.769534	o h a
+31.18644	t o i a
+30.989737	p e t i
+30.512632	t a h u a
+30.002451	k o n o
+29.838824	a r e r o
+29.838824	r i u
+29.838824	t i k e i
+29.838824	t o h o
+29.50192	t i k i t i
+29.028034	k i e
+28.827666	a m e n e
+33.892429	i o
+30.547492	p a h u
+29.919544	t a r e
+28.839252	m i r i a
+28.839044	t a i a o
+28.632943	m i n e
+28.50214	p a p a r a
+29.75996	r a h a
+29.420613	m e t e
+28.443834	k a u a e
+27.770026	p a k e h a
+27.502806	h e r e n i
+27.502806	m a n e n e
+27.502806	t u m e k e
+27.502492	r u i a
+27.165588	m o h i
+31.556718	p e h u
+28.792064	p a N o
+28.187817	m a u i
+27.038939	p e n a
+26.840201	N a N a r a
+26.503297	p a i k e a
+26.503297	r a i t i
+26.388672	p a r a i
+25.840728	m a k a w e
+25.711836	r e i t i
+25.503824	w a i h a N a
+32.186621	f a n a
+26.061939	m a m a o
+25.818366	o a t i
+24.841296	t a i k i
+24.841296	u n i
+24.346262	r a w e k e
+28.773619	m a m a
+26.74945	r o u
+26.698351	p i n e
+25.863391	h o p e
+25.863333	f i a
+25.397984	n i w a
+24.387272	k o N a
+23.808701	h e m o
+23.505006	m a r i n o
+23.505006	t a h a k i
+29.124329	t i r i
+27.559231	a w e
+26.548519	a t e
+24.830592	p e p e
+23.786777	h a r e
+23.179479	t u i a
+22.505671	n e h i
+22.505671	p a r a t a
+22.505671	p o r a k a
+22.168825	m a n a i a
+22.13536	n u i a
+27.790752	k a p e
+23.865046	t a w a
+23.665192	k o h e
+23.319437	a n u
+23.077099	k u t u
+22.180203	h u a k i
+21.843299	k o p o
+21.506395	a k u n i
+21.506395	k e t a
+21.506395	p e r e t i
+21.100829	k i t i
+20.955882	t i m u
+23.69448	m a k o
+23.66552	h u t i
+22.865513	t e N a
+22.071734	h u r e
+21.517897	m u t u a
+20.844089	k o r e a
+20.507185	p u p u r u
+20.406058	p o a i
+23.856039	u e
+22.540861	t i u
+21.997341	w e r e
+21.024023	t i k o
+20.419548	h e t e
+20.182533	w a w e
+19.50805	w e p u
+18.942522	t e r o
+28.596053	t e t e
+23.699969	r o h i
+23.112093	p u r e
+22.050611	k o n a
+21.476311	t i p i
+21.038032	r u i
+19.722687	r a r a u
+19.680672	m a r e
+19.182811	p i r i t i
+18.845907	m o m o r i
+18.731506	k a m a
+18.509391	N a k i
+18.509003	w a t e n e
+18.509003	w o k u
+18.172487	p e n i
+18.172487	t a i e p a
+25.725548	r a h u
+22.563617	m o a
+21.216001	w a r o
+19.194577	n o u
+18.857673	u n a
+18.183865	f a n o
+18.183865	p e p e h a
+17.846961	n a i h i
+17.675961	n a k a
+17.510057	i n e i
+17.140715	m a i r e
+25.207273	r o r e
+23.831947	t o r e
+20.18605	f e t u
+20.041546	a N i
+19.775108	k a h i
+19.207917	r e p o
+19.144552	h i w a
+19.100048	u k a
+18.08818	t i k e
+17.521941	k e h u
+17.461957	r o p i
+17.185682	m a t a t a
+17.185037	m o h o u
+17.098894	t e h e
+17.075596	i n i
+16.511229	e h e a
+16.511229	m a t o u
+16.511229	t u k o h u
+16.062893	f i f i N a
+15.806298	n a h e a
+22.895463	m u
+21.799218	i N o
+20.802629	m i n a
+18.515711	h o N i
+16.523252	w u r u
+16.186348	r e i N a
+16.157383	t u k e
+15.51254	m i n i t i
+15.51254	w a h i e
+18.413269	n i h i
+17.39126	h a m a
+16.872345	m i m i
+15.716234	n a e
+15.46872	r i p o
+15.187825	n a k u a
+15.128788	r i t o
+15.066116	m e r a
+14.850921	h u n e
+14.515027	t a N u r u
+14.514017	a w a u
+14.514017	m e m e h a
+14.514017	p i t i t i
+14.178123	t e r e N a
+14.111654	k a n a t a
+17.898248	r a h o
+17.895445	t o N i
+16.784736	r e f a
+16.547829	k e a
+16.117611	r e k o
+15.878749	m o m i
+15.874021	m o k i
+15.453006	r e m u
+15.43712	t u m a
+14.832523	f e n a
+14.190753	h a h a u
+14.189501	r i a n a
+14.189501	t o t o h u
+13.853849	m a e r o
+13.515693	h o r o i a
+13.515693	o t i i a
+13.114245	k a t e a
+13.085796	n o h o i a
+17.492491	o i
+14.785557	k o p i
+14.763961	f a u
+14.539035	k e k a
+14.088059	r a k e
+13.829921	p e n u
+13.773649	t o p a
+13.531799	m e h a
+13.528323	p o u a
+13.443251	r o n a
+13.191419	N i r a
+12.854515	a i h i
+12.854515	u m e r e
+12.854515	w e w e h i
+12.824402	k i N a
+12.517611	f e o i
+12.517611	f i o r e
+12.517611	h a u p o
+12.517611	m o t a t a u
+12.517611	n e h a
+12.517611	t e n e t i
+12.423045	u r u a
+15.864526	r i p i
+14.226279	o N a
+13.848895	m a h u
+13.211704	h a p e
+13.204348	e h e
+13.204348	t a r o
+12.867444	r i r i k i
+12.532465	p o r o a
+12.53054	k u i h i
+11.86106	r o t a
+11.858657	k e h i
+11.856732	f a N a i a
+11.856732	f e t a i
+11.856732	m a r a m a
+11.856732	m o a r i
+11.856732	u i a
+11.767298	r a o
+11.521753	h a t a
+11.519828	f a e n e
+11.519828	p a k a k e
+11.519828	r a r a p a
+11.519828	t a r a m u
+11.519828	t e k e h i
+11.446205	p a r a k i
+11.104282	t a r e a
+11.09349	u a r a
+15.912883	h o r i
+15.168507	m o r e
+14.483111	o k e
+14.209087	N o t e
+14.181992	r a p i
+13.554555	t u r a
+11.870035	N e r u
+11.538562	h o p i
+11.201658	f a r o
+11.19863	p u i a
+11.196227	u i r a
+10.861726	o h i
+10.859323	p o k o k o
+10.777167	m a t u
+10.524822	f i r a
+10.522419	h e o t i
+10.522419	h e r e N i
+10.522419	k a k a m a
+10.522419	m a h a k i
+10.522419	p i h i N a
+10.522419	w e p u a
+10.187918	r o k o
+15.512892	r u t u
+14.894273	h i h i
+14.249035	h o k a
+14.242144	r i t a
+13.912131	e n e
+13.542245	k i p a
+13.238323	a p u
+13.149069	w e n e
+12.145364	t e f a
+11.883816	u m a
+11.842631	n i a
+11.213036	r u n a
+10.824519	h a k o
+10.797748	p e r u
+10.5362	m a k e t e
+10.5362	t o h e a
+10.487426	r i h a
+10.464932	p o k a i
+10.172598	h a m o
+9.862392	k o r a h a
+9.862392	k o r o i
+9.862392	p u k e N a
+9.780029	w a k e
+9.525488	a u e
+9.525488	h o a r i
+9.525488	k a n a w a
+9.525488	k e k e n o
+9.525488	p a i h i
+9.525488	r e i h i
+9.173588	t u h a
+9.139999	t u p u a
+9.137905	p o i a
+15.595345	h u k i
+14.955126	p a k o
+14.901239	a p o
+13.923509	i p u
+13.194036	h u n u
+12.518323	m u k u
+12.226305	u f i
+12.190913	m o r i
+11.565181	h a r u
+11.561318	r u a k i
+11.552788	k o r u
+10.222584	k a h o
+9.880661	m a e n e
+9.876798	n a p i
+9.539894	k o h u a
+9.488092	k i o
+9.20299	k o r o u
+9.20299	m a u n u
+9.20299	p a k e k e
+9.20299	t a p e p e
+9.151188	h i m u
+8.812379	p a t i a
+8.529182	a r a n i
+8.529182	a w a N a
+8.529182	m a w e
+8.529182	p a h e m o
+8.529182	r u i h i
+8.529182	t u p e k a
+8.20116	N a N a
+12.250367	h a k u
+11.581578	p o n a
+10.880864	f i r o
+10.195961	w e t o
+10.173278	i k e
+9.892039	m i k i
+9.892039	p o N a
+9.836374	k o m o
+9.540648	t i p a
+9.520059	h e r u
+9.218231	a p i t i
+9.196344	m o h o
+8.544423	k a p i t i
+8.544423	p a r e a
+8.522536	k e r a
+8.509347	k i h a
+8.488758	t e n a
+8.207519	m i N a
+8.207519	t a k a o
+8.207519	t a m i
+8.207519	w a t i
+8.185632	t o r o n a
+7.870615	f i k a
+7.870615	k i t i h i
+7.870615	r u k e a
+7.848728	k u p a
+7.533711	k a e N a
+7.533711	k a k a h i
+7.533711	k a t i a
+7.533711	m a t e n e
+7.533711	p a r e N o
+7.533711	p e n e t i
+7.533711	p u n u a
+7.533711	t a p e p a
+7.533711	t o r o m i
+7.533711	w i t a
+7.521027	h a e a
+7.17492	k i r i h i
+7.141142	p u n e
+11.611227	k o p a
+11.599639	r e r a
+9.908436	w a w a
+9.587418	N a r i
+9.56712	p o r e
+8.880312	f e o
+8.567503	r u p e
+8.56082	h a h a
+8.223916	r a k o
+7.902898	t e k i
+7.893695	k i t a
+7.8826	a f i o
+7.556791	m e k a
+7.26297	i t a
+7.213204	N a u a
+7.213204	r e m i
+7.213204	t i t i a
+7.213204	p a p i
+7.195501	k a k a p a
+6.8763	k a r a k i a
+6.8763	k o k o r u
+6.8763	p a e r a
+6.858597	k i r o
+6.539396	h a r i N a
+6.539396	h u a t a
+6.539396	k a e o
+6.539396	k a h i k a
+6.539396	m a r i u
+6.539396	N a e h e
+6.539396	n a p o
+6.539396	n i a o
+6.539396	N o i r o
+6.539396	n o t a
+6.539396	p a e k e
+6.539396	p a h i k a
+6.539396	w e u
+6.521693	m o r o
+6.209175	i n i h i
+6.162397	h a p i
+11.611017	e h u
+10.600305	f e r e
+10.263401	u k u
+9.668359	h i t i
+9.563404	r a m u
+8.90469	r u k e
+8.90469	N a r a
+8.601375	p a k e
+8.588084	r a r i
+7.927567	o k o
+7.905073	p u i
+7.905073	m u r e
+7.878884	n a t i
+7.568169	r a r e
+6.916855	p i o
+6.916855	p e h a
+6.903564	u h u
+6.894361	w a h i n e
+6.894361	k i r a
+6.557457	k a k a u
+6.557457	k i k i r i
+6.220553	k a r i h i
+6.194364	w a w a o
+5.962415	n e a
+5.906143	t a u n u
+5.892852	t a k i n a
+5.883649	f a k i n a
+5.883649	k e r i a
+5.883649	n i k a
+5.883649	p a r a n i
+5.883649	t a p u a
+5.883649	t a r a p u
+5.546745	f a m a
+5.546745	h a k e k e
+5.546745	k a r a n i
+5.546745	m a k a i
+5.546745	n a n a o
+5.546745	p a i a r e h e
+5.546745	p i r i N i
+5.546745	p u n a N a
+5.546745	r e r e a
+5.546745	t a u i
+5.546745	t i n e i a
+5.546745	t i n i h a N a
+5.546745	t o k a N a
+5.546745	u f a
+5.546745	w e h e N a
+14.697614	w a r a
+11.968502	r u r e
+11.631889	f a k i
+10.634177	n a h a
+9.610174	N a o
+9.342833	o k a
+8.97234	t i m o
+8.949657	r e p a
+8.936657	h e w a
+8.635436	N o h e
+8.599462	w e k a
+8.298532	k e t u
+7.938945	r u k i
+7.925945	t i f a
+7.28782	t a p i
+6.914942	k u m u
+6.614012	p o k e
+6.578038	n o k e
+6.241425	p o r a
+6.241134	r a r a h i
+6.241134	t a t a k i
+6.241134	w i t i
+6.241134	e k i
+5.90423	m a r i
+5.567617	t a p o k o
+5.567326	t a i r i
+5.567326	r o m a
+5.266396	p u h a
+5.230422	a i o
+5.230422	h o n e
+5.230422	k a n a e
+5.230422	m a r i r e
+5.230422	p o k e a
+5.230422	h o u r a
+4.929492	t a h e
+4.906809	h o a k e
+4.906809	k o t a
+4.893809	p o h a n e
+4.893518	a r u h e
+4.893518	m a i k i
+4.893518	n o n o h i
+4.893518	w e n a
+4.569905	a f a
+4.556905	f a i n a
+4.556614	e r u
+4.556614	f a e
+4.556614	k i r e
+4.556614	m a n i a
+4.556614	m a p i
+4.556614	o h o N a
+4.556614	p a n a n a
+4.556614	p a r a u r i
+4.556614	p a r o r e
+4.556614	p a t a N a
+4.556614	p i k a u
+4.556614	p i k i a
+4.556614	p o h u
+4.556614	r i t i
+4.556614	r i w a
+4.556614	t a r a h a e
+4.556614	t o k e n a
+4.556614	t u t a
+3.91878	k a n u
+7.297104	n o n o
+6.265803	t o t e
+6.265803	h e m a
+5.681856	w e k e
+5.591995	e N a
+4.918187	k o n i
+4.601872	o r o k o
+4.581283	p a r e r a
+4.581283	t a k a i
+4.581283	t a p u h i
+4.581283	t i m a
+4.264968	i N a
+4.264968	m a t a r a
+4.244379	N a i o
+4.244379	p a r a k a
+4.244379	t e t e r e
+4.244379	t u r u k i
+4.244379	k u m i
+4.244379	n e k o
+4.244379	N o t a
+4.244379	t a e r a
+3.907475	a i h e
+3.907475	h a e a t a
+3.907475	h i h i r i
+3.907475	k a r o a
+3.907475	k u h u a
+3.907475	m a r i a
+3.907475	m a u k u
+3.907475	m o n i t a
+3.907475	m o r o k i
+3.907475	p a o k a
+3.907475	p a r a i h e
+3.907475	p o k a i n a
+3.907475	r i p e n e
+3.626843	f a n a k e
+3.59116	h o r a p a
+3.570571	a h a h a
+3.570571	a n a N a
+3.570571	f a t a r a N i
+3.570571	h a p o r i
+3.570571	k a r a w a
+3.570571	k a r o r e
+3.570571	k e N e
+3.570571	k e r e w a
+3.570571	k o r a u
+3.570571	m a m a h a
+3.570571	m a r e t i
+3.570571	n a n a h i
+3.570571	n i h a
+3.570571	p o p a
+3.570571	p u r o t u
+3.570571	r u h a
+3.570571	t a p u i
+3.570571	u k u i a
+3.570571	w a i n a
+3.25635	k o m e
+6.670357	r o h a
+6.634674	n a o
+6.333453	m u m u
+6.29777	a t o
+5.960866	h a n e
+5.693234	i n e
+5.693234	m u i
+5.623962	t a k o
+4.950154	p a e a
+4.682522	n u m i
+4.61325	f a f a
+4.61325	f i t a
+4.345618	u k i
+3.975125	r a t o
+3.939442	f e n u
+3.939442	f i u a
+3.939442	n i n i
+3.939442	N o r e
+3.602538	m a k u r u
+3.602538	t a r a i a
+3.602538	n a h o
+3.265634	a n i n i
+3.265634	k o e k a
+3.265634	t a o n a
+3.265634	u k e
+3.265634	k i m o
+2.964413	a h u r u
+2.92873	e t i t a
+2.92873	k a u N a
+2.92873	m a i n a
+2.92873	N a h u r u
+2.92873	N a N a h u
+2.92873	p e i r a
+2.92873	p e r e k i
+2.92873	p u t u a
+2.92873	r a n a
+2.92873	r o t i
+2.92873	t a i k a
+2.92873	t a k e k e
+2.92873	t a m a h i n e
+2.92873	t i m i
+2.92873	r a i h i
+2.661098	m a e
+2.661098	m i N i
+2.627509	r a o a
+2.591826	f a o n a
+2.591826	h e i h a n a
+2.591826	h i a N a
+2.591826	k a f i
+2.591826	k a m e t a
+2.591826	k a p u n i
+2.591826	k o f a k i
+2.591826	k o k a k o
+2.591826	k o r i h i
+2.591826	k o r o p a
+2.591826	k u p a e
+2.591826	m a i p i
+2.591826	m a n i n i
+2.591826	m e r e n i
+2.591826	m o k a i
+2.591826	m u r u N a
+2.591826	N a e r e
+2.591826	N u h a
+2.591826	p a r e h e
+2.591826	p o t a e a
+2.591826	r a k a i n a
+2.591826	r a n u i
+2.591826	r a w a k a
+2.591826	r e i n a
+2.591826	r e m e
+2.591826	t a p u a e
+2.591826	t a r a t a
+2.591826	t e r e i
+2.591826	t i a r e
+2.591826	t o m a
+2.591826	t u k u n a
+2.591826	w a h a N a
+2.591826	w e r a N a
+2.324194	k o t o
+1.98729	w a n a N a
+14.430527	e p a
+7.692447	k o k i
+7.355543	n e n e
+7.052228	p e h i
+7.018639	p o a
+6.37842	u N a
+6.007927	N o N o
+5.671023	t e r i
+5.671023	t e k e
+5.367708	r o k i
+5.367708	r o m i
+5.334119	p o h e
+4.997215	n a k u
+4.323407	h o t o
+4.020092	t u N a
+4.020092	w e t a
+3.986503	e w e
+3.986503	m a p u
+3.986503	m i o
+3.683188	w e r u
+3.649599	t a u t e
+3.649599	h e n i
+3.649599	k a k u
+3.649599	n u k e
+3.346284	r i k o
+3.312695	t a i k o
+3.312695	n o n e
+3.312695	N o u
+3.00938	n i t i
+2.975791	k e k o
+2.975791	p i o i
+2.975791	k a i a
+2.975791	w e k u
+2.975791	k o e a
+2.975791	t o n e
+2.672476	p a r o
+2.638887	p a r o r i
+2.638887	r a t i
+2.638887	w e w e
+2.638887	h u k e
+2.638887	k a e a
+2.638887	m e m e
+2.638887	m i k o
+2.335572	h o N a
+2.335572	f e N u
+2.335572	n o h u
+2.335572	r o k e
+2.301983	a r i a
+2.301983	h o a t a
+2.301983	h u r i a
+2.301983	k a n a p a
+2.301983	p a r i a
+2.301983	p i u a
+2.301983	r i p i a
+2.301983	r u r u k u
+2.301983	t a o r a
+2.301983	t a r a k i
+2.301983	w e a
+2.301983	k a r a t i
+2.301983	n a h e
+2.301983	N a h u
+2.301983	N a k u
+2.301983	N i h a
+2.301983	p e i a
+1.998668	a p i
+1.998668	h o r u
+1.998668	p o N i
+1.965079	e h u N a
+1.965079	k a r a p a
+1.965079	k a t e n e
+1.965079	k a u i
+1.965079	m a t i k a
+1.965079	m o t e
+1.965079	N a h u a
+1.965079	N a p u
+1.965079	o p a
+1.965079	p a p a p a
+1.965079	p a r a h a
+1.965079	p u n e N a
+1.965079	r e f e
+1.965079	r e h i a
+1.965079	r o t u
+1.965079	t a r e k a
+1.965079	t e m e
+1.965079	t e r e a
+1.965079	t i o k a
+1.965079	t o h i p a
+1.965079	t u e k e
+1.965079	h a n a r a
+1.965079	k a u k a
+1.965079	k o a u
+1.965079	o r e a
+1.965079	r u p i
+1.661764	f a N o
+1.661764	n o i
+1.661764	f e k u
+1.661764	h o n u
+1.661764	k e m o
+1.628175	a h e i a
+1.628175	a N a N a
+1.628175	a o N a
+1.628175	a r o a
+1.628175	f a i a o
+1.628175	f a n a t u
+1.628175	f u r u t u
+1.628175	h a h a o
+1.628175	h a h a r i
+1.628175	h a h u
+1.628175	h a h u N a
+1.628175	h i a k o
+1.628175	h u k e a
+1.628175	h u r a i n a
+1.628175	i r i N a
+1.628175	k a h u k i
+1.628175	k a p a n a
+1.628175	k a p u N a
+1.628175	k i k i k i
+1.628175	k o n a k a
+1.628175	k u r u k i
+1.628175	m a h u h u
+1.628175	m a i k a
+1.628175	m e r e N i
+1.628175	n a n a t i
+1.628175	N a r o a
+1.628175	N a t a r i
+1.628175	n i k i
+1.628175	n u n u m i
+1.628175	o h i a
+1.628175	o h o u
+1.628175	o m e k a
+1.628175	p a p u
+1.628175	p a r a m u
+1.628175	p a r a r e
+1.628175	p u a N a
+1.628175	p u k a n a
+1.628175	p u r i n i
+1.628175	r a r a k a
+1.628175	r o h e N a
+1.628175	t a a r a
+1.628175	t a i n a h i
+1.628175	t a k e o
+1.628175	t a p a i
+1.628175	t a r a w a
+1.628175	t a u r u
+1.628175	t i o k e
+1.628175	t o p e N a
+1.628175	t u m e r a
+1.628175	u h a
+1.628175	u r a N a
+1.628175	w o n a
+1.32486	m i h i a
+1.32486	N a h e
+1.32486	N o r i
+1.32486	r e k i
+8.074318	f e t e
+7.063606	n i f a
+6.389798	u t e
+5.71599	n a t u
+5.379086	e r o
+4.705278	f e t a
+4.368374	r o k u
+4.03147	h a n i
+4.03147	m e N e
+3.694566	n a w a
+3.694566	r e t e
+3.357662	r i f a
+3.357662	a n i
+3.357662	n o t i
+3.020758	o i o i
+3.020758	h e N a
+3.020758	t u t e
+3.020758	k o k e
+2.683854	m i h a
+2.683854	w e i
+2.683854	k e o
+2.34695	n e n e h u
+2.34695	t i n e i
+2.34695	k u h a
+2.34695	p e w a
+2.34695	r e t o
+2.34695	m u n a
+2.34695	r o r a
+2.010046	a u r u
+2.010046	h o h o r o
+2.010046	k o p e n u
+2.010046	m a u r u
+2.010046	N a f a
+2.010046	t a i r a N a
+2.010046	h o t a
+2.010046	m i r u
+2.010046	n a k e
+2.010046	p e h o
+1.673142	a h a r a
+1.673142	a i t u
+1.673142	a t e a
+1.673142	h a h a n i
+1.673142	h e i a
+1.673142	h o N e
+1.673142	h o r o a
+1.673142	k a k a o
+1.673142	k u m e a
+1.673142	n o n o k e
+1.673142	N u N u
+1.673142	o r u a
+1.673142	r e i t a
+1.673142	t a n u k u
+1.673142	t o t a
+1.673142	t u a k i
+1.673142	w e h e a
+1.673142	a N o
+1.673142	e t e
+1.673142	h e m i
+1.673142	k e w a
+1.673142	m a N e
+1.673142	t o t i
+1.336238	a r i h i
+1.336238	h a k i n a
+1.336238	h a r o r e
+1.336238	h e u a
+1.336238	k a m e
+1.336238	k o e m i
+1.336238	k o h i k a
+1.336238	m a t a i
+1.336238	p a w a
+1.336238	p e r e i
+1.336238	p i r a
+1.336238	p o n u
+1.336238	t a p e h a
+1.336238	t i e k e
+1.336238	t o e a
+1.336238	t o u a
+1.336238	t u t e a
+1.336238	u n a h i
+1.336238	u t o
+1.336238	h a r a u
+1.336238	m e h o
+1.336238	n a n e
+1.336238	w a k i
+0.999334	a r e a
+0.999334	a u h i
+0.999334	e h u a
+0.999334	f u r u
+0.999334	h u h i
+0.999334	h u n u a
+0.999334	k a r a e
+0.999334	k a r a i t i a n a
+0.999334	k e r e p e
+0.999334	k i t e a
+0.999334	m a h e n o
+0.999334	m a k e r e
+0.999334	m a n a n a
+0.999334	N a N a r e
+0.999334	n e k e a
+0.999334	p a r a r a
+0.999334	p e n u a
+0.999334	p i r i t a
+0.999334	p u k a h u
+0.999334	r i r i k a
+0.999334	t i a k a
+0.999334	t i k i a
+0.999334	t u h e n e
+0.999334	w a w a u
+0.999334	w i h i
+0.66243	a m a r u
+0.66243	a r a k i
+0.66243	f a n a N a
+0.66243	f e i N a
+0.66243	f e o r o
+0.66243	h a k e n a
+0.66243	h a p a i a
+0.66243	h e p a
+0.66243	h e r u a
+0.66243	h i k i n a
+0.66243	h i n o
+0.66243	h i r a k a
+0.66243	h o h o k i
+0.66243	h o k i o i
+0.66243	i o k a
+0.66243	k a n e i
+0.66243	k a p e a
+0.66243	k a p o a
+0.66243	k a r o r i
+0.66243	k o e t i
+0.66243	k o h u N a
+0.66243	k o k o e a
+0.66243	k o u N a
+0.66243	k u p i
+0.66243	m a e a
+0.66243	m a e h e
+0.66243	m a h o
+0.66243	m a i e a
+0.66243	m a k e n u
+0.66243	m a m a k u
+0.66243	m a N i
+0.66243	m a r a k e
+0.66243	m a r e w a
+0.66243	n a i a n e i
+0.66243	N a k i N a
+0.66243	N a t e
+0.66243	n a t i a
+0.66243	N e N e r e
+0.66243	n o h o a
+0.66243	N o N o r o
+0.66243	o r i t e
+0.66243	p a h i k e t e
+0.66243	p a k e r e
+0.66243	p a k o h e
+0.66243	p a N u
+0.66243	p a p u a
+0.66243	p a r a i a
+0.66243	p a r e t i
+0.66243	p e h e
+0.66243	p e p e a
+0.66243	p o a t a
+0.66243	p o p o t o
+0.66243	p o r o k a
+0.66243	p u a k a
+0.66243	r a f i t i
+0.66243	r a i r a k a
+0.66243	r a p a i a
+0.66243	r a p a k i
+0.66243	r e r e w e
+0.66243	r o N a
+0.66243	r o r o i
+0.66243	r o t u a
+0.66243	t a i o h i
+0.66243	t a o k i
+0.66243	t i r i k i
+0.66243	t i t o i
+0.66243	t o h i t o
+0.66243	t u h i a
+0.66243	t u k e a
+0.66243	t u p e a
+0.66243	t u r u t u
+0.66243	w a h u
+0.66243	w a w a r a
+0.66243	w i h i k i
+0.66243	w u r u h i
+10.444024	k i n i
+7.074984	k o n u
+6.73808	r a n u
+5.727368	a f e
+5.727368	h o h e
+5.390464	w a n i
+5.05356	N o r u
+5.05356	o n i
+4.716656	f a r u
+4.716656	m u h u
+4.379752	n a n u
+4.379752	r e p e
+4.379752	h e k a
+4.379752	m i N o
+4.042848	k o p u
+4.042848	t e p e
+4.042848	h a w a
+4.042848	h o n i
+4.042848	h e N i
+4.042848	n e f a
+4.042848	N e n e
+4.042848	N e o
+3.705944	N a e
+3.705944	h u m u
+3.705944	t e N i
+3.705944	u p a
+3.36904	r a f i
+3.36904	i k i
+3.36904	k u n e
+3.36904	i p o
+3.36904	k a w i
+3.032136	h o h o
+3.032136	p o r i
+3.032136	h e t i
+3.032136	h e k o
+3.032136	k a n e
+3.032136	N u n u
+2.695232	a r a i
+2.695232	i h e
+2.695232	r i f i
+2.695232	m i k u
+2.695232	N a h a
+2.695232	N e i
+2.695232	N u e
+2.695232	t a m u
+2.358328	p o k e r e
+2.358328	k o p e
+2.358328	m o i
+2.358328	N a N e
+2.358328	n o p e
+2.358328	p o t a
+2.358328	r i p a
+2.358328	t u f a
+2.358328	h e n e
+2.358328	N o N e
+2.358328	r e u
+2.358328	t i N o
+2.021424	a m i o
+2.021424	m a u r i
+2.021424	n a p e
+2.021424	t a f a
+2.021424	t a r i a
+2.021424	t i n a k u
+2.021424	t o t o r o
+2.021424	f a f e
+2.021424	i t o
+2.021424	m e r o
+2.021424	p o n i
+2.021424	r u r i
+2.021424	t a f i
+2.021424	t e o
+2.021424	f e n e
+2.021424	k e h a
+2.021424	k e h o
+2.021424	k i t o
+2.021424	k u h i
+2.021424	m e t o
+2.021424	N e h e
+2.021424	n e w a
+2.021424	r u e
+2.021424	r u k a
+2.021424	o m o
+2.021424	p e t u
+2.021424	r i o
+2.021424	u t i
+1.68452	k e k e r e
+1.68452	k o h u k i
+1.68452	m a h a N a
+1.68452	m a N o
+1.68452	m o m o t u
+1.68452	N e N e
+1.68452	N o h i
+1.68452	n o n i
+1.68452	p a t u a
+1.68452	p e t o
+1.68452	p o h e w a
+1.68452	r a h u a
+1.68452	t a t a i
+1.68452	t a t a r a
+1.68452	t i t i n a
+1.68452	t o r o a
+1.68452	e k o
+1.68452	f a n e
+1.68452	f e f e
+1.68452	h o p o
+1.68452	k e r o
+1.68452	k u k a
+1.68452	N a f i
+1.68452	N i o
+1.68452	N i t a
+1.68452	N o N i
+1.68452	p a h o
+1.68452	t e t e a
+1.68452	f e k o
+1.68452	N o t o
+1.68452	N o t u
+1.347616	e r i
+1.347616	h a k u r e
+1.347616	h a o a
+1.347616	h i a p o
+1.347616	h i e
+1.347616	h o a i n a
+1.347616	h o k u
+1.347616	k a w e a
+1.347616	k o f a i
+1.347616	k o k i r o
+1.347616	k o r e p e
+1.347616	k o r o a
+1.347616	k u e n e
+1.347616	m a h e n i
+1.347616	m a m a h u
+1.347616	m a o a
+1.347616	m e m e n e
+1.347616	p a h a
+1.347616	p a h e k o
+1.347616	p a i a
+1.347616	p a r u a
+1.347616	p e a u
+1.347616	r e i a
+1.347616	r o p e
+1.347616	r o r o a
+1.347616	t a m e m e
+1.347616	t a p o n a
+1.347616	t o r e a
+1.347616	u p e
+1.347616	a m i
+1.347616	e o
+1.347616	e t i
+1.347616	h i p o
+1.347616	h u m e
+1.347616	k u t e
+1.347616	m o h e
+1.347616	n a h i
+1.347616	N e k i
+1.347616	N e t e
+1.347616	n o k o
+1.347616	o f a
+1.347616	o N e
+1.347616	p a p e
+1.347616	p e h i a
+1.347616	p e r o
+1.347616	p o h a
+1.347616	t a m o
+1.347616	t a N e
+1.347616	t i n e
+1.347616	h a h o
+1.347616	h a N o
+1.347616	i t a r i a n a
+1.347616	N e N a
+1.347616	n i n a
+1.347616	N i r u
+1.347616	n i t a
+1.347616	t u N u
+1.010712	a f e a
+1.010712	a u a h i
+1.010712	f a f a u
+1.010712	f a N a a
+1.010712	f a r a r a
+1.010712	f a r i t e
+1.010712	f e n e k i
+1.010712	f e r e a
+1.010712	f e r e r e i
+1.010712	f e t i
+1.010712	f i f i t a
+1.010712	h a h a k e
+1.010712	h a h a k i
+1.010712	h a n u m i
+1.010712	h e h e N i
+1.010712	h o k a i
+1.010712	h o r e a
+1.010712	h u h u a
+1.010712	h u h u n u
+1.010712	i m u
+1.010712	i n a t i
+1.010712	i r i a
+1.010712	k a e
+1.010712	k a h a k i
+1.010712	k a k a n o
+1.010712	k a k a r a
+1.010712	k a r a m u
+1.010712	k a r e a
+1.010712	k a u t a u
+1.010712	k a w a k a
+1.010712	k e h e
+1.010712	k e t i
+1.010712	k i a t o
+1.010712	k o i r o
+1.010712	k o m a
+1.010712	k o u e
+1.010712	k o u n u
+1.010712	k u a r a
+1.010712	k u m a r a
+1.010712	k u r u a
+1.010712	m a i t i
+1.010712	m a k a k a
+1.010712	m a m a t i
+1.010712	m a m a u
+1.010712	m a o k a
+1.010712	m a o t a
+1.010712	m a r u r e
+1.010712	m a t i t i
+1.010712	m e t a
+1.010712	m i n a k a
+1.010712	m o h o a
+1.010712	m o r e a
+1.010712	m u h a
+1.010712	n a h u a
+1.010712	n a n a i
+1.010712	n a n a u
+1.010712	n a n i
+1.010712	N a N i
+1.010712	N e r i
+1.010712	n o n o i
+1.010712	n o n o t i
+1.010712	o p e t i
+1.010712	p a k i n a
+1.010712	p a n o n i
+1.010712	p a o e
+1.010712	p a o i
+1.010712	p a p a r e
+1.010712	p a p a t u
+1.010712	p a r a h i
+1.010712	p a w e
+1.010712	p a w e r o
+1.010712	p i n e a
+1.010712	p i n i
+1.010712	p i r a r a
+1.010712	p o N e r e
+1.010712	r a p e
+1.010712	r a r a k u
+1.010712	r a w e a
+1.010712	r e a r e a
+1.010712	r e r e h u
+1.010712	r e r e w a
+1.010712	r e t u a
+1.010712	r o r i a
+1.010712	r o r o h u
+1.010712	r u r e a
+1.010712	t a k u n e
+1.010712	t a m i r o
+1.010712	t a t e a
+1.010712	t a u r i
+1.010712	t i t i t i
+1.010712	t o h u a
+1.010712	t o k a i
+1.010712	t o p e a
+1.010712	t o r o r e
+1.010712	t o t a r a
+1.010712	t o t o a
+1.010712	t u a N i
+1.010712	t u r u a
+1.010712	u p a u p a
+1.010712	u t u a
+1.010712	w a h a a
+1.010712	w a i u
+1.010712	w a w a e
+1.010712	w i r i a
+1.010712	h e h a
+1.010712	h o n o a
+1.010712	i r e
+1.010712	k a m i
+1.010712	k e N o
+1.010712	k i h u
+1.010712	k i u
+1.010712	k o t e
+1.010712	m e t i
+1.010712	m o n e
+1.010712	m o u a
+1.010712	N a k e
+1.010712	n a p a
+1.010712	N a u e
+1.010712	N a w i
+1.010712	N e a
+1.010712	N e r o
+1.010712	N o e
+1.010712	o h e
+1.010712	p e o
+1.010712	p u p u h a
+1.010712	r e h o
+1.010712	r u h e
+1.010712	t a f e
+1.010712	t a t e
+1.010712	t a w e
+1.010712	t e w e
+1.010712	w e k i
+1.010712	w e k o
+0.673808	a n e a
+0.673808	a p o a
+0.673808	a t i t i
+0.673808	a t i u
+0.673808	a u a r e
+0.673808	a w e k e
+0.673808	a w e k o
+0.673808	e m e
+0.673808	e t o
+0.673808	f a f a i
+0.673808	f a f a t i
+0.673808	f a i n e
+0.673808	f a N a i
+0.673808	f a n u i
+0.673808	f a r i
+0.673808	f e k i
+0.673808	f e t a u
+0.673808	f e t e N i
+0.673808	f e t o
+0.673808	f i f i f i
+0.673808	f i t i a
+0.673808	h a k o k o
+0.673808	h a N a a
+0.673808	h a N a i
+0.673808	h a n u
+0.673808	h a r a k i
+0.673808	h a r a r e
+0.673808	h a u p a
+0.673808	h a u r a
+0.673808	h a w a i k i
+0.673808	h a w e n e
+0.673808	h e h e
+0.673808	h e k i
+0.673808	h e m o a
+0.673808	h e n u m i
+0.673808	h i k a w e
+0.673808	h i k o i
+0.673808	h i w a i
+0.673808	h o n a
+0.673808	h o n i a
+0.673808	h o r i a
+0.673808	h u e n e
+0.673808	h u k u
+0.673808	i a n a
+0.673808	i e r e
+0.673808	i h a
+0.673808	i n a k i
+0.673808	i n a N a
+0.673808	i n o h i
+0.673808	i o i o
+0.673808	k a f a k i
+0.673808	k a f e
+0.673808	k a f e n a
+0.673808	k a h o r e
+0.673808	k a i k a
+0.673808	k a k a r e
+0.673808	k a k a r u
+0.673808	k a k a w a
+0.673808	k a n o i
+0.673808	k a n o t i
+0.673808	k a r a n e t e
+0.673808	k a r i a
+0.673808	k a r i p i
+0.673808	k a r o r o
+0.673808	k a r u r e
+0.673808	k a t i k i
+0.673808	k a u a f i
+0.673808	k a u t o
+0.673808	k e i a
+0.673808	k e t o
+0.673808	k e u
+0.673808	k i f i
+0.673808	k i k i w i
+0.673808	k i p i
+0.673808	k i r e a
+0.673808	k o e r e
+0.673808	k o e r o
+0.673808	k o f a o
+0.673808	k o h e i
+0.673808	k o h i a
+0.673808	k o i r e
+0.673808	k o k i r i
+0.673808	k o k o h u
+0.673808	k o k o i
+0.673808	k o m o u
+0.673808	k o n a n u
+0.673808	k o n i h i
+0.673808	k o r a N a
+0.673808	k o r o n i
+0.673808	k o u r e
+0.673808	k u f a
+0.673808	k u n a
+0.673808	k u p e N a
+0.673808	k u r e
+0.673808	k u r e p e
+0.673808	m a e k o
+0.673808	m a h e
+0.673808	m a h e r e
+0.673808	m a h e u
+0.673808	m a h i n e
+0.673808	m a h i r i
+0.673808	m a n a h a
+0.673808	m a n e a
+0.673808	m a r a N a i
+0.673808	m a r u a
+0.673808	m a t a k i
+0.673808	m a t a N a
+0.673808	m a t u k u
+0.673808	m e m e k e
+0.673808	m e m e N e
+0.673808	m i n a i a
+0.673808	m i n o
+0.673808	m i r e
+0.673808	m i t i a
+0.673808	m o h u
+0.673808	m o m o k a
+0.673808	m o m o t o
+0.673808	m o n i a
+0.673808	m o n o a
+0.673808	m o n o w a
+0.673808	m o r u
+0.673808	m o r u a
+0.673808	m u h a n i
+0.673808	n a i t i
+0.673808	n a n o
+0.673808	n a n u a
+0.673808	n a p u
+0.673808	N a r u a
+0.673808	n a t u a
+0.673808	N a w a r i
+0.673808	n e i t i
+0.673808	n o h e a
+0.673808	n o k a
+0.673808	N o t e a
+0.673808	n o t i a
+0.673808	n u n u
+0.673808	N u t u a
+0.673808	o k e a
+0.673808	o r a N a
+0.673808	o w a
+0.673808	p a f i r i
+0.673808	p a i k a
+0.673808	p a i N a
+0.673808	p a k a r a
+0.673808	p a k a u
+0.673808	p a k e k a
+0.673808	p a k i a
+0.673808	p a k i n i
+0.673808	p a k i r i
+0.673808	p a k o k i
+0.673808	p a n a a
+0.673808	p a n o k o
+0.673808	p a o w e
+0.673808	p a r a N a
+0.673808	p a r a r i
+0.673808	p a r u r e
+0.673808	p e k a i a
+0.673808	p e p e k e
+0.673808	p e p e r e
+0.673808	p e r e a
+0.673808	p e r e i n a
+0.673808	p e r e r u
+0.673808	p e r i
+0.673808	p e t a u
+0.673808	p i h a N a
+0.673808	p i h o
+0.673808	p i h o p a
+0.673808	p i k a
+0.673808	p i p i r o
+0.673808	p i r a u
+0.673808	p i r o a
+0.673808	p o a i n a
+0.673808	p o a u
+0.673808	p o k i a
+0.673808	p o N i a
+0.673808	p o p o p o
+0.673808	p o p o r e
+0.673808	p o p o r o
+0.673808	p o r e k u
+0.673808	p u h a u
+0.673808	p u n u
+0.673808	p u p u k u
+0.673808	p u p u n i
+0.673808	p u p u t u
+0.673808	p u r a N a
+0.673808	p u t e
+0.673808	r a f i a
+0.673808	r a i a
+0.673808	r a i h a
+0.673808	r a i n a
+0.673808	r a k e a
+0.673808	r a n u a
+0.673808	r a p i a
+0.673808	r a p o i
+0.673808	r a r a p i
+0.673808	r a r e a
+0.673808	r a r u a
+0.673808	r a t o a
+0.673808	r a u N a
+0.673808	r a u r i
+0.673808	r e h u a
+0.673808	r e k u
+0.673808	r e p e r a
+0.673808	r i a k i
+0.673808	r i k o n a
+0.673808	r i n i
+0.673808	r i p o a
+0.673808	r i t e N a
+0.673808	r i t u a
+0.673808	r o a k a
+0.673808	r o a u
+0.673808	r o n i
+0.673808	r o r e a
+0.673808	r o u a
+0.673808	r u a o
+0.673808	r u a w a i
+0.673808	r u r u t u
+0.673808	r u t i k i
+0.673808	t a f a N a
+0.673808	t a f a r a
+0.673808	t a h a e
+0.673808	t a h a N a
+0.673808	t a i N a
+0.673808	t a i o
+0.673808	t a k a a
+0.673808	t a r a N a
+0.673808	t a r e k e
+0.673808	t a t a r e
+0.673808	t a u r a
+0.673808	t a u t a
+0.673808	t a u t i
+0.673808	t a w a i
+0.673808	t e p e a
+0.673808	t e r e p u
+0.673808	t i N a
+0.673808	t i o r a
+0.673808	t i r a u
+0.673808	t i t o N a
+0.673808	t i u t i
+0.673808	t o p u
+0.673808	t o r e k e
+0.673808	t o r o u k a
+0.673808	t o t o h e
+0.673808	t o t o h i
+0.673808	t o t o i
+0.673808	t u a i
+0.673808	t u k i a
+0.673808	t u p a
+0.673808	t u p a n a
+0.673808	t u t a e
+0.673808	t u t a N a t a N a
+0.673808	t u t u k i
+0.673808	t u t u r u
+0.673808	u e a
+0.673808	u h o
+0.673808	u N a a
+0.673808	u n a k a
+0.673808	u r u h i
+0.673808	w a e r e
+0.673808	w a u a
+0.673808	w e r e a
+0.673808	w e t e a
+0.673808	w i w i
+0.673808	a n e
+0.673808	a u t a
+0.673808	e p e
+0.673808	e w a
+0.673808	f a N e
+0.673808	f e k a
+0.673808	f e N o
+0.673808	h a N e
+0.673808	h o k e
+0.673808	h o n e a
+0.673808	h u h u k a
+0.673808	i k o
+0.673808	i k u
+0.673808	i n o
+0.673808	k a h e
+0.673808	k a r e h u
+0.673808	k e n o
+0.673808	k o n e
+0.673808	k u a w a
+0.673808	m a r i N a
+0.673808	m a r u r u
+0.673808	m e n o
+0.673808	m o N a
+0.673808	m o u N a
+0.673808	m u k i
+0.673808	N e h i
+0.673808	n e k u
+0.673808	N e t a
+0.673808	N e t u
+0.673808	N o h o
+0.673808	N o h u
+0.673808	N o i o
+0.673808	N o r o
+0.673808	N u r e
+0.673808	p a r a h e
+0.673808	p a r e N a
+0.673808	p i f i
+0.673808	p i w a
+0.673808	p o n e
+0.673808	p o t u
+0.673808	r a h e
+0.673808	r e m o
+0.673808	r e N o
+0.673808	r o r u
+0.673808	t a w i
+0.673808	t e h o
+0.673808	t e m o
+0.673808	t e n o
+0.673808	t i a m u
+0.673808	t o p i
+0.673808	t u k a
+0.673808	u a N a
+0.673808	u N u
+0.673808	w a t e
+0.336904	a e h a
+0.336904	a f i f i
+0.336904	a h a e
+0.336904	a h a k u
+0.336904	a h a n a
+0.336904	a h e i
+0.336904	a h e u
+0.336904	a h u N a
+0.336904	a i h u
+0.336904	a i i i
+0.336904	a i n a
+0.336904	a i N a
+0.336904	a k i k o
+0.336904	a k o n a
+0.336904	a m a i a
+0.336904	a m e n e a
+0.336904	a m i n e a
+0.336904	a m i n o
+0.336904	a m o a
+0.336904	a n a n a
+0.336904	a n a r a
+0.336904	a n a u
+0.336904	a N e a
+0.336904	a n i n a
+0.336904	a N i t u
+0.336904	a N o r e
+0.336904	a n u h e
+0.336904	a o p o r i
+0.336904	a p a e
+0.336904	a p a i
+0.336904	a p e
+0.336904	a p e r e
+0.336904	a p o i a
+0.336904	a p u a
+0.336904	a r a k a
+0.336904	a r a N i
+0.336904	a r a u
+0.336904	a r e i N a
+0.336904	a r i N a
+0.336904	a r o r o
+0.336904	a r u r e
+0.336904	a t a N a
+0.336904	a t i r u
+0.336904	a t o a
+0.336904	a u f i
+0.336904	a u i n a
+0.336904	a u r a k i
+0.336904	a u r i
+0.336904	a u t o
+0.336904	a w a i
+0.336904	a w a i h o
+0.336904	a w e a
+0.336904	a w e k a
+0.336904	a w e r e
+0.336904	e a e a
+0.336904	e a o i a
+0.336904	e h a k e
+0.336904	e h i n u
+0.336904	e k u
+0.336904	e m o h i
+0.336904	e N a i o
+0.336904	e n a N a
+0.336904	e N e
+0.336904	e n e a
+0.336904	e N i
+0.336904	e p a i a
+0.336904	e p a r e h i
+0.336904	e r e a
+0.336904	e r e m a
+0.336904	e r o a
+0.336904	e t e a
+0.336904	f a f e a
+0.336904	f a i h a N a
+0.336904	f a k a a r i
+0.336904	f a k a r u a
+0.336904	f a k i a
+0.336904	f a k o u
+0.336904	f a n a u a
+0.336904	f a n o a
+0.336904	f a n o k e
+0.336904	f a n o N a
+0.336904	f a p u
+0.336904	f a r a N i
+0.336904	f a t a a
+0.336904	f a t i a
+0.336904	f a t i t i r i
+0.336904	f a t o
+0.336904	f a t o r o
+0.336904	f a u a
+0.336904	f e a o
+0.336904	f e a u
+0.336904	f e f e i
+0.336904	f e f e N i
+0.336904	f e i
+0.336904	f e i n u
+0.336904	f e N i
+0.336904	f e N u a
+0.336904	f e p u
+0.336904	f e r e i
+0.336904	f e r u
+0.336904	f e t e a
+0.336904	f e t e k e
+0.336904	f e t o k i
+0.336904	f i f i u
+0.336904	f i k a i a
+0.336904	f i n a
+0.336904	f i r o i a
+0.336904	f i t o
+0.336904	f o n o
+0.336904	h a h a k a
+0.336904	h a i a
+0.336904	h a k a a
+0.336904	h a k e a
+0.336904	h a k e k a
+0.336904	h a k e r e
+0.336904	h a k u k u
+0.336904	h a m a i a
+0.336904	h a m o a
+0.336904	h a m u a
+0.336904	h a N a i a
+0.336904	h a n a k e
+0.336904	h a N a N a
+0.336904	h a N a t a
+0.336904	h a N e r e
+0.336904	h a n i a
+0.336904	h a N i n a
+0.336904	h a N o N i
+0.336904	h a N o r o
+0.336904	h a N u t u
+0.336904	h a o n a
+0.336904	h a p a r a
+0.336904	h a p e a
+0.336904	h a p u r u
+0.336904	h a p u t a
+0.336904	h a r a n u
+0.336904	h a r e t o
+0.336904	h a r i a
+0.336904	h a r o t u
+0.336904	h a r u r u
+0.336904	h a t a i
+0.336904	h a t e
+0.336904	h a t e t e
+0.336904	h a t i
+0.336904	h a u i
+0.336904	h a u N a
+0.336904	h a u t a
+0.336904	h a w e
+0.336904	h a w i n i
+0.336904	h e i r i
+0.336904	h e k e a
+0.336904	h e m o N a
+0.336904	h e n a
+0.336904	h e N e r e
+0.336904	h e N o
+0.336904	h e p e
+0.336904	h e t i a
+0.336904	h e u e N a
+0.336904	h e w a r o
+0.336904	h i a m o
+0.336904	h i h i h i
+0.336904	h i h i k o
+0.336904	h i h i r a
+0.336904	h i h o r e a
+0.336904	h i h u e
+0.336904	h i i a
+0.336904	h i k a i a
+0.336904	h i k a k a
+0.336904	h i m a t i
+0.336904	h i n a k i
+0.336904	h i n a N i
+0.336904	h i n a u
+0.336904	h i n e N a
+0.336904	h i n i p i
+0.336904	h i n o N a
+0.336904	h i o r e
+0.336904	h i p a a
+0.336904	h i p e r a
+0.336904	h i p o r a
+0.336904	h i r a N a
+0.336904	h i r a u
+0.336904	h i r i a
+0.336904	h i r o u
+0.336904	h i t a u
+0.336904	h i t i k i
+0.336904	h i w a a
+0.336904	h i w i a
+0.336904	h o a k a
+0.336904	h o e a
+0.336904	h o e h a
+0.336904	h o h o r e
+0.336904	h o h o t a
+0.336904	h o i m a k o
+0.336904	h o k i k i
+0.336904	h o k o i
+0.336904	h o n a e
+0.336904	h o N a i a
+0.336904	h o N e a
+0.336904	h o N e r e
+0.336904	h o N o
+0.336904	h o n o r e
+0.336904	h o p o a
+0.336904	h o p u a
+0.336904	h o r e r a
+0.336904	h o r e t e
+0.336904	h o r o p i
+0.336904	h o t e
+0.336904	h o t i k i n a
+0.336904	h o t o a
+0.336904	h o u a
+0.336904	h o u h i
+0.336904	h o u i
+0.336904	h o u t o
+0.336904	h u a i
+0.336904	h u a N a
+0.336904	h u a N i
+0.336904	h u a r a N a
+0.336904	h u a r e
+0.336904	h u e k e
+0.336904	h u h a r e
+0.336904	h u h e
+0.336904	h u i h i
+0.336904	h u i k i
+0.336904	h u k i a
+0.336904	h u k i n a
+0.336904	h u m e i a
+0.336904	h u m e N a
+0.336904	h u m i
+0.336904	h u m u a
+0.336904	h u n a a
+0.336904	h u N a a
+0.336904	h u n e n e
+0.336904	h u N u i
+0.336904	h u p a
+0.336904	h u p i r i
+0.336904	h u r e a
+0.336904	i a t a
+0.336904	i e
+0.336904	i h e u
+0.336904	i h e u a
+0.336904	i h i a
+0.336904	i h o a
+0.336904	i k u r a
+0.336904	i n a h o
+0.336904	i n a o a k e
+0.336904	i N i k i
+0.336904	i n o i a
+0.336904	i o a
+0.336904	i p u a
+0.336904	k a e t o
+0.336904	k a h a u
+0.336904	k a h e r a
+0.336904	k a h i w i
+0.336904	k a h u i
+0.336904	k a h u k u
+0.336904	k a i n a
+0.336904	k a i N a k i
+0.336904	k a k a i
+0.336904	k a k a k a
+0.336904	k a k a o n a
+0.336904	k a k a p e
+0.336904	k a k a p o
+0.336904	k a k a t a
+0.336904	k a k e a
+0.336904	k a k e r e
+0.336904	k a k o
+0.336904	k a k o a
+0.336904	k a m e a
+0.336904	k a m e N a
+0.336904	k a m u N a
+0.336904	k a N a a
+0.336904	k a N a i a
+0.336904	k a n a k u
+0.336904	k a n e k e
+0.336904	k a n i o
+0.336904	k a n o h i
+0.336904	k a n o n o
+0.336904	k a n u k u
+0.336904	k a o a
+0.336904	k a o n a
+0.336904	k a o n e
+0.336904	k a p e n e i
+0.336904	k a p u r a N a
+0.336904	k a r a e h i
+0.336904	k a r a f e
+0.336904	k a r a i p i
+0.336904	k a r a u
+0.336904	k a r e i
+0.336904	k a r e k o
+0.336904	k a r e n i
+0.336904	k a r e N o
+0.336904	k a r e p a
+0.336904	k a r e p e
+0.336904	k a r e t a
+0.336904	k a r e u
+0.336904	k a r i k i
+0.336904	k a r i k o
+0.336904	k a r i m u
+0.336904	k a r i p i a
+0.336904	k a r o h e
+0.336904	k a r o h i
+0.336904	k a r o n a
+0.336904	k a r o w i
+0.336904	k a r u t a
+0.336904	k a t a i n a
+0.336904	k a t a k a
+0.336904	k a t a m u
+0.336904	k a t e t e
+0.336904	k a t i r a
+0.336904	k a t o t e
+0.336904	k a u a N a
+0.336904	k a u h e
+0.336904	k a u i k a
+0.336904	k a u k i
+0.336904	k a u n a
+0.336904	k a u t o i
+0.336904	k a w a i a
+0.336904	k a w a N a
+0.336904	k a w a r i
+0.336904	k a w a u
+0.336904	k a w e a u
+0.336904	k a w e k a
+0.336904	k a w e n a t i
+0.336904	k e f a
+0.336904	k e i h a
+0.336904	k e i t a
+0.336904	k e k e h o
+0.336904	k e k e t u
+0.336904	k e r e a
+0.336904	k e r e p i
+0.336904	k e r u
+0.336904	k e r u p a
+0.336904	k e t o a
+0.336904	k e t u a
+0.336904	k e u a
+0.336904	k i a t u
+0.336904	k i h i h i
+0.336904	k i k i a
+0.336904	k i k i m o
+0.336904	k i n i a
+0.336904	k i r e h e
+0.336904	k i r i a
+0.336904	k o a e a
+0.336904	k o a i a
+0.336904	k o a k a
+0.336904	k o a p i
+0.336904	k o a r e
+0.336904	k o a r o
+0.336904	k o a t i
+0.336904	k o e a e
+0.336904	k o e k o e
+0.336904	k o e o
+0.336904	k o f a n e a
+0.336904	k o f e t a
+0.336904	k o h a N a
+0.336904	k o h a t u
+0.336904	k o h a u
+0.336904	k o h e a
+0.336904	k o h i n u a
+0.336904	k o h o h o
+0.336904	k o h o r e
+0.336904	k o h u k a
+0.336904	k o h u k e
+0.336904	k o i N a
+0.336904	k o i o
+0.336904	k o k a i
+0.336904	k o k o a
+0.336904	k o k o n a
+0.336904	k o k o p i
+0.336904	k o k o p u
+0.336904	k o k o r i
+0.336904	k o m a e
+0.336904	k o m a i
+0.336904	k o m a m a
+0.336904	k o m a u
+0.336904	k o m e k e
+0.336904	k o m e m e
+0.336904	k o m i N i
+0.336904	k o m u
+0.336904	k o m u t u
+0.336904	k o n a k i
+0.336904	k o n a n a
+0.336904	k o n a p e
+0.336904	k o n a t u
+0.336904	k o n a u a
+0.336904	k o n e h e
+0.336904	k o n e n e
+0.336904	k o n i u
+0.336904	k o n o h e
+0.336904	k o n o h i
+0.336904	k o n u k a
+0.336904	k o n u o i
+0.336904	k o p a k i
+0.336904	k o p a n a
+0.336904	k o p a r e
+0.336904	k o p e n u a
+0.336904	k o p i k o
+0.336904	k o p o t i
+0.336904	k o p o u
+0.336904	k o p o u a
+0.336904	k o p u k a
+0.336904	k o p u p u
+0.336904	k o p u r a
+0.336904	k o r a e N a
+0.336904	k o r a k o
+0.336904	k o r a n u
+0.336904	k o r e k e
+0.336904	k o r e k o
+0.336904	k o r e N a
+0.336904	k o r e r a
+0.336904	k o r e r e
+0.336904	k o r i a
+0.336904	k o r i o
+0.336904	k o r i r e
+0.336904	k o r i t a
+0.336904	k o r i t e
+0.336904	k o r o h i
+0.336904	k o r o k a
+0.336904	k o r o k e
+0.336904	k o r o u w a
+0.336904	k o t a i
+0.336904	k o t a m i
+0.336904	k o t a o
+0.336904	k o t a r e
+0.336904	k o t a t e a
+0.336904	k o t a u
+0.336904	k o t a w a
+0.336904	k o t e a
+0.336904	k o t e t e a
+0.336904	k o t i a
+0.336904	k o t o u
+0.336904	k o t u a
+0.336904	k o u a
+0.336904	k o u k a
+0.336904	k o u m a
+0.336904	k o u t e
+0.336904	k o u t u a
+0.336904	k o w e r a
+0.336904	k u a i
+0.336904	k u e o
+0.336904	k u f a r u
+0.336904	k u h a r u
+0.336904	k u i k i
+0.336904	k u k u a
+0.336904	k u k u r u
+0.336904	k u m e m e
+0.336904	k u m u a
+0.336904	k u n a n u
+0.336904	k u p a N o
+0.336904	k u r a i
+0.336904	k u r e a
+0.336904	k u r e h e
+0.336904	k u r i r i
+0.336904	m a e h a
+0.336904	m a f a r u
+0.336904	m a f i t i
+0.336904	m a h e h e
+0.336904	m a h e u a
+0.336904	m a h i r a
+0.336904	m a h o r e
+0.336904	m a i e p a
+0.336904	m a i r a N a
+0.336904	m a k a a
+0.336904	m a k a N a
+0.336904	m a k a o
+0.336904	m a k a r o
+0.336904	m a k e
+0.336904	m a k i n a
+0.336904	m a k i u
+0.336904	m a k o a
+0.336904	m a k o r a
+0.336904	m a k u e
+0.336904	m a k u k u
+0.336904	m a m a r e a
+0.336904	m a m a t e
+0.336904	m a n a a
+0.336904	m a N a i
+0.336904	m a N a i N a
+0.336904	m a n a k a
+0.336904	m a N a r u
+0.336904	m a n a u
+0.336904	m a n e
+0.336904	m a n e h u
+0.336904	m a n e i
+0.336904	m a N e N e
+0.336904	m a n u n u
+0.336904	m a o k o
+0.336904	m a o N a
+0.336904	m a o p o
+0.336904	m a p a r a
+0.336904	m a p i a
+0.336904	m a p u a
+0.336904	m a r a h a
+0.336904	m a r a k i
+0.336904	m a r a N a
+0.336904	m a r a r e
+0.336904	m a r a u
+0.336904	m a r a u a
+0.336904	m a r e N a
+0.336904	m a r i k a
+0.336904	m a r i k o
+0.336904	m a r i N i
+0.336904	m a r o a
+0.336904	m a t a i a
+0.336904	m a t a o
+0.336904	m a t a t u
+0.336904	m a t i a
+0.336904	m a t i h e
+0.336904	m a t i r a
+0.336904	m a t i r e
+0.336904	m a t o h a
+0.336904	m a t o h e
+0.336904	m a t o h i
+0.336904	m a t o h u
+0.336904	m a t u t u
+0.336904	m a u h e
+0.336904	m a u i u i
+0.336904	m a u p u
+0.336904	m a u t i
+0.336904	m a w e r a
+0.336904	m a w e t e
+0.336904	m a w e u
+0.336904	m e a k e
+0.336904	m e h i
+0.336904	m e i h i
+0.336904	m e k a r i
+0.336904	m e k e a
+0.336904	m e k o
+0.336904	m e k o a
+0.336904	m e N a
+0.336904	m e n e a
+0.336904	m e n e N a
+0.336904	m e w a r o
+0.336904	m i i a
+0.336904	m i m i k o
+0.336904	m i m i N o
+0.336904	m i n e t i
+0.336904	m i o a
+0.336904	m i r e i
+0.336904	m i r e t e
+0.336904	m i r i t i
+0.336904	m i r o i a
+0.336904	m i t o
+0.336904	m i u r a
+0.336904	m i u r u
+0.336904	m i w a r e
+0.336904	m o e a o
+0.336904	m o f i
+0.336904	m o h a
+0.336904	m o h e a
+0.336904	m o h i o
+0.336904	m o i a
+0.336904	m o k e k e
+0.336904	m o k o r i
+0.336904	m o k u t i a
+0.336904	m o m o h a N a
+0.336904	m o m o h e
+0.336904	m o n e h u
+0.336904	m o n o
+0.336904	m o n o k u
+0.336904	m o r a
+0.336904	m o r a r i
+0.336904	m o r a r u
+0.336904	m o r i a
+0.336904	m o r o t o
+0.336904	m o r u k a
+0.336904	m o r u r u
+0.336904	m o t a
+0.336904	m o u k u
+0.336904	m o u r i
+0.336904	m u a N a
+0.336904	m u e r a
+0.336904	m u h e
+0.336904	m u h e k e
+0.336904	m u h u a
+0.336904	m u k u a
+0.336904	m u k u n a
+0.336904	m u m u h u
+0.336904	m u m u r a
+0.336904	m u m u t u
+0.336904	m u N a
+0.336904	m u r e a
+0.336904	m u w e
+0.336904	n a e a
+0.336904	N a e k i
+0.336904	N a e k o
+0.336904	N a e o
+0.336904	N a h o
+0.336904	n a h u i
+0.336904	n a i
+0.336904	N a i a
+0.336904	N a i t i
+0.336904	N a i t u a
+0.336904	N a k e k e
+0.336904	n a m a a
+0.336904	n a m a t a
+0.336904	N a m i
+0.336904	N a m o h o
+0.336904	n a n a k i a
+0.336904	n a n a m u
+0.336904	n a n a n a
+0.336904	N a N a o
+0.336904	n a n a w e
+0.336904	n a n e a
+0.336904	n a n o a
+0.336904	N a o k i
+0.336904	N a o r a
+0.336904	N a o r e
+0.336904	n a p o r o
+0.336904	n a p u k a
+0.336904	N a r a r a
+0.336904	N a r e a
+0.336904	N a r e h e
+0.336904	N a r u e
+0.336904	N a r u r u
+0.336904	N a t u
+0.336904	n a u a
+0.336904	N a u r e
+0.336904	N a u r u
+0.336904	n a w a i
+0.336904	N a w a i
+0.336904	n a w a k i
+0.336904	N a w e k i
+0.336904	n e h u a
+0.336904	n e i r i
+0.336904	n e m u
+0.336904	n e n a
+0.336904	n e n e a
+0.336904	n e n e i
+0.336904	N e N e r o
+0.336904	n e n e t i
+0.336904	N e N e t i
+0.336904	N e n i
+0.336904	n e r a
+0.336904	n e r o
+0.336904	N e t e a
+0.336904	N i n a
+0.336904	N i N i h a
+0.336904	n i n i h i
+0.336904	N i N i t a
+0.336904	n i n i w a
+0.336904	n i p a
+0.336904	n i p i
+0.336904	N i t a i a
+0.336904	n o h i a
+0.336904	n o i a
+0.336904	N o i n e
+0.336904	N o k o
+0.336904	n o N a
+0.336904	N o N a
+0.336904	n o n e a
+0.336904	N o N o a
+0.336904	n o n o i a
+0.336904	n o n o k o
+0.336904	N o N o r e
+0.336904	n o n o r o
+0.336904	n o r a
+0.336904	n o u a
+0.336904	N o u a
+0.336904	n u k a i a
+0.336904	n u k i
+0.336904	n u m i a
+0.336904	N u t o r o
+0.336904	o a
+0.336904	o h a k i
+0.336904	o h e k e
+0.336904	o h i k i
+0.336904	o h o a
+0.336904	o i a
+0.336904	o i N a
+0.336904	o k a m u
+0.336904	o k o i
+0.336904	o k o i a
+0.336904	o k o n a
+0.336904	o k u r a
+0.336904	o m a k i
+0.336904	o p i
+0.336904	o p i k i
+0.336904	o p u
+0.336904	o p u r u
+0.336904	o r o a
+0.336904	o r o i
+0.336904	o r o i a
+0.336904	o t e
+0.336904	o t i k i
+0.336904	o t o
+0.336904	o u e
+0.336904	o u m u
+0.336904	o w a r o
+0.336904	p a e a r a u
+0.336904	p a e N a
+0.336904	p a e r e
+0.336904	p a f a r u
+0.336904	p a h a k i
+0.336904	p a h e
+0.336904	p a h e n o
+0.336904	p a h e r u
+0.336904	p a h i a
+0.336904	p a h o h o
+0.336904	p a h u a
+0.336904	p a h u h u a
+0.336904	p a i h e r e a
+0.336904	p a i k e
+0.336904	p a i n a
+0.336904	p a i p a
+0.336904	p a i r i
+0.336904	p a k a i
+0.336904	p a k a i a
+0.336904	p a k a u a
+0.336904	p a k e a
+0.336904	p a k e t i
+0.336904	p a k e w a
+0.336904	p a k i N a
+0.336904	p a k o a
+0.336904	p a k o h u
+0.336904	p a k o N a
+0.336904	p a k o r a
+0.336904	p a m a
+0.336904	p a m e
+0.336904	p a N a a
+0.336904	p a n a i a
+0.336904	p a N a i a
+0.336904	p a N a N a
+0.336904	p a N a r e
+0.336904	p a n a t a
+0.336904	p a n a t i
+0.336904	p a n e k e
+0.336904	p a N o r e
+0.336904	p a N o r o
+0.336904	p a n u n u
+0.336904	p a p a a
+0.336904	p a p a h u
+0.336904	p a p a i
+0.336904	p a p a k i
+0.336904	p a p a n i
+0.336904	p a p a o
+0.336904	p a r a N i
+0.336904	p a r e h o
+0.336904	p a r e m o
+0.336904	p a r o r o
+0.336904	p a r u h i
+0.336904	p a r u n a
+0.336904	p a r u n u
+0.336904	p a t a r i
+0.336904	p a t a t e
+0.336904	p a t a u
+0.336904	p a t e
+0.336904	p a t e k o
+0.336904	p a t e r e
+0.336904	p a t e r i
+0.336904	p a t e t e
+0.336904	p a t i k i
+0.336904	p a t i k o
+0.336904	p a t i u
+0.336904	p a t u i
+0.336904	p a u k u
+0.336904	p a u n i
+0.336904	p a u r a
+0.336904	p a u t e
+0.336904	p e a u a
+0.336904	p e h u a
+0.336904	p e i h i
+0.336904	p e k e a
+0.336904	p e k i
+0.336904	p e o i
+0.336904	p e p e k e h a
+0.336904	p e r a r o
+0.336904	p e r o r i
+0.336904	p e t a i a
+0.336904	p e t a k o
+0.336904	p e t i a
+0.336904	p e u
+0.336904	p e w a r o
+0.336904	p i a r i
+0.336904	p i a u
+0.336904	p i e k e
+0.336904	p i h a u
+0.336904	p i h e
+0.336904	p i i a
+0.336904	p i k i N a
+0.336904	p i k o a
+0.336904	p i k o n i
+0.336904	p i n a
+0.336904	p i N a
+0.336904	p i N a w i
+0.336904	p i n o
+0.336904	p i o r e
+0.336904	p i p i h i
+0.336904	p i p i n e
+0.336904	p i p i t i
+0.336904	p i r i a
+0.336904	p i r i h i a
+0.336904	p i r o e
+0.336904	p i t a
+0.336904	p i t o N a
+0.336904	p o a r e
+0.336904	p o f i f i
+0.336904	p o h a h a
+0.336904	p o h a t u
+0.336904	p o h a u
+0.336904	p o h i o
+0.336904	p o h u e
+0.336904	p o h u k a
+0.336904	p o k a i a
+0.336904	p o k a n a
+0.336904	p o k i n a
+0.336904	p o N a r e
+0.336904	p o n i k i
+0.336904	p o n i u
+0.336904	p o n o a
+0.336904	p o p i
+0.336904	p o p o i
+0.336904	p o p o k e
+0.336904	p o p o k o
+0.336904	p o r a i
+0.336904	p o r a N i
+0.336904	p o r e a
+0.336904	p o r e i
+0.336904	p o r o i
+0.336904	p o r o N a
+0.336904	p o t a e
+0.336904	p o t e h e
+0.336904	p o t i k i
+0.336904	p o t o N a
+0.336904	p o u e
+0.336904	p u a h a
+0.336904	p u a i
+0.336904	p u a t a
+0.336904	p u f a
+0.336904	p u f e t o
+0.336904	p u h a k e
+0.336904	p u h a N a
+0.336904	p u h e r a
+0.336904	p u h e t o
+0.336904	p u h i a
+0.336904	p u i r a
+0.336904	p u k e a
+0.336904	p u k e n a
+0.336904	p u k e r u
+0.336904	p u k i r a
+0.336904	p u k o r o
+0.336904	p u k u a
+0.336904	p u k u n a
+0.336904	p u m a
+0.336904	p u m e k a
+0.336904	p u m u a
+0.336904	p u N a a
+0.336904	p u N a o
+0.336904	p u n e k e
+0.336904	p u o r o
+0.336904	p u p a u
+0.336904	p u r a k a
+0.336904	p u r a k u
+0.336904	p u r e r e
+0.336904	p u r u a a
+0.336904	p u r u h i
+0.336904	p u r u k i
+0.336904	p u r u n u
+0.336904	p u t a i a
+0.336904	p u t u t u
+0.336904	p u w a i
+0.336904	r a h i a
+0.336904	r a h o t o
+0.336904	r a h u n a
+0.336904	r a i h e
+0.336904	r a k i n a
+0.336904	r a k u a
+0.336904	r a m a a
+0.336904	r a m e n e
+0.336904	r a m u a
+0.336904	r a N a a
+0.336904	r a n a k i
+0.336904	r a n i
+0.336904	r a p a a
+0.336904	r a p o i a
+0.336904	r a p o p o t o
+0.336904	r a p u a
+0.336904	r a r a h a
+0.336904	r a r a i
+0.336904	r a r a r u
+0.336904	r a t e
+0.336904	r a u n u i
+0.336904	r a w a h a
+0.336904	r a w e k i
+0.336904	r a w e o i
+0.336904	r e a o
+0.336904	r e h e N a
+0.336904	r e h i
+0.336904	r e i r i
+0.336904	r e k o a
+0.336904	r e m a
+0.336904	r e m a n a
+0.336904	r e n a a
+0.336904	r e n e
+0.336904	r e n e t i
+0.336904	r e o a
+0.336904	r e p i
+0.336904	r e r e h e
+0.336904	r e r e n a
+0.336904	r e u a
+0.336904	r e w a i a
+0.336904	r e w e
+0.336904	r e w e n a
+0.336904	r e w e n a a
+0.336904	r i e n a
+0.336904	r i h i a
+0.336904	r i h i t i
+0.336904	r i i a
+0.336904	r i k a i a
+0.336904	r i k i n i
+0.336904	r i k o u
+0.336904	r i N i a
+0.336904	r i o n a
+0.336904	r i p a i a
+0.336904	r i r i a
+0.336904	r i r o i
+0.336904	r i u a
+0.336904	r i u k a
+0.336904	r o e r a
+0.336904	r o f e a
+0.336904	r o h a i
+0.336904	r o h i a
+0.336904	r o h u
+0.336904	r o i h e
+0.336904	r o i r e
+0.336904	r o k a
+0.336904	r o m i a
+0.336904	r o n a a
+0.336904	r o n a k i
+0.336904	r o N o a
+0.336904	r o p e a
+0.336904	r o p i a
+0.336904	r o r a h a
+0.336904	r o r o k u
+0.336904	r o r o t u
+0.336904	r o t a i a
+0.336904	r o u r i
+0.336904	r o w a
+0.336904	r o w i
+0.336904	r u a w e
+0.336904	r u e a
+0.336904	r u e k e
+0.336904	r u f a
+0.336904	r u p e a
+0.336904	r u r e N a
+0.336904	r u r u a
+0.336904	r u r u N a
+0.336904	r u t u a
+0.336904	r u w a o
+0.336904	t a e k a
+0.336904	t a e o
+0.336904	t a e p u
+0.336904	t a f a i
+0.336904	t a f a k i
+0.336904	t a f a o
+0.336904	t a f e r a
+0.336904	t a f e t a
+0.336904	t a f i f i
+0.336904	t a f i r i
+0.336904	t a h a i a
+0.336904	t a h e a
+0.336904	t a h e N a
+0.336904	t a h i a
+0.336904	t a h i r i
+0.336904	t a h i w i
+0.336904	t a h o r o
+0.336904	t a i a p o
+0.336904	t a i e a
+0.336904	t a i n a o k e
+0.336904	t a k a f e
+0.336904	t a k a i n a
+0.336904	t a k a r o
+0.336904	t a k a t a k a
+0.336904	t a k e r e
+0.336904	t a k i n i
+0.336904	t a k i r i
+0.336904	t a k i w a
+0.336904	t a k o a
+0.336904	t a k o u
+0.336904	t a k u a
+0.336904	t a k u h e
+0.336904	t a k u N a
+0.336904	t a m a t o
+0.336904	t a m i a
+0.336904	t a m i r a
+0.336904	t a N a i
+0.336904	t a N a r o a
+0.336904	t a N e o
+0.336904	t a N e r e
+0.336904	t a N o r o
+0.336904	t a n u k u a
+0.336904	t a o a
+0.336904	t a p a a
+0.336904	t a p a k i
+0.336904	t a p a p e
+0.336904	t a p a t i u
+0.336904	t a p a t u
+0.336904	t a p e
+0.336904	t a p e n e
+0.336904	t a p o t u
+0.336904	t a r a a
+0.336904	t a r a i r e
+0.336904	t a r a o
+0.336904	t a r a r e
+0.336904	t a r a r i
+0.336904	t a r e p a
+0.336904	t a r o m a
+0.336904	t a r o r e
+0.336904	t a r o r i
+0.336904	t a t a n a
+0.336904	t a t a w a
+0.336904	t a t u t u
+0.336904	t a u f a N a
+0.336904	t a u h a N a
+0.336904	t a u i r a
+0.336904	t a u N a
+0.336904	t a u p a
+0.336904	t a w a k a
+0.336904	t a w a k i
+0.336904	t a w a o
+0.336904	t a w a r i
+0.336904	t e h a
+0.336904	t e i a
+0.336904	t e i k i
+0.336904	t e i t i
+0.336904	t e k a u
+0.336904	t e k i o n a
+0.336904	t e m o a n a
+0.336904	t e n i h i
+0.336904	t e o a
+0.336904	t e r e h e
+0.336904	t e r e h i
+0.336904	t e r e h u
+0.336904	t e r i a
+0.336904	t e t e k e
+0.336904	t e t e p e
+0.336904	t e t e t e
+0.336904	t e t i
+0.336904	t e u m a
+0.336904	t i a a
+0.336904	t i a f e
+0.336904	t i a n a
+0.336904	t i a p u
+0.336904	t i a r i a
+0.336904	t i e k i n a
+0.336904	t i e r e
+0.336904	t i f a i a
+0.336904	t i h a
+0.336904	t i h a e
+0.336904	t i h a u
+0.336904	t i h o
+0.336904	t i h o i
+0.336904	t i k e r e
+0.336904	t i k i n i
+0.336904	t i k i N i
+0.336904	t i k o a k a
+0.336904	t i k o k i
+0.336904	t i k o k o
+0.336904	t i k o n a
+0.336904	t i k u m u
+0.336904	t i m a t a
+0.336904	t i m a t a N a
+0.336904	t i m i r a
+0.336904	t i m o h o
+0.336904	t i n a i a
+0.336904	t i n a m u
+0.336904	t i n a r a
+0.336904	t i N i a
+0.336904	t i N o N o
+0.336904	t i o a
+0.336904	t i p a k o
+0.336904	t i p o
+0.336904	t i p o k a
+0.336904	t i p u n u
+0.336904	t i r a k i
+0.336904	t i r a w a
+0.336904	t i r e
+0.336904	t i r i a o
+0.336904	t i r i p i
+0.336904	t i r o h e
+0.336904	t i r o u
+0.336904	t i t a
+0.336904	t i t a h a
+0.336904	t i t e k e
+0.336904	t i t o r e
+0.336904	t i u a
+0.336904	t i w e
+0.336904	t o a t i
+0.336904	t o e n e
+0.336904	t o h e n e
+0.336904	t o h i a
+0.336904	t o h i N a
+0.336904	t o h u N a
+0.336904	t o i e
+0.336904	t o k a r a
+0.336904	t o k o n a
+0.336904	t o k o N a
+0.336904	t o m a i
+0.336904	t o m a t o
+0.336904	t o m e n e
+0.336904	t o N a k o
+0.336904	t o p a k i
+0.336904	t o p u n i
+0.336904	t o r a
+0.336904	t o r a n a
+0.336904	t o r e N i
+0.336904	t o r e t e
+0.336904	t o r o h i
+0.336904	t o r o i
+0.336904	t o r o i h i
+0.336904	t o r u a
+0.336904	t o t e a
+0.336904	t o t o h e a
+0.336904	t o t o k e
+0.336904	t o t o p e
+0.336904	t o t o p u
+0.336904	t u a i n a
+0.336904	t u a p a
+0.336904	t u a r a N a
+0.336904	t u a r e
+0.336904	t u a t a
+0.336904	t u e r e
+0.336904	t u h i N a
+0.336904	t u h u h i
+0.336904	t u h u i
+0.336904	t u i a u
+0.336904	t u k u a
+0.336904	t u k u r a
+0.336904	t u m a t a
+0.336904	t u N a a
+0.336904	t u n a h i
+0.336904	t u n i
+0.336904	t u N i
+0.336904	t u n u a
+0.336904	t u o h u
+0.336904	t u o n e
+0.336904	t u p a r i
+0.336904	t u p a t a
+0.336904	t u p e
+0.336904	t u p e h u
+0.336904	t u p u k e
+0.336904	t u r a i n a
+0.336904	t u r a k i
+0.336904	t u r a r a a
+0.336904	t u r o a
+0.336904	t u r o u a
+0.336904	t u r u p a
+0.336904	t u r u r u
+0.336904	t u t a k i
+0.336904	t u t a N a
+0.336904	t u t o k e
+0.336904	t u t u a
+0.336904	t u t u r i
+0.336904	u a k o a o
+0.336904	u a k o a u
+0.336904	u a m a
+0.336904	u a p o
+0.336904	u e r e
+0.336904	u f i a
+0.336904	u h o n o
+0.336904	u i u i
+0.336904	u k u i
+0.336904	u m i
+0.336904	u m i k i
+0.336904	u p a i a
+0.336904	u p a n e
+0.336904	u p u
+0.336904	u r e r o a
+0.336904	u t a i n a
+0.336904	u t o k a
+0.336904	w a e n a
+0.336904	w a e r o
+0.336904	w a h a i n a
+0.336904	w a i a p u
+0.336904	w a i a r i k i
+0.336904	w a k u a
+0.336904	w a m u
+0.336904	w a n e a
+0.336904	w a n i a
+0.336904	w a o a
+0.336904	w a r a k i
+0.336904	w a r a n a
+0.336904	w a r a N a
+0.336904	w a r e a
+0.336904	w a r e t e
+0.336904	w a r u a
+0.336904	w a t a t a
+0.336904	w a t o
+0.336904	w a w a n i
+0.336904	w e a i n a
+0.336904	w e h a
+0.336904	w e i r a
+0.336904	w e i t i
+0.336904	w e k u a
+0.336904	w e r u a
+0.336904	w e t i a
+0.336904	w e w e i a
+0.336904	w e w e t e
+0.336904	w i h a n a
+0.336904	w i w i n i
+0.336904	w o n a t i
