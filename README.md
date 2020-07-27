@@ -6,6 +6,7 @@
 
 This repo contains stimuli, data, and analysis files, as follows:
 
+- `DetailedMaterialsAndMethods.pdf`: the Detailed Materials and Methods Supplement  
 - `DetailedAnalysisAndResults.html`: the Detailed Analysis and Results Supplement  
 - `DetailedAnalysisAndResults.Rmd`: the R Markdown file used to perform the analysis and generate the above html file  
 - `data/`: a directory containing the response data for the two experiments  
