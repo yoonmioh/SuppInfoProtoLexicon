@@ -1,4 +1,4 @@
-# An Adult Proto-lexicon
+# Non-Māori-speaking New Zealanders have a Māori proto-lexicon
 ## Phonotactic probability training data
 *Yoon Mi Oh, Simon Todd, Clay Beckner, Jen Hay, Jeanette King, and Jeremy Needle*
 

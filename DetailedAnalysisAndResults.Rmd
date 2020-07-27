@@ -1,5 +1,5 @@
 ---
-title: "An Adult Proto-lexicon: Real-world acquisition of lexical knowledge through ambient exposure"
+title: "Non-Māori-speaking New Zealanders have a Māori proto-lexicon"
 subtitle: "Detailed Analysis and Results Supplement"
 author: "Yoon Mi Oh, Simon Todd, Clay Beckner, Jen Hay, Jeanette King, and Jeremy Needle"
 date: '`r trimws(format(Sys.Date(), "%B %e, %Y"))`'
@@ -1162,7 +1162,7 @@ dataExp2 <- rbind(dataMS, dataNMS, dataUS)
 remove(dataMS, dataNMS, dataUS)
 
 # Set up factor levels for later
-dataExp2$group <- relevel(dataExp2$group, ref="NMS")
+dataExp2$group <- factor(dataExp2$group, levels=c("NMS", "MS", "US"))
 dataExp2$enteredResponse <- as.factor(dataExp2$enteredResponse)
 ```
 

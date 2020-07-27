@@ -1,4 +1,4 @@
-# An Adult Proto-lexicon: Real-world acquisition of lexical knowledge through ambient exposure
+# Non-Māori-speaking New Zealanders have a Māori proto-lexicon
 ## Supplementary Materials
 *Yoon Mi Oh, Simon Todd, Clay Beckner, Jen Hay, Jeanette King, and Jeremy Needle*
 
