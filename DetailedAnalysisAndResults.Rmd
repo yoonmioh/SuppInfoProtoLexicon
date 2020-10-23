@@ -1,9 +1,11 @@
 ---
 title: "Non-Māori-speaking New Zealanders have a Māori proto-lexicon"
-subtitle: "Detailed Analysis and Results Supplement"
 author: "Yoon Mi Oh, Simon Todd, Clay Beckner, Jen Hay, Jeanette King, and Jeremy Needle"
-date: '`r trimws(format(Sys.Date(), "%B %e, %Y"))`'
+date: '`r trimws(format(Sys.Date()))`'
 output:
+  pdf_document:
+    toc: yes
+    toc_depth: '3'
   html_document:
     code_folding: hide
     fig_caption: yes
@@ -12,10 +14,11 @@ output:
     toc: yes
     toc_depth: 3
     toc_float: yes
-    number_sections: true
+    number_sections: yes
     self_contained: yes
     mode: selfcontained
-editor_options: 
+subtitle: Detailed Analysis and Results Supplement
+editor_options:
   chunk_output_type: console
 ---
 
@@ -1900,6 +1903,10 @@ The results are visualized in Figure 4 (also included in the main paper). For NM
 As in Stage 3, we also consider fixed morph sets. We repeat the fixed-effects ordinal regression analysis using phonotactic scores based on all morphs with raw frequency greater than or equal to *k*, for values of *k* from 0 to 6. This is essentially a version of the *N-highest-frequency* sampling scheme that admits no randomness.
 
 The results of the fixed-vocabulary analysis are presented in Table S12. For NMS, the lowest AIC comes from the use of parsing-based phonotactic scores based on the 1,629 morphs with raw frequency greater than or equal to 2, while for MS, the lowest AIC comes from the use of *non*-parsing-based phonotactic scores based on morphs derived from *all* words in the dictionary. We carry forward the parsing-based scores based on the highest-frequency 1,629 morphs to the final stage of comparison for NMS; they are also preserved in the original dataset as `scoreMorphNBestFixed`.
+
+What does it mean to have a proto-lexicon of this size? To get some insight, we consider the average number of morphs an NMS participant would have to learn. 
+
+Averaged across all of our participants, the best NMS proto-lexicon contained approximately 1,600 morphs. We have no way of knowing the average age of our participants, since we did not collect precise age measurements, but, given the distribution in Figure S7, we can be quite sure that it is at least 20 years old. Thus, our results imply that the average NMS learns 80 or fewer morphs per year.
 
 ```{r MC_morphs, eval=FALSE}
 # Stage 3 Monte Carlo analysis for Exp2 -- morphs
